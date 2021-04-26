@@ -1,15 +1,6 @@
 #pragma once
 #include <concepts>
 #include <type_traits>
-#include <iterator>
-
-//CopyFast metaprogramming type
-template <typename T>
-struct copy_fast : std::conditional<std::is_trivially_copyable_v<T>, T, const T &>
-{
-};
-template <typename T>
-using copy_fast_t = typename copy_fast<T>::type;
 
 template <typename T>
 concept Integral = std::is_integral_v<T> &&std::is_unsigned_v<T>;
@@ -17,11 +8,10 @@ concept Integral = std::is_integral_v<T> &&std::is_unsigned_v<T>;
 template <typename T, Integral sz_t = size_t>
 class IMat
 {
-private:
 public:
     using type = T;
     using size_type = sz_t;
-    using msize_type = decltype(std::numeric_limits<sz_t>::max() * std::numeric_limits<sz_t>::max());
+    using msize_type = decltype(std::numeric_limits<sz_t>::max() * std::numeric_limits<sz_t>::max()); //max size type
 
     //Iterators
     virtual T *begin() = 0;
