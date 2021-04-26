@@ -5,29 +5,15 @@
 #include <type_traits>
 
 template <typename T>
-requires std::is_unsigned_v<T> struct uadd_long : std::type_identity<T>
-{
-};
-
+requires std::is_unsigned_v<T> struct uadd_long : std::type_identity<T>{};
 template <>
-struct uadd_long<uint8_t> : std::type_identity<uint16_t>
-{
-};
-
+struct uadd_long<uint8_t> : std::type_identity<uint16_t>{};
 template <>
-struct uadd_long<uint16_t> : std::type_identity<uint32_t>
-{
-};
-
+struct uadd_long<uint16_t> : std::type_identity<uint32_t>{};
 template <>
-struct uadd_long<uint32_t> : std::type_identity<uint64_t>
-{
-};
-
+struct uadd_long<uint32_t> : std::type_identity<uint64_t>{};
 template <>
-struct uadd_long<uint64_t> : std::type_identity<uint64_t>
-{
-};
+struct uadd_long<uint64_t> : std::type_identity<uint64_t>{};
 
 template <typename T>
 using uadd_long_t = typename uadd_long<T>::type;
