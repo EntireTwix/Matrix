@@ -1,6 +1,6 @@
 #pragma once
 
-template <typename T, auto W, auto H>
+template <typename T, size_t W, size_t H>
 class sMat
 {
 private:
@@ -8,8 +8,6 @@ private:
 
 public:
     using type = T;
-    using size_type = decltype(W);
-    using msize_type = uadd_long_t<decltype(W)>; //max size type
 
     //Iterators
     T *begin() { return &internal[0]; }
@@ -19,15 +17,15 @@ public:
     T *data() { return &internal[0]; }
 
     //Size
-    msize_type Area() const { return Width() * Height(); }
-    size_type Width() const { return W; }
-    size_type Height() const { return H; }
+    size_t Area() const { return Width() * Height(); }
+    size_t Width() const { return W; }
+    size_t Height() const { return H; }
 
     //Indexing
-    T &At(size_type x, size_type y) { return FastAt((y * (Width()) + x)); }
-    T At(size_type x, size_type y) const { return FastAt((y * (Width()) + x)); }
+    T &At(size_t x, size_t y) { return FastAt((y * (Width()) + x)); }
+    T At(size_t x, size_t y) const { return FastAt((y * (Width()) + x)); }
 
-    T &FastAt(msize_type index)
+    T &FastAt(size_t index)
     {
         if (index >= this->Area())
         {
@@ -35,7 +33,7 @@ public:
         }
         return internal[index];
     }
-    T FastAt(msize_type index) const
+    T FastAt(size_t index) const
     {
         if (index >= this->Area())
         {
