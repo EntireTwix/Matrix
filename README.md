@@ -1,5 +1,5 @@
 # Matrix
-Matrix implementations with high abstraction level and no runtime overhead (C++20)
+zero cost Matrix abstractions
 
 ## IMat
 the interface other Matrix classes derive from, to make a new Matrix class that meshes with the existing operations simply derive from this
