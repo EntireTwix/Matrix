@@ -1,13 +1,12 @@
 #pragma once
 #include <vector>
-#include <string.h> // for memcpy
 #include "imat.hpp"
 
 template <typename T, Integral sz_t = size_t>
 class hMat : public IMat<T, sz_t>
 {
 private:
-    T *internal;
+    T *internal = nullptr;
     sz_t w = 0, h = 0;
 
 public:
@@ -19,7 +18,10 @@ public:
     hMat(const hMat &m) : w(m.w), h(m.h)
     {
         this->internal = new T[w * h]{}; //allocate and default initialize
-        memcpy(&this->internal, &m.internal, m.Area());
+        for (typename IMat<T, sz_t>::msize_type i = 0; i < this->Area(); ++i)
+        {
+            this->internal[i] = m.internal[i];
+        }
     }
     hMat(hMat &&m) : w(m.w), h(m.h)
     {
