@@ -1,25 +1,46 @@
 #pragma once
-#include "imat.hpp"
 
-template <typename T, UIntegral sz_t, sz_t W, sz_t H>
-class sMat : public IMat<T, sz_t>
+template <typename T, auto W, auto H>
+class sMat
 {
 private:
     T internal[H * W];
 
 public:
+    using type = T;
+    using size_type = decltype(W);
+    using msize_type = uadd_long_t<decltype(W)>; //max size type
+
     //Iterators
-    virtual T *begin() override { return &internal[0]; }
-    virtual T *end() override { return &internal[this->Area() - 1]; }
-    virtual const T *begin() const override { return &internal[0]; }
-    virtual const T *end() const override { return &internal[this->Area() - 1]; }
-    virtual T *data() { return &internal[0]; }
+    T *begin() { return &internal[0]; }
+    T *end() { return &internal[this->Area() - 1]; }
+    const T *begin() const { return &internal[0]; }
+    const T *end() const { return &internal[this->Area() - 1]; }
+    T *data() { return &internal[0]; }
 
     //Size
-    virtual sz_t Width() const { return W; }
-    virtual sz_t Height() const { return H; }
+    msize_type Area() const { return Width() * Height(); }
+    size_type Width() const { return W; }
+    size_type Height() const { return H; }
 
     //Indexing
-    virtual T &FastAt(typename IMat<T, sz_t>::msize_type index) override { return internal[index]; }
-    virtual T FastAt(typename IMat<T, sz_t>::msize_type index) const override { return internal[index]; }
+    T &At(size_type x, size_type y) { return FastAt((y * (Width()) + x)); }
+    T At(size_type x, size_type y) const { return FastAt((y * (Width()) + x)); }
+
+    T &FastAt(msize_type index)
+    {
+        if (index >= this->Area())
+        {
+            throw std::out_of_range("FastAt& out of range");
+        }
+        return internal[index];
+    }
+    T FastAt(msize_type index) const
+    {
+        if (index >= this->Area())
+        {
+            throw std::out_of_range("FastAt out of range");
+        }
+        return internal[index];
+    }
 };
