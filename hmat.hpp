@@ -2,7 +2,7 @@
 #include <vector>
 #include "imat.hpp"
 
-template <typename T, Integral sz_t = size_t>
+template <typename T, UIntegral sz_t = size_t>
 class hMat : public IMat<T, sz_t>
 {
 private:
