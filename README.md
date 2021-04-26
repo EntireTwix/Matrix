@@ -1,5 +1,5 @@
 # Matrix
-single header Matrix implementations for different usecases
+single header Matrix implementations for different usecases (C++20)
 
 ## IMat
 the interface other Matrix classes derive from
