@@ -16,12 +16,12 @@ public:
     {
         this->internal = new T[w * h]{}; //allocate and default initialize
     }
-    explicit hMat(const hMat &m) : w(m.w), h(m.h)
+    hMat(const hMat &m) : w(m.w), h(m.h)
     {
         this->internal = new T[w * h]{}; //allocate and default initialize
         memcpy(&this->internal, &m.internal, m.Area());
     }
-    explicit hMat(hMat &&m) : w(m.w), h(m.h)
+    hMat(hMat &&m) : w(m.w), h(m.h)
     {
         this->internal = std::move(m.internal); //moving
         m.w = m.h = 0;                          //clean up
