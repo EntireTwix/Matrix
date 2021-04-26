@@ -1,5 +1,5 @@
 # Matrix
-Matrix implementations for different usecases
+single header Matrix implementations for different usecases
 
 ## IMat
 the interface other Matrix classes derive from
