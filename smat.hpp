@@ -1,7 +1,7 @@
 #pragma once
 #include "imat.hpp"
 
-template <typename T, Integral sz_t, sz_t W, sz_t H>
+template <typename T, UIntegral sz_t, sz_t W, sz_t H>
 class sMat : public IMat<T, sz_t>
 {
 private:
