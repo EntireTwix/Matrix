@@ -12,7 +12,7 @@ template <typename T>
 using copy_fast_t = typename copy_fast<T>::type;
 
 template <typename T>
-concept Integral = std::is_integral_v<T> &&std::is_signed_v<T>;
+concept Integral = std::is_integral_v<T> &&std::is_unsigned_v<T>;
 
 template <typename T, Integral sz_t = size_t>
 class IMat
