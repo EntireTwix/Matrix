@@ -5,7 +5,10 @@
 #include <type_traits>
 
 template <typename T>
-requires std::is_unsigned_v<T> struct uadd_long : std::type_identity<T>{};
+concept UIntegral = std::is_integral_v<T> &&std::is_unsigned_v<T>;
+
+template <UIntegral T>
+struct uadd_long : std::type_identity<T>{};
 template <>
 struct uadd_long<uint8_t> : std::type_identity<uint16_t>{};
 template <>
@@ -18,10 +21,7 @@ struct uadd_long<uint64_t> : std::type_identity<uint64_t>{};
 template <typename T>
 using uadd_long_t = typename uadd_long<T>::type;
 
-template <typename T>
-concept Integral = std::is_integral_v<T> &&std::is_unsigned_v<T>;
-
-template <typename T, Integral sz_t = size_t>
+template <typename T, UIntegral sz_t = size_t>
 class IMat
 {
 public:
