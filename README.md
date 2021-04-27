@@ -9,6 +9,3 @@ STACK based Matrix
 
 ## hMat
 HEAP based Matrix
-
-## Operations
-a set of Generic Operations for anything with the IMatrix base class
