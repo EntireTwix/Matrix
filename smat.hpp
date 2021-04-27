@@ -1,13 +1,16 @@
 #pragma once
 #include <stddef.h>
+template <auto ret>
+constexpr auto ConfirmConstexpr() { return ret; }
 
 template <typename T, size_t W, size_t H>
 class sMat
 {
 private:
-    T internal[H * W];
+    T internal[H * W]{};
 
 public:
+    sMat() = default;
     using type = T;
 
     //Iterators
