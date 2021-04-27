@@ -1,4 +1,5 @@
 #pragma once
+#include <stddef.h>
 
 template <typename T, size_t W, size_t H>
 class sMat
