@@ -1,7 +1,6 @@
 #pragma once
 #include <stddef.h>
 template <auto ret>
-constexpr auto ConfirmConstexpr() { return ret; }
 
 template <typename T, size_t W, size_t H>
 class sMat
