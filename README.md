@@ -1,5 +1,5 @@
 # Matrix
-zero cost Matrix abstractions (in C++20)
+a collection of single header zero cost abstraction Matrix implementations
 
 ## sMat
 STACK based Matrix
