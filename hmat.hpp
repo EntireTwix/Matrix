@@ -11,12 +11,12 @@ private:
 public:
     using type = T;
 
-    hMat() = default;
-    explicit hMat(size_t w, size_t h) : w(w), h(h)
+    hMat() noexcept = default;
+    explicit hMat(size_t w, size_t h) noexcept : w(w), h(h)
     {
         this->internal = new T[w * h]{}; //allocate and default initialize
     }
-    hMat(const hMat &m) : w(m.w), h(m.h)
+    hMat(const hMat &m) noexcept : w(m.w), h(m.h)
     {
         this->internal = new T[w * h]{}; //allocate and default initialize
         for (size_t i = 0; i < this->Area(); ++i)
@@ -24,23 +24,23 @@ public:
             this->internal[i] = m.internal[i];
         }
     }
-    hMat(hMat &&m) : w(m.w), h(m.h)
+    hMat(hMat &&m) noexcept : w(m.w), h(m.h)
     {
         this->internal = std::move(m.internal); //moving
         m.w = m.h = 0;                          //clean up
     }
 
     //Iterators
-    T *begin() { return &internal[0]; }
-    T *end() { return &internal[this->Area() - 1]; }
-    const T *begin() const { return &internal[0]; }
-    const T *end() const { return &internal[this->Area() - 1]; }
-    T *data() { return internal; }
+    T *begin() noexcept { return &internal[0]; }
+    T *end() noexcept { return &internal[this->Area() - 1]; }
+    const T *begin() const noexcept { return &internal[0]; }
+    const T *end() const noexcept { return &internal[this->Area() - 1]; }
+    T *data() noexcept { return internal; }
 
     //Size
-    size_t Area() const { return Width() * Height(); }
-    size_t Width() const { return w; }
-    size_t Height() const { return h; }
+    size_t Area() const noexcept { return Width() * Height(); }
+    size_t Width() const noexcept { return w; }
+    size_t Height() const noexcept { return h; }
     void Resize(size_t new_w, size_t new_h)
     {
         size_t new_area = new_w * new_h;
