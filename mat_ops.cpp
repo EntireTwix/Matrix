@@ -11,10 +11,9 @@ using copy_fast_t = typename copy_fast<T>::type;
 
 namespace mat
 {
-
     //Arithmetic Operators
     template <typename T>
-    T Add(const T &a, const T &b)
+    constexpr T Add(const T &a, const T &b)
     {
         if (a.Area() != b.Area())
         {
@@ -28,7 +27,7 @@ namespace mat
         return res;
     }
     template <typename T>
-    T Sub(const T &a, const T &b)
+    constexpr T Sub(const T &a, const T &b)
     {
         if (a.Area() != b.Area())
         {
@@ -42,7 +41,7 @@ namespace mat
         return res;
     }
     template <typename T>
-    T Mult(const T &a, const T &b)
+    constexpr T Mult(const T &a, const T &b)
     {
         if (a.Area() != b.Area())
         {
@@ -56,7 +55,7 @@ namespace mat
         return res;
     }
     template <typename T>
-    T Div(const T &a, const T &b)
+    constexpr T Div(const T &a, const T &b)
     {
         if (a.Area() != b.Area())
         {
@@ -72,7 +71,7 @@ namespace mat
 
     //Scalar Arithmetic
     template <typename T>
-    T Add(const T &mat, copy_fast<typename T::type> value)
+    constexpr T Add(const T &mat, copy_fast<typename T::type> value)
     {
         auto res(mat.SizeCopy());
         for (auto &e : mat)
@@ -81,7 +80,7 @@ namespace mat
         }
     }
     template <typename T>
-    T Sub(const T &mat, copy_fast<typename T::type> value)
+    constexpr T Sub(const T &mat, copy_fast<typename T::type> value)
     {
         auto res(mat.SizeCopy());
         for (auto &e : mat)
@@ -90,7 +89,7 @@ namespace mat
         }
     }
     template <typename T>
-    T Mult(const T &mat, copy_fast<typename T::type> value)
+    constexpr T Mult(const T &mat, copy_fast<typename T::type> value)
     {
         auto res(mat.SizeCopy());
         for (auto &e : mat)
@@ -99,7 +98,7 @@ namespace mat
         }
     }
     template <typename T>
-    T Div(const T &mat, copy_fast<typename T::type> value)
+    constexpr T Div(const T &mat, copy_fast<typename T::type> value)
     {
         auto res(mat.SizeCopy());
         for (auto &e : mat)
