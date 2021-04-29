@@ -98,5 +98,8 @@ public:
         return internal[index];
     }
 
+    //Other
+    hMat SizeCopy() const noexcept { return hMat(w, h); }
+
     ~hMat() { delete[] internal; }
 };
