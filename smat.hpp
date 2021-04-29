@@ -22,7 +22,6 @@
 
 #pragma once
 #include <stddef.h>
-template <auto ret>
 
 template <typename T, size_t W, size_t H>
 class sMat
@@ -31,8 +30,9 @@ private:
     T internal[H * W]{};
 
 public:
-    sMat() noexcept = default;
     using type = T;
+
+    sMat() noexcept = default;
 
     //Iterators
     constexpr T *begin() noexcept { return &internal[0]; }
@@ -66,4 +66,7 @@ public:
         }
         return internal[index];
     }
+
+    //Other
+    hMat SizeCopy() const noexcept { return sMat<W, H>; }
 };
