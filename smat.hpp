@@ -70,6 +70,6 @@ namespace mat
         }
 
         //Other
-        sMat SizeCopy() const noexcept { return sMat<W, H>; }
+        sMat SizeCopy() const noexcept { return sMat<T, W, H>(); }
     };
 }
