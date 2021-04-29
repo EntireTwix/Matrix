@@ -10,7 +10,7 @@ template <typename T>
 using copy_fast_t = typename copy_fast<T>::type;
 
 namespace mat
-{   
+{
 
     //Arithmetic Operators
     template <typename T>
@@ -68,5 +68,43 @@ namespace mat
             res.FastAt(i) = a.FastAt(i) / b.FastAt(i);
         }
         return res;
+    }
+
+    //Scalar Arithmetic
+    template <typename T>
+    T Add(const T &mat, copy_fast<typename T::type> value)
+    {
+        auto res(mat.SizeCopy());
+        for (auto &e : mat)
+        {
+            e += value;
+        }
+    }
+    template <typename T>
+    T Sub(const T &mat, copy_fast<typename T::type> value)
+    {
+        auto res(mat.SizeCopy());
+        for (auto &e : mat)
+        {
+            e -= value;
+        }
+    }
+    template <typename T>
+    T Mult(const T &mat, copy_fast<typename T::type> value)
+    {
+        auto res(mat.SizeCopy());
+        for (auto &e : mat)
+        {
+            e *= value;
+        }
+    }
+    template <typename T>
+    T Div(const T &mat, copy_fast<typename T::type> value)
+    {
+        auto res(mat.SizeCopy());
+        for (auto &e : mat)
+        {
+            e /= value;
+        }
     }
 };
