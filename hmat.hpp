@@ -48,14 +48,50 @@ namespace mat
                 this->internal[i] = m.internal[i];
             }
         }
+        hMat &operator=(const hMat &m) noexcept
+        {
+            if (internal)
+            {
+                delete[] internal;
+            }
+            w = m.w;
+            h = m.h;
+            this->internal = new T[w * h]{}; //allocate and default initialize
+            for (size_t i = 0; i < this->Area(); ++i)
+            {
+                this->internal[i] = m.internal[i];
+            }
+            return *this;
+        }
         hMat(hMat &&m) noexcept : w(m.w), h(m.h)
         {
             this->internal = std::move(m.internal); //moving
-            m.w = m.h = 0;                          //clean up
+
+            //clean up
+            m.internal = nullptr;
+            m.w = m.h = 0;
+        }
+        hMat &operator=(hMat &&m) noexcept
+        {
+            if (internal)
+            {
+                delete[] internal;
+            }
+            w = m.w;
+            h = m.h;
+            this->internal = std::move(m.internal); //moving
+
+            //clean up
+            m.internal = nullptr;
+            m.w = m.h = 0;
+            return *this;
         }
 
         //Iterators
-        T *begin() noexcept { return &internal[0]; }
+        T *begin() noexcept
+        {
+            return &internal[0];
+        }
         T *end() noexcept { return &internal[this->Area() - 1]; }
         const T *begin() const noexcept { return &internal[0]; }
         const T *end() const noexcept { return &internal[this->Area() - 1]; }
