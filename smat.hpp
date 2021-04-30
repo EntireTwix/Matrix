@@ -83,7 +83,7 @@ namespace mat
          * @tparam F intended to be std::function<T(copy_fast_t<T>, copy_fast_t<T> 
          */
         template <typename F>
-        constexpr sMat Operation(const sMat &mat, F&& func)> &&func) const
+        constexpr sMat Operation(const sMat &mat, F &&func) const
         {
             sMat res;
             for (size_t i = 0; i < res.Area(); ++i)
