@@ -21,6 +21,9 @@
 // SOFTWARE.
 
 #pragma once
+#include <type_traits>
+#include <functional>
+#include <stdexcept>
 #include <stddef.h>
 
 namespace mat
@@ -137,6 +140,47 @@ namespace mat
         }
 
         //Other
+        hMat Operation(const hMat &mat, std::function<T(copy_fast_t<T>, copy_fast_t<T>)> &&func)
+        {
+            if (this->Area() != mat.Area())
+            {
+                throw std::invalid_argument("Matrix's Areas must match");
+            }
+            hMat res(Width(), Height());
+            for (size_t i = 0; i < res.Area(); ++i)
+            {
+                res.internal[i] = func(this->internal[i], mat.internal[i]);
+            }
+            return res;
+        }
+        void Operation_M(const hMat &mat, std::function<void(T &, copy_fast_t<T>)> &&func)
+        {
+            if (this->Area() != mat.Area())
+            {
+                throw std::invalid_argument("Matrix's Areas must match");
+            }
+            for (size_t i = 0; i < Area(); ++i)
+            {
+                func(this->internal[i], mat.internal[i]);
+            }
+        }
+        hMat ScalarOperation(copy_fast_t<T> value, std::function<T(copy_fast_t<T>, copy_fast_t<T>)> &&func)
+        {
+            hMat res(Width(), Height());
+            for (size_t i = 0; i < res.Area(); ++i)
+            {
+                res = func(this->internal[i], value);
+            }
+            return res;
+        }
+        void ScalarOperation_M(copy_fast_t<T> value, std::function<void(T &, copy_fast_t<T>)> &&func)
+        {
+            for (T &e : *this)
+            {
+                func(e, value);
+            }
+        }
+
         hMat SizeCopy() const noexcept { return hMat(w, h); }
 
         friend std::ostream &operator<<(std::ostream &os, const hMat &mat) noexcept
