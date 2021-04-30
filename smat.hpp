@@ -70,7 +70,6 @@ namespace mat
         }
 
         //Other
-        sMat SizeCopy() const noexcept { return sMat<T, W, H>(); }
         friend std::ostream &operator<<(std::ostream &os, const sMat &mat) noexcept
         {
             for (size_t i = 0; i < mat.Height(); ++i)
