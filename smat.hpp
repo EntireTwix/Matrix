@@ -21,7 +21,17 @@
 // SOFTWARE.
 
 #pragma once
+#include <type_traits>
+#include <functional>
 #include <stddef.h>
+
+//CopyFast metaprogramming type
+template <typename T>
+struct copy_fast : std::conditional<std::is_trivially_copyable_v<T>, T, const T &>
+{
+};
+template <typename T>
+using copy_fast_t = typename copy_fast<T>::type;
 
 namespace mat
 {
@@ -70,6 +80,39 @@ namespace mat
         }
 
         //Other
+        constexpr sMat Operation(const sMat &mat, std::function<T(copy_fast_t<T>, copy_fast_t<T>)> &&func)
+        {
+            sMat res;
+            for (size_t i = 0; i < res.Area(); ++i)
+            {
+                res.internal[i] = func(this->internal[i], mat.internal[i]);
+            }
+            return res;
+        }
+        constexpr void Operation_M(const sMat &mat, std::function<void(T &, copy_fast_t<T>)> &&func)
+        {
+            for (size_t i = 0; i < Area(); ++i)
+            {
+                func(this->internal[i], mat.internal[i]);
+            }
+        }
+        constexpr sMat ScalarOperation(copy_fast_t<T> value, std::function<T(copy_fast_t<T>, copy_fast_t<T>)> &&func)
+        {
+            sMat res;
+            for (size_t i = 0; i < res.Area(); ++i)
+            {
+                res = func(this->internal[i], value);
+            }
+            return res;
+        }
+        constexpr void ScalarOperation_M(copy_fast_t<T> value, std::function<void(T &, copy_fast_t<T>)> &&func)
+        {
+            for (T &e : *this)
+            {
+                func(e, value);
+            }
+        }
+
         friend std::ostream &operator<<(std::ostream &os, const sMat &mat) noexcept
         {
             for (size_t i = 0; i < mat.Height(); ++i)
