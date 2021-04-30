@@ -140,7 +140,11 @@ namespace mat
         }
 
         //Other
-        hMat Operation(const hMat &mat, std::function<T(copy_fast_t<T>, copy_fast_t<T>)> &&func)
+        /**
+         * @tparam F intended to be std::function<T(copy_fast_t<T>, copy_fast_t<T> 
+         */
+        template <typename F>
+        hMat Operation(const hMat &mat, F &&func) const
         {
             if (this->Area() != mat.Area())
             {
@@ -153,7 +157,11 @@ namespace mat
             }
             return res;
         }
-        void Operation_M(const hMat &mat, std::function<void(T &, copy_fast_t<T>)> &&func)
+        /**
+         * @tparam F intended to be std::function<void(T &, copy_fast_t<T>)>
+         */
+        template <typename F>
+        void Operation_M(const hMat &mat, F &&func)
         {
             if (this->Area() != mat.Area())
             {
@@ -164,7 +172,11 @@ namespace mat
                 func(this->internal[i], mat.internal[i]);
             }
         }
-        hMat ScalarOperation(copy_fast_t<T> value, std::function<T(copy_fast_t<T>, copy_fast_t<T>)> &&func)
+        /**
+         * @tparam F intended to be std::function<T(copy_fast_t<T>, copy_fast_t<T>)>
+         */
+        template <typename F>
+        hMat ScalarOperation(copy_fast_t<T> value, F &&func) const
         {
             hMat res(Width(), Height());
             for (size_t i = 0; i < res.Area(); ++i)
@@ -173,7 +185,11 @@ namespace mat
             }
             return res;
         }
-        void ScalarOperation_M(copy_fast_t<T> value, std::function<void(T &, copy_fast_t<T>)> &&func)
+        /**
+         * @tparam F intended to be std::function<void(T &, copy_fast_t<T>)>
+         */
+        template <typename F>
+        void ScalarOperation_M(copy_fast_t<T> value, F &&func)
         {
             for (T &e : *this)
             {
@@ -183,7 +199,7 @@ namespace mat
 
         hMat SizeCopy() const noexcept { return hMat(w, h); }
 
-        friend std::ostream &operator<<(std::ostream &os, const hMat &mat) noexcept
+        friend std::ostream &operator<<(std::ostream &os, const hMat &mat)
         {
             for (size_t i = 0; i < mat.Height(); ++i)
             {
