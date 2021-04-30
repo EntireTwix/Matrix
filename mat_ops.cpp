@@ -78,6 +78,7 @@ namespace mat
         {
             e += value;
         }
+        return res;
     }
     template <typename T>
     constexpr T Sub(const T &mat, copy_fast<typename T::type> value)
@@ -87,6 +88,7 @@ namespace mat
         {
             e -= value;
         }
+        return res;
     }
     template <typename T>
     constexpr T Mult(const T &mat, copy_fast<typename T::type> value)
@@ -96,6 +98,7 @@ namespace mat
         {
             e *= value;
         }
+        return res;
     }
     template <typename T>
     constexpr T Div(const T &mat, copy_fast<typename T::type> value)
@@ -105,5 +108,6 @@ namespace mat
         {
             e /= value;
         }
+        return res;
     }
 };
