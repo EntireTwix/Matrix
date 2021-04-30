@@ -96,9 +96,9 @@ namespace mat
     constexpr T Add(const T &mat, copy_fast<typename T::type> value)
     {
         auto res(mat.SizeCopy());
-        for (auto &e : mat)
+        for (size_t i = 0; i < a.Area(); ++i)
         {
-            e += value;
+            res.FastAt(i) = a.FastAt(i) + value;
         }
         return res;
     }
@@ -106,9 +106,9 @@ namespace mat
     constexpr T Sub(const T &mat, copy_fast<typename T::type> value)
     {
         auto res(mat.SizeCopy());
-        for (auto &e : mat)
+        for (size_t i = 0; i < a.Area(); ++i)
         {
-            e -= value;
+            res.FastAt(i) = a.FastAt(i) - value;
         }
         return res;
     }
@@ -116,9 +116,9 @@ namespace mat
     constexpr T Mult(const T &mat, copy_fast<typename T::type> value)
     {
         auto res(mat.SizeCopy());
-        for (auto &e : mat)
+        for (size_t i = 0; i < a.Area(); ++i)
         {
-            e *= value;
+            res.FastAt(i) = a.FastAt(i) * value;
         }
         return res;
     }
@@ -126,9 +126,9 @@ namespace mat
     constexpr T Div(const T &mat, copy_fast<typename T::type> value)
     {
         auto res(mat.SizeCopy());
-        for (auto &e : mat)
+        for (size_t i = 0; i < a.Area(); ++i)
         {
-            e /= value;
+            res.FastAt(i) = a.FastAt(i) / value;
         }
         return res;
     }
