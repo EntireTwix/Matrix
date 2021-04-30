@@ -22,7 +22,6 @@
 
 #pragma once
 #include <type_traits>
-#include <functional>
 #include <stddef.h>
 
 //CopyFast metaprogramming type
@@ -80,7 +79,11 @@ namespace mat
         }
 
         //Other
-        constexpr sMat Operation(const sMat &mat, std::function<T(copy_fast_t<T>, copy_fast_t<T>)> &&func)
+        /**
+         * @tparam F intended to be std::function<T(copy_fast_t<T>, copy_fast_t<T> 
+         */
+        template <typename F>
+        constexpr sMat Operation(const sMat &mat, F&& func)> &&func) const
         {
             sMat res;
             for (size_t i = 0; i < res.Area(); ++i)
@@ -89,14 +92,22 @@ namespace mat
             }
             return res;
         }
-        constexpr void Operation_M(const sMat &mat, std::function<void(T &, copy_fast_t<T>)> &&func)
+        /**
+         * @tparam F intended to be std::function<void(T &, copy_fast_t<T>)>
+         */
+        template <typename F>
+        constexpr void Operation_M(const sMat &mat, F &&func)
         {
             for (size_t i = 0; i < Area(); ++i)
             {
                 func(this->internal[i], mat.internal[i]);
             }
         }
-        constexpr sMat ScalarOperation(copy_fast_t<T> value, std::function<T(copy_fast_t<T>, copy_fast_t<T>)> &&func)
+        /**
+         * @tparam F intended to be std::function<T(copy_fast_t<T>, copy_fast_t<T>)>
+         */
+        template <typename F>
+        constexpr sMat ScalarOperation(copy_fast_t<T> value, F &&func) const
         {
             sMat res;
             for (size_t i = 0; i < res.Area(); ++i)
@@ -105,7 +116,11 @@ namespace mat
             }
             return res;
         }
-        constexpr void ScalarOperation_M(copy_fast_t<T> value, std::function<void(T &, copy_fast_t<T>)> &&func)
+        /**
+         * @tparam F intended to be std::function<void(T &, copy_fast_t<T>)>
+         */
+        template <typename F>
+        constexpr void ScalarOperation_M(copy_fast_t<T> value, F &&func)
         {
             for (T &e : *this)
             {
@@ -113,7 +128,7 @@ namespace mat
             }
         }
 
-        friend std::ostream &operator<<(std::ostream &os, const sMat &mat) noexcept
+        friend std::ostream &operator<<(std::ostream &os, const sMat &mat)
         {
             for (size_t i = 0; i < mat.Height(); ++i)
             {
