@@ -21,16 +21,8 @@
 // SOFTWARE.
 
 #pragma once
-#include <type_traits>
-#include <stddef.h>
-
-//CopyFast metaprogramming type
-template <typename T>
-struct copy_fast : std::conditional<std::is_trivially_copyable_v<T>, T, const T &>
-{
-};
-template <typename T>
-using copy_fast_t = typename copy_fast<T>::type;
+#include <stdexcept>
+#include "cmat.hpp"
 
 namespace mat
 {
@@ -47,9 +39,9 @@ namespace mat
 
         //Iterators
         constexpr T *begin() noexcept { return &internal[0]; }
-        constexpr T *end() noexcept { return &internal[this->Area() - 1]; }
+        constexpr T *end() noexcept { return &internal[this->Area()]; }
         constexpr const T *begin() const noexcept { return &internal[0]; }
-        constexpr const T *end() const noexcept { return &internal[this->Area() - 1]; }
+        constexpr const T *end() const noexcept { return &internal[this->Area()]; }
         constexpr T *data() { return &internal[0]; }
 
         //Size
@@ -78,67 +70,6 @@ namespace mat
             return internal[index];
         }
 
-        //Other
-        /**
-         * @tparam F intended to be std::function<T(copy_fast_t<T>, copy_fast_t<T> 
-         */
-        template <typename F>
-        constexpr sMat Operation(const sMat &mat, F &&func) const
-        {
-            sMat res;
-            for (size_t i = 0; i < res.Area(); ++i)
-            {
-                res.internal[i] = func(this->internal[i], mat.internal[i]);
-            }
-            return res;
-        }
-        /**
-         * @tparam F intended to be std::function<void(T &, copy_fast_t<T>)>
-         */
-        template <typename F>
-        constexpr void Operation_M(const sMat &mat, F &&func)
-        {
-            for (size_t i = 0; i < Area(); ++i)
-            {
-                func(this->internal[i], mat.internal[i]);
-            }
-        }
-        /**
-         * @tparam F intended to be std::function<T(copy_fast_t<T>, copy_fast_t<T>)>
-         */
-        template <typename F>
-        constexpr sMat ScalarOperation(copy_fast_t<T> value, F &&func) const
-        {
-            sMat res;
-            for (size_t i = 0; i < res.Area(); ++i)
-            {
-                res = func(this->internal[i], value);
-            }
-            return res;
-        }
-        /**
-         * @tparam F intended to be std::function<void(T &, copy_fast_t<T>)>
-         */
-        template <typename F>
-        constexpr void ScalarOperation_M(copy_fast_t<T> value, F &&func)
-        {
-            for (T &e : *this)
-            {
-                func(e, value);
-            }
-        }
-
-        friend std::ostream &operator<<(std::ostream &os, const sMat &mat)
-        {
-            for (size_t i = 0; i < mat.Height(); ++i)
-            {
-                for (size_t j = 0; j < mat.Width(); ++j)
-                {
-                    os << mat.At(j, i) << ' ';
-                }
-                os << '\n';
-            }
-            return os;
-        }
+        sMat SizeCopy() const noexcept { return sMat<T, W, H>(); }
     };
 }

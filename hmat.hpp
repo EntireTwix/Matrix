@@ -21,15 +21,8 @@
 // SOFTWARE.
 
 #pragma once
-#include <type_traits>
 #include <stdexcept>
-#include <stddef.h>
-
-//CopyFast metaprogramming type
-template <typename T>
-struct copy_fast : std::conditional<std::is_trivially_copyable_v<T>, T, const T &> {};
-template <typename T>
-using copy_fast_t = typename copy_fast<T>::type;
+#include "cmat.hpp"
 
 namespace mat
 {
@@ -73,7 +66,7 @@ namespace mat
         }
         hMat(hMat &&m) noexcept : w(m.w), h(m.h)
         {
-            this->internal = std::move(m.internal); //moving
+            this->internal = m.internal; //moving
 
             //clean up
             m.internal = nullptr;
@@ -87,7 +80,7 @@ namespace mat
             }
             w = m.w;
             h = m.h;
-            this->internal = std::move(m.internal); //moving
+            this->internal = m.internal; //moving
 
             //clean up
             m.internal = nullptr;
@@ -100,9 +93,9 @@ namespace mat
         {
             return &internal[0];
         }
-        T *end() noexcept { return &internal[this->Area() - 1]; }
+        T *end() noexcept { return &internal[this->Area()]; }
         const T *begin() const noexcept { return &internal[0]; }
-        const T *end() const noexcept { return &internal[this->Area() - 1]; }
+        const T *end() const noexcept { return &internal[this->Area()]; }
         T *data() noexcept { return internal; }
 
         //Size
@@ -144,78 +137,7 @@ namespace mat
             return internal[index];
         }
 
-        //Other
-        /**
-         * @tparam F intended to be std::function<T(copy_fast_t<T>, copy_fast_t<T> 
-         */
-        template <typename F>
-        hMat Operation(const hMat &mat, F &&func) const
-        {
-            if (this->Area() != mat.Area())
-            {
-                throw std::invalid_argument("Matrix's Areas must match");
-            }
-            hMat res(Width(), Height());
-            for (size_t i = 0; i < res.Area(); ++i)
-            {
-                res.internal[i] = func(this->internal[i], mat.internal[i]);
-            }
-            return res;
-        }
-        /**
-         * @tparam F intended to be std::function<void(T &, copy_fast_t<T>)>
-         */
-        template <typename F>
-        void Operation_M(const hMat &mat, F &&func)
-        {
-            if (this->Area() != mat.Area())
-            {
-                throw std::invalid_argument("Matrix's Areas must match");
-            }
-            for (size_t i = 0; i < Area(); ++i)
-            {
-                func(this->internal[i], mat.internal[i]);
-            }
-        }
-        /**
-         * @tparam F intended to be std::function<T(copy_fast_t<T>, copy_fast_t<T>)>
-         */
-        template <typename F>
-        hMat ScalarOperation(copy_fast_t<T> value, F &&func) const
-        {
-            hMat res(Width(), Height());
-            for (size_t i = 0; i < res.Area(); ++i)
-            {
-                res = func(this->internal[i], value);
-            }
-            return res;
-        }
-        /**
-         * @tparam F intended to be std::function<void(T &, copy_fast_t<T>)>
-         */
-        template <typename F>
-        void ScalarOperation_M(copy_fast_t<T> value, F &&func)
-        {
-            for (T &e : *this)
-            {
-                func(e, value);
-            }
-        }
-
         hMat SizeCopy() const noexcept { return hMat(w, h); }
-
-        friend std::ostream &operator<<(std::ostream &os, const hMat &mat)
-        {
-            for (size_t i = 0; i < mat.Height(); ++i)
-            {
-                for (size_t j = 0; j < mat.Width(); ++j)
-                {
-                    os << mat.At(j, i) << ' ';
-                }
-                os << '\n';
-            }
-            return os;
-        }
 
         ~hMat() { delete[] internal; }
     };
