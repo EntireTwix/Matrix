@@ -80,21 +80,6 @@ namespace mat
         size_t Area() const noexcept { return Width() * Height(); }
         size_t Width() const noexcept { return w; }
         size_t Height() const noexcept { return h; } 
-        void Resize(size_t new_w, size_t new_h) noexcept
-        {
-            T *temp = new T[new_w * new_h]{};
-            for(size_t i = 0; i < h && i < new_h; ++i)
-            {
-                for(size_t j = 0; j <= w && j < new_w; ++j)
-                {
-                    temp[(i*w)+j] = this->internal[(i*w)+j];
-                }
-            }
-            w = new_w;
-            h = new_h;
-            std::swap(this->internal, temp);
-            delete[] temp;
-        }
 
         //Indexing
         T &At(size_t x, size_t y) { return FastAt((y * (Width()) + x)); }
