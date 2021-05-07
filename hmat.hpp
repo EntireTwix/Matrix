@@ -1,25 +1,3 @@
-// MIT License
-
-// Copyright (c) 2021 William Katz
-
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 #pragma once
 #include <stdexcept>
 #include "cmat.hpp"
@@ -101,15 +79,19 @@ namespace mat
         //Size
         size_t Area() const noexcept { return Width() * Height(); }
         size_t Width() const noexcept { return w; }
-        size_t Height() const noexcept { return h; }
-        void Resize(size_t new_w, size_t new_h)
+        size_t Height() const noexcept { return h; } 
+        void Resize(size_t new_w, size_t new_h) noexcept
         {
-            size_t new_area = new_w * new_h;
-            T *temp = new T[new_area]{};
-            for (size_t i = 0; i < this->Area() && i < new_area; ++i)
+            T *temp = new T[new_w * new_h]{};
+            for(size_t i = 0; i < h && i < new_h; ++i)
             {
-                temp[i] = this->internal[i];
+                for(size_t j = 0; j <= w && j < new_w; ++j)
+                {
+                    std::cout<<j<<' '<<i<<'\n';
+                    temp[(i*w)+j] = this->internal[(i*w)+j];
+                }
             }
+            std::cout<<'\n';
             w = new_w;
             h = new_h;
             std::swap(this->internal, temp);
