@@ -1,14 +1,16 @@
 # Matrix 
-a collection of zero cost matrix implementations for C++20
+a collection of zero cost matrix implementations for C++20.
 
-## sMat (smat.hpp)
-STACK based Matrix, use this where you would std::array
+Zero cost meaning the matrix abstraction provides programmatic utility without differing in performance from a hand written array manipulation. In
 
-## hMat (hmat.hpp)
-HEAP based Matrix, use this where you would std::vector
+## [sMat](smat.hpp)
+`STACK` based Matrix, use this where you would std::array. This implementation has the advantage of having constexpr support so that when applicable it can be done compile time
 
-## Matrix Concept (cmat.hpp)
+## [hMat](hmat.hpp)
+`HEAP` based Matrix, use this where you would std::vector
+
+## [Matrix Concept](cmat.hpp)
 a concept to avoid the cost of vtable lookup, also allows for generic operations and matrix implementations being interchangable, if the requirements for the concept are implemented it can mesh with any existing matrix operation.
 
-## Operations (mat_ops.hpp)
-a set of generic operations that work with any type that qualifies as a Matrix via the concept
+## [Operations](mat_ops.hpp)
+a set of generic operations that work with any type that qualifies as a Matrix via the concept. Future devolopment may include support for CUDA operations. 
