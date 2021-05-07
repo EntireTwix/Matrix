@@ -1,4 +1,5 @@
 #pragma once
+#include <stdexcept>
 #include <ostream>
 #include "cmat.hpp"
 
@@ -20,10 +21,15 @@ namespace mat
     }
 
     //Add
-    template <Matrix M, Matrix M2, Matrix M3 = M>
-    constexpr M3 Add(const M& a, const M2& b)
+    template <Matrix M, Matrix M2>
+    constexpr M Add(const M& a, const M2& b)
     {
-        M3 res(a.SizeCopy());
+        if(b.Area() < a.Area()) 
+        {
+            throw std::invalid_argument("arg is too big");
+        }
+
+        M res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) + b.FastAt(i);
@@ -33,23 +39,28 @@ namespace mat
     template <Matrix M, Matrix M2>
     constexpr void AddMut(M& a, const M2& b)
     {
+        if(b.Area() < a.Area()) 
+        {
+            throw std::invalid_argument("arg is too big");
+        }
         for(size_t i = 0; i < a.Area(); ++i)
         {
             a.FastAt(i) += b.FastAt(i);
         }
     }
-    template <Matrix M, Matrix M2, typename T>
-    constexpr M2 ScalarAdd(const M& mat, copy_fast_cv_t<T> v)
+    template <Matrix M, typename T = typename M::type>
+    constexpr M ScalarAdd(const M& mat, copy_fast_cv_t<T> v) noexcept
     {
-        M2 res(mat.SizeCopy());
+        std::cout<<v<<'\n';
+        M res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
             res.FastAt(i) = mat.FastAt(i) + v;
         }
         return res;
     }
-    template <Matrix M, typename T>
-    constexpr void ScalarAddM(M& mat, copy_fast_cv_t<T> v)
+    template <Matrix M, typename T = typename M::type>
+    constexpr void ScalarAddMut(M& mat, copy_fast_cv_t<T> v)  noexcept
     {
         for(T& e : mat)
         {
@@ -58,10 +69,14 @@ namespace mat
     }
 
     //Sub
-    template <Matrix M, Matrix M2, Matrix M3 = M>
-    constexpr M3 Sub(const M& a, const M2& b)
+    template <Matrix M, Matrix M2>
+    constexpr M Sub(const M& a, const M2& b)
     {
-        M3 res(a.SizeCopy());
+        if(b.Area() < a.Area()) 
+        {
+            throw std::invalid_argument("arg is too big");
+        }
+        M res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) - b.FastAt(i);
@@ -71,23 +86,27 @@ namespace mat
     template <Matrix M, Matrix M2>
     constexpr void SubMut(M& a, const M2& b)
     {
+        if(b.Area() < a.Area()) 
+        {
+            throw std::invalid_argument("arg is too big");
+        }
         for(size_t i = 0; i < a.Area(); ++i)
         {
             a.FastAt(i) -= b.FastAt(i);
         }
     }
-    template <Matrix M, Matrix M2, typename T>
-    constexpr M2 ScalarSub(const M& mat, copy_fast_cv_t<T> v)
+    template <Matrix M, typename T = typename M::type>
+    constexpr M ScalarSub(const M& mat, copy_fast_cv_t<T> v) noexcept
     {
-        M2 res(mat.SizeCopy());
+        M res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
             res.FastAt(i) = mat.FastAt(i) - v;
         }
         return res;
     }
-    template <Matrix M, typename T>
-    constexpr void ScalarSubM(M& mat, copy_fast_cv_t<T> v)
+    template <Matrix M, typename T = typename M::type>
+    constexpr void ScalarSubMut(M& mat, copy_fast_cv_t<T> v) noexcept
     {
         for(T& e : mat)
         {
@@ -96,10 +115,14 @@ namespace mat
     }
 
     //Mul
-    template <Matrix M, Matrix M2, Matrix M3 = M>
-    constexpr M3 Mul(const M& a, const M2& b)
+    template <Matrix M, Matrix M2>
+    constexpr M Mul(const M& a, const M2& b)
     {
-        M3 res(a.SizeCopy());
+        if(b.Area() < a.Area()) 
+        {
+            throw std::invalid_argument("arg is too big");
+        }
+        M res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) * b.FastAt(i);
@@ -109,23 +132,27 @@ namespace mat
     template <Matrix M, Matrix M2>
     constexpr void MulMut(M& a, const M2& b)
     {
+        if(b.Area() < a.Area()) 
+        {
+            throw std::invalid_argument("arg is too big");
+        }
         for(size_t i = 0; i < a.Area(); ++i)
         {
             a.FastAt(i) *= b.FastAt(i);
         }
     }
-    template <Matrix M, Matrix M2, typename T>
-    constexpr M2 ScalarMul(const M& mat, copy_fast_cv_t<T> v)
+    template <Matrix M, typename T = typename M::type>
+    constexpr M ScalarMul(const M& mat, copy_fast_cv_t<T> v) noexcept
     {
-        M2 res(mat.SizeCopy());
+        M res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
             res.FastAt(i) = mat.FastAt(i) * v;
         }
         return res;
     }
-    template <Matrix M, typename T>
-    constexpr void ScalarMulM(M& mat, copy_fast_cv_t<T> v)
+    template <Matrix M, typename T = typename M::type>
+    constexpr void ScalarMulMut(M& mat, copy_fast_cv_t<T> v) noexcept
     {
         for(T& e : mat)
         {
@@ -134,10 +161,14 @@ namespace mat
     }
 
     //Div
-    template <Matrix M, Matrix M2, Matrix M3 = M>
-    constexpr M3 Div(const M& a, const M2& b)
+    template <Matrix M, Matrix M2>
+    constexpr M Div(const M& a, const M2& b)
     {
-        M3 res(a.SizeCopy());
+        if(b.Area() < a.Area()) 
+        {
+            throw std::invalid_argument("arg is too big");
+        }
+        M res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) / b.FastAt(i);
@@ -147,15 +178,19 @@ namespace mat
     template <Matrix M, Matrix M2>
     constexpr void DivMut(M& a, const M2& b)
     {
+        if(b.Area() < a.Area()) 
+        {
+            throw std::invalid_argument("arg is too big");
+        }
         for(size_t i = 0; i < a.Area(); ++i)
         {
             a.FastAt(i) /= b.FastAt(i);
         }
     }
-    template <Matrix M, Matrix M2, typename T>
-    constexpr M2 ScalarDiv(const M& mat, copy_fast_cv_t<T> v)
+    template <Matrix M, typename T>
+    constexpr M ScalarDiv(const M& mat, copy_fast_cv_t<T> v) noexcept
     {
-        M2 res(mat.SizeCopy());
+        M res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
             res.FastAt(i) = mat.FastAt(i) / v;
@@ -163,7 +198,7 @@ namespace mat
         return res;
     }
     template <Matrix M, typename T>
-    constexpr void ScalarDivM(M& mat, copy_fast_cv_t<T> v)
+    constexpr void ScalarDivMut(M& mat, copy_fast_cv_t<T> v) noexcept
     {
         for(T& e : mat)
         {
