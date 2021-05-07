@@ -49,7 +49,7 @@ namespace mat
         return res;
     }
     template <Matrix M, typename T>
-    constexpr void ScalarAddM(M& mat, copy_fast_cv_t<T> v)
+    constexpr void ScalarAddMut(M& mat, copy_fast_cv_t<T> v)
     {
         for(T& e : mat)
         {
@@ -87,7 +87,7 @@ namespace mat
         return res;
     }
     template <Matrix M, typename T>
-    constexpr void ScalarSubM(M& mat, copy_fast_cv_t<T> v)
+    constexpr void ScalarSubMut(M& mat, copy_fast_cv_t<T> v)
     {
         for(T& e : mat)
         {
@@ -125,7 +125,7 @@ namespace mat
         return res;
     }
     template <Matrix M, typename T>
-    constexpr void ScalarMulM(M& mat, copy_fast_cv_t<T> v)
+    constexpr void ScalarMulMut(M& mat, copy_fast_cv_t<T> v)
     {
         for(T& e : mat)
         {
@@ -163,7 +163,7 @@ namespace mat
         return res;
     }
     template <Matrix M, typename T>
-    constexpr void ScalarDivM(M& mat, copy_fast_cv_t<T> v)
+    constexpr void ScalarDivMut(M& mat, copy_fast_cv_t<T> v)
     {
         for(T& e : mat)
         {
