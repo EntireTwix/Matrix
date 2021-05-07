@@ -87,11 +87,9 @@ namespace mat
             {
                 for(size_t j = 0; j <= w && j < new_w; ++j)
                 {
-                    std::cout<<j<<' '<<i<<'\n';
                     temp[(i*w)+j] = this->internal[(i*w)+j];
                 }
             }
-            std::cout<<'\n';
             w = new_w;
             h = new_h;
             std::swap(this->internal, temp);
