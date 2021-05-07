@@ -20,10 +20,10 @@ namespace mat
     }
 
     //Add
-    template <Matrix M, Matrix M2>
-    constexpr M Add(const M& a, const M2& b)
+    template <Matrix M, Matrix M2, Matrix M3 = M>
+    constexpr M3 Add(const M& a, const M2& b)
     {
-        M res(a.SizeCopy());
+        M3 res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) + b.FastAt(i);
@@ -58,10 +58,10 @@ namespace mat
     }
 
     //Sub
-    template <Matrix M, Matrix M2>
-    constexpr M Sub(const M& a, const M2& b)
+    template <Matrix M, Matrix M2, Matrix M3 = M>
+    constexpr M3 Sub(const M& a, const M2& b)
     {
-        M res(a.SizeCopy());
+        M3 res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) - b.FastAt(i);
@@ -96,10 +96,10 @@ namespace mat
     }
 
     //Mul
-    template <Matrix M, Matrix M2>
-    constexpr M Mul(const M& a, const M2& b)
+    template <Matrix M, Matrix M2, Matrix M3 = M>
+    constexpr M3 Mul(const M& a, const M2& b)
     {
-        M res(a.SizeCopy());
+        M3 res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) * b.FastAt(i);
@@ -134,10 +134,10 @@ namespace mat
     }
 
     //Div
-    template <Matrix M, Matrix M2>
-    constexpr M Div(const M& a, const M2& b)
+    template <Matrix M, Matrix M2, Matrix M3 = M>
+    constexpr M3 Div(const M& a, const M2& b)
     {
-        M res(a.SizeCopy());
+        M3 res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) / b.FastAt(i);
