@@ -51,9 +51,9 @@ namespace mat
     template <Matrix M>
     constexpr void ScalarAddM(M& mat, copy_fast_t<typename M::type> v)
     {
-        for(size_t i = 0; i < mat.Area(); ++i)
+        for(typename M::type& e : mat)
         {
-            mat.FastAt(i) += v;
+            e += v;
         }
     }
 
@@ -89,9 +89,9 @@ namespace mat
     template <Matrix M>
     constexpr void ScalarSubM(M& mat, copy_fast_t<typename M::type> v)
     {
-        for(size_t i = 0; i < mat.Area(); ++i)
+        for(typename M::type& e : mat)
         {
-            mat.FastAt(i) -= v;
+            e -= v;
         }
     }
 
@@ -127,9 +127,9 @@ namespace mat
     template <Matrix M>
     constexpr void ScalarMulM(M& mat, copy_fast_t<typename M::type> v)
     {
-        for(size_t i = 0; i < mat.Area(); ++i)
+        for(typename M::type& e : mat)
         {
-            mat.FastAt(i) *= v;
+            e *= v;
         }
     }
 
@@ -165,9 +165,9 @@ namespace mat
     template <Matrix M>
     constexpr void ScalarDivM(M& mat, copy_fast_t<typename M::type> v)
     {
-        for(size_t i = 0; i < mat.Area(); ++i)
+        for(typename M::type& e : mat)
         {
-            mat.FastAt(i) /= v;
+            e /= v;
         }
     }
 
