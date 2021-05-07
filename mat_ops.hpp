@@ -28,7 +28,6 @@ namespace mat
         {
             throw std::invalid_argument("arg is too big");
         }
-
         M res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
