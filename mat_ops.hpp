@@ -20,10 +20,10 @@ namespace mat
     }
 
     //Add
-    template <Matrix M, Matrix M2>
-    constexpr M Add(const M& a, const M2& b)
+    template <Matrix M, Matrix M2, Matrix M3 = M>
+    constexpr M3 Add(const M& a, const M2& b)
     {
-        M res(a.SizeCopy());
+        M3 res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) + b.FastAt(i);
@@ -38,30 +38,30 @@ namespace mat
             a.FastAt(i) += b.FastAt(i);
         }
     }
-    template <Matrix M>
-    constexpr M ScalarAdd(const M& mat, copy_fast_t<typename M::type> v)
+    template <Matrix M, Matrix M2, typename T>
+    constexpr M2 ScalarAdd(const M& mat, copy_fast_cv_t<T> v)
     {
-        M res(mat.SizeCopy());
+        M2 res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
             res.FastAt(i) = mat.FastAt(i) + v;
         }
         return res;
     }
-    template <Matrix M>
-    constexpr void ScalarAddM(M& mat, copy_fast_t<typename M::type> v)
+    template <Matrix M, typename T>
+    constexpr void ScalarAddM(M& mat, copy_fast_cv_t<T> v)
     {
-        for(size_t i = 0; i < mat.Area(); ++i)
+        for(T& e : mat)
         {
-            mat.FastAt(i) += v;
+            e += v;
         }
     }
 
     //Sub
-    template <Matrix M, Matrix M2>
-    constexpr M Sub(const M& a, const M2& b)
+    template <Matrix M, Matrix M2, Matrix M3 = M>
+    constexpr M3 Sub(const M& a, const M2& b)
     {
-        M res(a.SizeCopy());
+        M3 res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) - b.FastAt(i);
@@ -76,30 +76,30 @@ namespace mat
             a.FastAt(i) -= b.FastAt(i);
         }
     }
-    template <Matrix M>
-    constexpr M ScalarSub(const M& mat, copy_fast_t<typename M::type> v)
+    template <Matrix M, Matrix M2, typename T>
+    constexpr M2 ScalarSub(const M& mat, copy_fast_cv_t<T> v)
     {
-        M res(mat.SizeCopy());
+        M2 res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
             res.FastAt(i) = mat.FastAt(i) - v;
         }
         return res;
     }
-    template <Matrix M>
-    constexpr void ScalarSubM(M& mat, copy_fast_t<typename M::type> v)
+    template <Matrix M, typename T>
+    constexpr void ScalarSubM(M& mat, copy_fast_cv_t<T> v)
     {
-        for(size_t i = 0; i < mat.Area(); ++i)
+        for(T& e : mat)
         {
-            mat.FastAt(i) -= v;
+            e -= v;
         }
     }
 
     //Mul
-    template <Matrix M, Matrix M2>
-    constexpr M Mul(const M& a, const M2& b)
+    template <Matrix M, Matrix M2, Matrix M3 = M>
+    constexpr M3 Mul(const M& a, const M2& b)
     {
-        M res(a.SizeCopy());
+        M3 res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) * b.FastAt(i);
@@ -114,30 +114,30 @@ namespace mat
             a.FastAt(i) *= b.FastAt(i);
         }
     }
-    template <Matrix M>
-    constexpr M ScalarMul(const M& mat, copy_fast_t<typename M::type> v)
+    template <Matrix M, Matrix M2, typename T>
+    constexpr M2 ScalarMul(const M& mat, copy_fast_cv_t<T> v)
     {
-        M res(mat.SizeCopy());
+        M2 res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
             res.FastAt(i) = mat.FastAt(i) * v;
         }
         return res;
     }
-    template <Matrix M>
-    constexpr void ScalarMulM(M& mat, copy_fast_t<typename M::type> v)
+    template <Matrix M, typename T>
+    constexpr void ScalarMulM(M& mat, copy_fast_cv_t<T> v)
     {
-        for(size_t i = 0; i < mat.Area(); ++i)
+        for(T& e : mat)
         {
-            mat.FastAt(i) *= v;
+            e *= v;
         }
     }
 
     //Div
-    template <Matrix M, Matrix M2>
-    constexpr M Div(const M& a, const M2& b)
+    template <Matrix M, Matrix M2, Matrix M3 = M>
+    constexpr M3 Div(const M& a, const M2& b)
     {
-        M res(a.SizeCopy());
+        M3 res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) / b.FastAt(i);
@@ -152,22 +152,22 @@ namespace mat
             a.FastAt(i) /= b.FastAt(i);
         }
     }
-    template <Matrix M>
-    constexpr M ScalarDiv(const M& mat, copy_fast_t<typename M::type> v)
+    template <Matrix M, Matrix M2, typename T>
+    constexpr M2 ScalarDiv(const M& mat, copy_fast_cv_t<T> v)
     {
-        M res(mat.SizeCopy());
+        M2 res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
             res.FastAt(i) = mat.FastAt(i) / v;
         }
         return res;
     }
-    template <Matrix M>
-    constexpr void ScalarDivM(M& mat, copy_fast_t<typename M::type> v)
+    template <Matrix M, typename T>
+    constexpr void ScalarDivM(M& mat, copy_fast_cv_t<T> v)
     {
-        for(size_t i = 0; i < mat.Area(); ++i)
+        for(T& e : mat)
         {
-            mat.FastAt(i) /= v;
+            e /= v;
         }
     }
 
