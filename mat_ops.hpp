@@ -50,7 +50,6 @@ namespace mat
     template <Matrix M, typename T = typename M::type>
     constexpr M ScalarAdd(const M& mat, copy_fast_cv_t<T> v) noexcept
     {
-        std::cout<<v<<'\n';
         M res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
