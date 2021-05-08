@@ -3,10 +3,37 @@
 #include <ostream>
 #include "cmat.hpp"
 
+template <typename T>
+concept Printable = requires(T a)
+{
+    {std::cout<<a}->std::same_as<std::ostream&>;
+};
+template <typename T, typename T2>
+concept Addable = requires(T a, T2 b)
+{
+    {a+b}->std::convertible_to<T>;
+};
+template <typename T, typename T2>
+concept Subtractable = requires(T a, T2 b)
+{
+    {a-b}->std::convertible_to<T>;
+};
+template <typename T, typename T2>
+concept Multipliable = requires(T a, T2 b)
+{
+    {a*b}->std::convertible_to<T>;
+};
+template <typename T, typename T2>
+concept Divideable = requires(T a, T2 b)
+{
+    {a/b}->std::convertible_to<T>;
+};
+
 namespace mat
 {
     //Print
     template <Matrix M>
+    requires Printable<typename M::type>
     std::ostream &operator<<(std::ostream &os, const M &mat)
     {
         for (size_t i = 0; i < mat.Height(); ++i)
@@ -18,16 +45,18 @@ namespace mat
             os << '\n';
         }
         return os;
-    }
+    }   
 
     //Add
     template <Matrix M, Matrix M2>
+    requires Addable<typename M::type, typename M2::type>
     constexpr M Add(const M& a, const M2& b)
     {
         if(b.Area() < a.Area()) 
         {
             throw std::invalid_argument("arg is too big");
         }
+
         M res(a.SizeCopy());
         for(size_t i = 0; i < a.Area(); ++i)
         {
@@ -36,6 +65,7 @@ namespace mat
         return res;
     }
     template <Matrix M, Matrix M2>
+    requires Addable<typename M::type, typename M2::type>
     constexpr void AddMut(M& a, const M2& b)
     {
         if(b.Area() < a.Area()) 
@@ -44,12 +74,14 @@ namespace mat
         }
         for(size_t i = 0; i < a.Area(); ++i)
         {
-            a.FastAt(i) += b.FastAt(i);
+            a.FastAt(i) = a.FastAt(i) + b.FastAt(i);
         }
     }
     template <Matrix M, typename T = typename M::type>
+    requires Addable<typename M::type, T>
     constexpr M ScalarAdd(const M& mat, copy_fast_cv_t<T> v) noexcept
     {
+        std::cout<<v<<'\n';
         M res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
@@ -58,16 +90,18 @@ namespace mat
         return res;
     }
     template <Matrix M, typename T = typename M::type>
+    requires Addable<typename M::type, T>
     constexpr void ScalarAddMut(M& mat, copy_fast_cv_t<T> v)  noexcept
     {
         for(T& e : mat)
         {
-            e += v;
+            e = e + v;
         }
     }
 
     //Sub
     template <Matrix M, Matrix M2>
+    requires Subtractable<typename M::type, typename M2::type>
     constexpr M Sub(const M& a, const M2& b)
     {
         if(b.Area() < a.Area()) 
@@ -82,6 +116,7 @@ namespace mat
         return res;
     }
     template <Matrix M, Matrix M2>
+    requires Subtractable<typename M::type, typename M2::type>
     constexpr void SubMut(M& a, const M2& b)
     {
         if(b.Area() < a.Area()) 
@@ -94,6 +129,7 @@ namespace mat
         }
     }
     template <Matrix M, typename T = typename M::type>
+    requires Subtractable<typename M::type, T>
     constexpr M ScalarSub(const M& mat, copy_fast_cv_t<T> v) noexcept
     {
         M res(mat.SizeCopy());
@@ -104,6 +140,7 @@ namespace mat
         return res;
     }
     template <Matrix M, typename T = typename M::type>
+    requires Subtractable<typename M::type, T>
     constexpr void ScalarSubMut(M& mat, copy_fast_cv_t<T> v) noexcept
     {
         for(T& e : mat)
@@ -114,6 +151,7 @@ namespace mat
 
     //Mul
     template <Matrix M, Matrix M2>
+    requires Multipliable<typename M::type, typename M2::type>
     constexpr M Mul(const M& a, const M2& b)
     {
         if(b.Area() < a.Area()) 
@@ -128,6 +166,7 @@ namespace mat
         return res;
     }
     template <Matrix M, Matrix M2>
+    requires Multipliable<typename M::type, typename M2::type>
     constexpr void MulMut(M& a, const M2& b)
     {
         if(b.Area() < a.Area()) 
@@ -140,9 +179,10 @@ namespace mat
         }
     }
     template <Matrix M, typename T = typename M::type>
+    requires Multipliable<typename M::type, T>
     constexpr M ScalarMul(const M& mat, copy_fast_cv_t<T> v) noexcept
     {
-        M res(mat.SizeCopy());
+        M res(mat.SizeCopcy());
         for(size_t i = 0; i < mat.Area(); ++i)
         {
             res.FastAt(i) = mat.FastAt(i) * v;
@@ -150,6 +190,7 @@ namespace mat
         return res;
     }
     template <Matrix M, typename T = typename M::type>
+    requires Multipliable<typename M::type, T>
     constexpr void ScalarMulMut(M& mat, copy_fast_cv_t<T> v) noexcept
     {
         for(T& e : mat)
@@ -160,6 +201,7 @@ namespace mat
 
     //Div
     template <Matrix M, Matrix M2>
+    requires Divideable<typename M::type, typename M2::type>
     constexpr M Div(const M& a, const M2& b)
     {
         if(b.Area() < a.Area()) 
@@ -174,6 +216,7 @@ namespace mat
         return res;
     }
     template <Matrix M, Matrix M2>
+    requires Divideable<typename M::type, typename M2::type>
     constexpr void DivMut(M& a, const M2& b)
     {
         if(b.Area() < a.Area()) 
@@ -186,6 +229,7 @@ namespace mat
         }
     }
     template <Matrix M, typename T>
+    requires Divideable<typename M::type, T>
     constexpr M ScalarDiv(const M& mat, copy_fast_cv_t<T> v) noexcept
     {
         M res(mat.SizeCopy());
@@ -196,6 +240,7 @@ namespace mat
         return res;
     }
     template <Matrix M, typename T>
+    requires Divideable<typename M::type, T>
     constexpr void ScalarDivMut(M& mat, copy_fast_cv_t<T> v) noexcept
     {
         for(T& e : mat)
