@@ -16,9 +16,9 @@ a concept to avoid the cost of vtable lookup, also allows for generic operations
 a set of generic operations that work with any type that qualifies as a Matrix via the concept. Future devolopment may include support for CUDA operations. 
 
 arithmetic operators are hand written to remove overhead, and generic operation functions are avaliable for anything else 
-* `M` `Operation` for taking two matrices and applying a function to each index of both `func(a[0], b[1])`
-* `void` `OperationMut` the same as above but intended to mutate `a` or `b` instead of using the returned value to form the resulting matrix
-* `M` `ScalarOperation` the `Operation` function but with a value instead of another matrix
-* `void` `ScalarOperationMut` scalar variant of OperationMut
+* `M     Operation` for taking two matrices and applying a function to each index of both `func(a[0], b[1])`
+* `void  OperationMut` the same as above but intended to mutate `a` or `b` instead of using the returned value to form the resulting matrix
+* `M     ScalarOperation` the `Operation` function but with a value instead of another matrix
+* `void  ScalarOperationMut` scalar variant of OperationMut
 
 if u want to do an operation that does not conform to the above then I recommend using `begin()`, `end()`, and `data()` methods with an existing std alg
