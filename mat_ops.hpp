@@ -3,6 +3,7 @@
 #include <ostream>
 #include "cmat.hpp"
 
+//Other
 template <typename T>
 concept Printable = requires(T a) { {std::cout<<a}->std::same_as<std::ostream&>; };
 
