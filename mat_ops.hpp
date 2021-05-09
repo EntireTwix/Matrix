@@ -50,7 +50,7 @@ namespace mat
         {
             throw std::invalid_argument("arg a size must match b");
         }
-        M res(b.SizeCopy());
+        M res(a.SizeCopy());
         for(size_t i = 0; i < b.Area(); ++i)
         {
             res.FastAt(i) = func(a.FastAt(i), b.FastAt(i));
