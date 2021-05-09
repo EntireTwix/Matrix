@@ -147,5 +147,5 @@ namespace mat
     constexpr M ScalarDiv(const M& mat, copy_fast_cv_t<T> v) noexcept { return ScalarOperation(mat, v, [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ return a/b }); }
     template <Matrix M, typename T = typename M::type>
     requires Divideable<typename M::type, T>
-    constexpr void ScalarAddMut(M& mat, copy_fast_cv_t<T> v)  noexcept { return ScalarOperationMut(mat, v, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ return a/b; }); }
+    constexpr void ScalarDivMut(M& mat, copy_fast_cv_t<T> v)  noexcept { return ScalarOperationMut(mat, v, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ return a/b; }); }
 };
