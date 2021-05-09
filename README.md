@@ -16,10 +16,10 @@ a concept to avoid the cost of vtable lookup, also allows for generic operations
 a set of generic operations that work with any type that qualifies as a Matrix via the concept. Future devolopment may include support for CUDA operations. 
 
 generic operation functions supplied with lambdas are avaliable, they come with no overhead
-* `M     Operation` for taking two matrices and applying a function to each index of both `func(a[0], b[1])`
-* `void  OperationMut` the same as above but intended to mutate `a` or `b` instead of using the returned value to form the resulting matrix
-* `M     ScalarOperation` the `Operation` function but with a value instead of another matrix `func(a[0], v)`
-* `void  ScalarOperationMut` scalar variant of OperationMut
-* `ForEach` effectively std::for_each
+* `M Operation` for taking two matrices and applying a function to each index of both `func(a[0], b[1])`
+* `void OperationMut` the same as above but intended to mutate `a` or `b` instead of using the returned value to form the resulting matrix
+* `M ScalarOperation` the `Operation` function but with a value instead of another matrix `func(a[0], v)`
+* `void ScalarOperationMut` scalar variant of OperationMut
+* `void ForEach` effectively std::for_each
 
 if u want to do an operation that does not conform to the above then I recommend using `begin()`, `end()`, and `data()` methods with an existing std alg
