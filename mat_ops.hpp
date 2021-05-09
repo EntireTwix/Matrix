@@ -3,7 +3,6 @@
 #include <ostream>
 #include "cmat.hpp"
 
-//Other
 template <typename T>
 concept Printable = requires(T a) { {std::cout<<a}->std::same_as<std::ostream&>; };
 
@@ -65,7 +64,7 @@ namespace mat
         {
             throw std::invalid_argument("arg is too big");
         }
-        for(size_t i = 0; i < a.Area(); ++i)
+        for(size_t i = 0; i < b.Area(); ++i)
         {
             func(a.FastAt(i), b.FastAt(i));
         }
