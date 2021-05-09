@@ -1,5 +1,5 @@
 # Matrix 
-a collection of zero cost matrix implementations for C++20.
+a collection of header only zero cost matrix implementations for C++20
 
 Zero cost meaning the matrix abstraction provides programmatic utility without differing in performance from a hand written array manipulation. In
 
