@@ -46,12 +46,12 @@ namespace mat
     template <Matrix M, Matrix M2, typename F>
     constexpr M Operation(const M& a, const M2& b, F&& func)
     {
-        if(b.Area() < a.Area()) 
+        if(b.Area() != a.Area()) 
         {
-            throw std::invalid_argument("arg is too big");
+            throw std::invalid_argument("arg a size must match b");
         }
-        M res(a.SizeCopy());
-        for(size_t i = 0; i < a.Area(); ++i)
+        M res(b.SizeCopy());
+        for(size_t i = 0; i < b.Area(); ++i)
         {
             res.FastAt(i) = func(a.FastAt(i), b.FastAt(i));
         }
@@ -60,9 +60,9 @@ namespace mat
     template <Matrix M, Matrix M2, typename F>
     constexpr void OperationMut(M& a, const M2& b, F&& func)
     {
-        if(b.Area() < a.Area()) 
+        if(b.Area() != a.Area()) 
         {
-            throw std::invalid_argument("arg is too big");
+            throw std::invalid_argument("arg a size must match b");
         }
         for(size_t i = 0; i < b.Area(); ++i)
         {
