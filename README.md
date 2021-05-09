@@ -20,6 +20,6 @@ generic operation functions supplied with lambdas are avaliable, they come with 
 * `void  OperationMut` the same as above but intended to mutate `a` or `b` instead of using the returned value to form the resulting matrix
 * `M     ScalarOperation` the `Operation` function but with a value instead of another matrix `func(a[0], v)`
 * `void  ScalarOperationMut` scalar variant of OperationMut
-* `ForEach` effectively std::foreach
+* `ForEach` effectively std::for_each
 
 if u want to do an operation that does not conform to the above then I recommend using `begin()`, `end()`, and `data()` methods with an existing std alg
