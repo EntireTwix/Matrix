@@ -19,7 +19,7 @@
             auto t1 = high_resolution_clock::now().time_since_epoch();   \
             f;                                                                     \
             auto t2 = high_resolution_clock::now().time_since_epoch();   \
-            res += (t2-t1).count();                                              \
+            res += std::chrono::duration_cast< std::chrono::nanoseconds >( (t2-t1) ).count();                               \
         }                                                                          \
         std::cout << res / 100000 <<'\n';               \
     }
