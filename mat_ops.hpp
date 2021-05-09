@@ -4,30 +4,23 @@
 #include "cmat.hpp"
 
 template <typename T>
-concept Printable = requires(T a)
-{
-    {std::cout<<a}->std::same_as<std::ostream&>;
-};
+concept Printable = requires(T a) { {std::cout<<a}->std::same_as<std::ostream&>; };
+template <typename T, typename T2> 
+concept Addable = requires(T a, T2 b) { {a+b}->std::convertible_to<T>; };
+template <typename T, typename T2> 
+concept AddableAs = requires(T a, T2 b) { {a+=b}->std::convertible_to<T>; };
 template <typename T, typename T2>
-concept Addable = requires(T a, T2 b)
-{
-    {a+b}->std::convertible_to<T>;
-};
+concept Subtractable = requires(T a, T2 b) { {a-b}->std::convertible_to<T>; };
+template <typename T, typename T2> 
+concept SubtractableAs = requires(T a, T2 b) { {a-=b}->std::convertible_to<T>; };
 template <typename T, typename T2>
-concept Subtractable = requires(T a, T2 b)
-{
-    {a-b}->std::convertible_to<T>;
-};
+concept Multipliable = requires(T a, T2 b) { {a*b}->std::convertible_to<T>; };
 template <typename T, typename T2>
-concept Multipliable = requires(T a, T2 b)
-{
-    {a*b}->std::convertible_to<T>;
-};
+concept MultipliableAs = requires(T a, T2 b) { {a*=b}->std::convertible_to<T>; };
 template <typename T, typename T2>
-concept Divideable = requires(T a, T2 b)
-{
-    {a/b}->std::convertible_to<T>;
-};
+concept Divideable = requires(T a, T2 b) { {a/b}->std::convertible_to<T>; };
+template <typename T, typename T2>
+concept DivideableAs = requires(T a, T2 b) { {a/=b}->std::convertible_to<T>; };
 
 namespace mat
 {
@@ -71,7 +64,7 @@ namespace mat
         }
         for(size_t i = 0; i < a.Area(); ++i)
         {
-            a.FastAt(i) =func(a.FastAt(i), b.FastAt(i));
+            func(a.FastAt(i), b.FastAt(i));
         }
     }
     template <Matrix M, typename F, typename T = typename M::type>
@@ -89,7 +82,7 @@ namespace mat
     {
         for(T& e : mat)
         {
-            e = func(e, v);
+            func(e, v);
         }
     }
 
@@ -98,54 +91,54 @@ namespace mat
     requires Addable<typename M::type, typename M2::type>
     constexpr M Add(const M& a, const M2& b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a+b; }); }
     template <Matrix M, Matrix M2>
-    requires Addable<typename M::type, typename M2::type>
-    constexpr void AddMut(M& a, const M2& b) { return OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ return a+b; }); }
+    requires AddableAs<typename M::type, typename M2::type>
+    constexpr void AddMut(M& a, const M2& b) { return OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a+=b; }); }
     template <Matrix M, typename T = typename M::type>
     requires Addable<typename M::type, T>
     constexpr M ScalarAdd(const M& mat, copy_fast_cv_t<T> v) noexcept { return ScalarOperation(mat, v, [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ return a+b; }); }
     template <Matrix M, typename T = typename M::type>
-    requires Addable<typename M::type, T>
-    constexpr void ScalarAddMut(M& mat, copy_fast_cv_t<T> v)  noexcept { return ScalarOperationMut(mat, v, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ return a+b; }); }
+    requires AddableAs<typename M::type, T>
+    constexpr void ScalarAddMut(M& mat, copy_fast_cv_t<T> v)  noexcept { return ScalarOperationMut(mat, v, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a+=b;; }); }
 
     //Sub
     template <Matrix M, Matrix M2>
     requires Subtractable<typename M::type, typename M2::type>
     constexpr M Sub(const M& a, const M2& b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a-b; }); }
     template <Matrix M, Matrix M2>
-    requires Subtractable<typename M::type, typename M2::type>
-    constexpr void SubMut(M& a, const M2& b) { return OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ return a-b; }); }
+    requires SubtractableAs<typename M::type, typename M2::type>
+    constexpr void SubMut(M& a, const M2& b) { return OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a-=b; }); }
     template <Matrix M, typename T = typename M::type>
     requires Subtractable<typename M::type, T>
     constexpr M ScalarSub(const M& mat, copy_fast_cv_t<T> v) noexcept { return ScalarOperation(mat, v, [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ return a-b; }); }
     template <Matrix M, typename T = typename M::type>
-    requires Subtractable<typename M::type, T>
-    constexpr void ScalarSubMut(M& mat, copy_fast_cv_t<T> v)  noexcept { return ScalarOperationMut(mat, v, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ return a-b; }); }
+    requires SubtractableAs<typename M::type, T>
+    constexpr void ScalarSubMut(M& mat, copy_fast_cv_t<T> v)  noexcept { return ScalarOperationMut(mat, v, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a-=b;; }); }
 
     //Mul
     template <Matrix M, Matrix M2>
     requires Multipliable<typename M::type, typename M2::type>
     constexpr M Mul(const M& a, const M2& b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a*b; }); }
     template <Matrix M, Matrix M2>
-    requires Multipliable<typename M::type, typename M2::type>
-    constexpr void MulMut(M& a, const M2& b) { return OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ return a*b; }); }
+    requires MultipliableAs<typename M::type, typename M2::type>
+    constexpr void MulMut(M& a, const M2& b) { return OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a*=b; }); }
     template <Matrix M, typename T = typename M::type>
     requires Multipliable<typename M::type, T>
     constexpr M ScalarMul(const M& mat, copy_fast_cv_t<T> v) noexcept { return ScalarOperation(mat, v, [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ return a*b; }); }
     template <Matrix M, typename T = typename M::type>
-    requires Multipliable<typename M::type, T>
-    constexpr void ScalarMulMut(M& mat, copy_fast_cv_t<T> v)  noexcept { return ScalarOperationMut(mat, v, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ return a*b; }); }
+    requires MultipliableAs<typename M::type, T>
+    constexpr void ScalarMulMut(M& mat, copy_fast_cv_t<T> v)  noexcept { return ScalarOperationMut(mat, v, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a*=b;; }); }
 
     //Div
     template <Matrix M, Matrix M2>
     requires Divideable<typename M::type, typename M2::type>
     constexpr M Div(const M& a, const M2& b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a/b; }); }
     template <Matrix M, Matrix M2>
-    requires Divideable<typename M::type, typename M2::type>
-    constexpr void DivMut(M& a, const M2& b) { return OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ return a/b; }); }
+    requires DivideableAs<typename M::type, typename M2::type>
+    constexpr void DivMut(M& a, const M2& b) { return OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a/=b; }); }
     template <Matrix M, typename T = typename M::type>
     requires Divideable<typename M::type, T>
     constexpr M ScalarDiv(const M& mat, copy_fast_cv_t<T> v) noexcept { return ScalarOperation(mat, v, [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ return a/b; }); }
     template <Matrix M, typename T = typename M::type>
-    requires Divideable<typename M::type, T>
-    constexpr void ScalarDivMut(M& mat, copy_fast_cv_t<T> v)  noexcept { return ScalarOperationMut(mat, v, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ return a/b; }); }
+    requires DivideableAs<typename M::type, T>
+    constexpr void ScalarDivMut(M& mat, copy_fast_cv_t<T> v)  noexcept { return ScalarOperationMut(mat, v, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a/=b;; }); }
 };
