@@ -93,12 +93,12 @@ namespace mat
     requires Addable<typename M::type, typename M2::type>
     constexpr M Add(const M& a, const M2& b) 
     {
-        if(b.Area() < a.Area()) 
+        if(b.Area() != a.Area()) 
         {
-            throw std::invalid_argument("arg is too big");
+            throw std::invalid_argument("arg a size must match b");
         }
-        M res(a.SizeCopy());
-        for(size_t i = 0; i < a.Area(); ++i)
+        M res(b.SizeCopy());
+        for(size_t i = 0; i < b.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) + b.FastAt(i);
         }
@@ -108,11 +108,11 @@ namespace mat
     requires AddableAs<typename M::type, typename M2::type>
     constexpr void AddMut(M& a, const M2& b) 
     {
-        if(b.Area() < a.Area()) 
+        if(b.Area() != a.Area()) 
         {
-            throw std::invalid_argument("arg is too big");
+            throw std::invalid_argument("arg a size must match b");
         }
-        for(size_t i = 0; i < a.Area(); ++i)
+        for(size_t i = 0; i < b.Area(); ++i)
         {
             a.FastAt(i) += b.FastAt(i);
         }
@@ -143,12 +143,12 @@ namespace mat
     requires Subtractable<typename M::type, typename M2::type>
     constexpr M Sub(const M& a, const M2& b) 
     {
-        if(b.Area() < a.Area()) 
+        if(b.Area() != a.Area()) 
         {
-            throw std::invalid_argument("arg is too big");
+            throw std::invalid_argument("arg a size must match b");
         }
-        M res(a.SizeCopy());
-        for(size_t i = 0; i < a.Area(); ++i)
+        M res(b.SizeCopy());
+        for(size_t i = 0; i < b.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) - b.FastAt(i);
         }
@@ -158,11 +158,11 @@ namespace mat
     requires SubtractableAs<typename M::type, typename M2::type>
     constexpr void SubMut(M& a, const M2& b) 
     {
-        if(b.Area() < a.Area()) 
+        if(b.Area() != a.Area()) 
         {
-            throw std::invalid_argument("arg is too big");
+            throw std::invalid_argument("arg a size must match b");
         }
-        for(size_t i = 0; i < a.Area(); ++i)
+        for(size_t i = 0; i < b.Area(); ++i)
         {
             a.FastAt(i) -= b.FastAt(i);
         }
@@ -193,12 +193,12 @@ namespace mat
     requires Multipliable<typename M::type, typename M2::type>
     constexpr M Mul(const M& a, const M2& b) 
     {
-        if(b.Area() < a.Area()) 
+        if(b.Area() != a.Area()) 
         {
-            throw std::invalid_argument("arg is too big");
+            throw std::invalid_argument("arg a size must match b");
         }
-        M res(a.SizeCopy());
-        for(size_t i = 0; i < a.Area(); ++i)
+        M res(b.SizeCopy());
+        for(size_t i = 0; i < b.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) * b.FastAt(i);
         }
@@ -208,11 +208,11 @@ namespace mat
     requires MultipliableAs<typename M::type, typename M2::type>
     constexpr void MulMut(M& a, const M2& b) 
     {
-        if(b.Area() < a.Area()) 
+        if(b.Area() != a.Area()) 
         {
-            throw std::invalid_argument("arg is too big");
+            throw std::invalid_argument("arg a size must match b");
         }
-        for(size_t i = 0; i < a.Area(); ++i)
+        for(size_t i = 0; i < b.Area(); ++i)
         {
             a.FastAt(i) *= b.FastAt(i);
         }
@@ -243,12 +243,12 @@ namespace mat
     requires Divideable<typename M::type, typename M2::type>
     constexpr M Div(const M& a, const M2& b) 
     {
-        if(b.Area() < a.Area()) 
+        if(b.Area() != a.Area()) 
         {
-            throw std::invalid_argument("arg is too big");
+            throw std::invalid_argument("arg a size must match b");
         }
-        M res(a.SizeCopy());
-        for(size_t i = 0; i < a.Area(); ++i)
+        M res(b.SizeCopy());
+        for(size_t i = 0; i < b.Area(); ++i)
         {
             res.FastAt(i) = a.FastAt(i) / b.FastAt(i);
         }
@@ -258,11 +258,11 @@ namespace mat
     requires DivideableAs<typename M::type, typename M2::type>
     constexpr void DivMut(M& a, const M2& b) 
     {
-        if(b.Area() < a.Area()) 
+        if(b.Area() != a.Area()) 
         {
-            throw std::invalid_argument("arg is too big");
+            throw std::invalid_argument("arg a size must match b");
         }
-        for(size_t i = 0; i < a.Area(); ++i)
+        for(size_t i = 0; i < b.Area(); ++i)
         {
             a.FastAt(i) /= b.FastAt(i);
         }
