@@ -1,3 +1,8 @@
+100x100
+signed 32 bits
+stack matrix is initilized to 4
+heap matrix is initilized to 3
+
 heap + heap
 2734
 heap + stack
