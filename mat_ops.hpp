@@ -91,7 +91,7 @@ namespace mat
     //Add
     template <Matrix M, Matrix M2>
     requires Addable<typename M::type, typename M2::type>
-    constexpr M Add(const M& a, const M2& b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a+b; }); }
+    constexpr M Add(const M& a, const M2& b) { return Operation(a, b, [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a+b; }); }
     template <Matrix M, Matrix M2>
     requires AddableAs<typename M::type, typename M2::type>
     constexpr void AddMut(M& a, const M2& b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a+=b; }); }
@@ -105,7 +105,7 @@ namespace mat
     //Sub
     template <Matrix M, Matrix M2>
     requires Subtractable<typename M::type, typename M2::type>
-    constexpr M Sub(const M& a, const M2& b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a-b; }); }
+    constexpr M Sub(const M& a, const M2& b) { return Operation(a, b, [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a-b; }); }
     template <Matrix M, Matrix M2>
     requires SubtractableAs<typename M::type, typename M2::type>
     constexpr void SubMut(M& a, const M2& b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a-=b; }); }
@@ -119,7 +119,7 @@ namespace mat
     //Mul
     template <Matrix M, Matrix M2>
     requires Multipliable<typename M::type, typename M2::type>
-    constexpr M Mul(const M& a, const M2& b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a*b; }); }
+    constexpr M Mul(const M& a, const M2& b) { return Operation(a, b, [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a*b; }); }
     template <Matrix M, Matrix M2>
     requires MultipliableAs<typename M::type, typename M2::type>
     constexpr void MulMut(M& a, const M2& b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a*=b; }); }
@@ -133,7 +133,7 @@ namespace mat
     //Div
     template <Matrix M, Matrix M2>
     requires Divideable<typename M::type, typename M2::type>
-    constexpr M Div(const M& a, const M2& b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a/b; }); }
+    constexpr M Div(const M& a, const M2& b) { return Operation(a, b, [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a/b; }); }
     template <Matrix M, Matrix M2>
     requires DivideableAs<typename M::type, typename M2::type>
     constexpr void DivMut(M& a, const M2& b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a/=b; }); }
