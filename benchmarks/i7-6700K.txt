@@ -4,7 +4,7 @@ stack matrix elements are arbitrarily initilized to 4
 heap matrix elements are arbitrarily initilized to 3
 
 heap + heap
-911
+2391
 heap + stack
 3045
 stack + stack
