@@ -15,7 +15,7 @@ a concept to avoid the cost of vtable lookup, also allows for generic operations
 ## [Operations](mat_ops.hpp)
 a set of generic operations that work with any type that qualifies as a Matrix via the concept. Future devolopment may include support for CUDA operations. 
 
-arithmetic operators are hand written to remove overhead, and generic operation functions are avaliable for anything else 
+arithmetic operators are hand written to remove overhead, and generic operation functions supplied with lambdas are avaliable for anything else and provide no overhead compared to hand written loop with a function call
 * `M     Operation` for taking two matrices and applying a function to each index of both `func(a[0], b[1])`
 * `void  OperationMut` the same as above but intended to mutate `a` or `b` instead of using the returned value to form the resulting matrix
 * `M     ScalarOperation` the `Operation` function but with a value instead of another matrix `func(a[0], v)`
