@@ -70,7 +70,7 @@ namespace mat
         }
     }
     template <Matrix M, typename F, typename T = typename M::type>
-    constexpr M ScalarOperation(const M& mat, copy_fast_cv_t<T> v, F&& func) noexcept
+    constexpr M ScalarOperation(const M& mat, copy_fast_cv_t<T> v, F&& func) 
     {
         M res(mat.SizeCopy());
         for(size_t i = 0; i < mat.Area(); ++i)
@@ -80,11 +80,19 @@ namespace mat
         return res;
     }
     template <Matrix M, typename F, typename T = typename M::type>
-    constexpr void ScalarOperationMut(M& mat, copy_fast_cv_t<T> v, F&& func)  noexcept
+    constexpr void ScalarOperationMut(M& mat, copy_fast_cv_t<T> v, F&& func)  
     {
         for(T& e : mat)
         {
             func(e, v);
+        }
+    }
+    template <Matrix M, typename F>
+    constexpr void ForEach(M& mat, F&& func)
+    {
+        for(T& e : mat)
+        {
+            func(e);
         }
     }
 
