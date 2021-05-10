@@ -42,6 +42,16 @@ namespace mat
         return os;
     }   
 
+    //Fill
+    template <Matrix M, typename T>
+    void Fill(M& m, copy_fast_cv_t<T> v)
+    {
+        for(auto& e : m)
+        {
+            e = v;
+        }
+    }
+
     //Generic Operations
     template <Matrix M, Matrix M2, typename F>
     constexpr M Operation(const M& a, const M2& b, F&& func)
