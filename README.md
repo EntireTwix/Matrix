@@ -5,7 +5,7 @@ Zero cost meaning the matrix abstraction provides programmatic utility without d
 
 a nice side effect of making operations very generic is any matrix implementation can interact with any other, you can use `stack` based matrices when size is known, recieving the performance advantages, and have them interact with `heap` based matrices with no consequence
 
-`cmat.hpp` and `mat_ops.hpp` use concepts a **C++20** exclusive feature, but the individual implementations are compatible with **C++11** and up
+`cmat.hpp` and `mat_ops.hpp` use concepts a **C++20** exclusive feature. But besides those, the individual matrix implementations are compatible with **C++11** and up.
 
 ### [Benchmarking](benchmarks)
 testing any generic w/lambda vs hand written results in the same time, which means there is no overhead to the generic operation. This can be found [here](https://github.com/EntireTwix/Matrix/blob/main/benchmarks/handwritten_vs_generic.cpp)
