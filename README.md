@@ -5,6 +5,9 @@ Zero cost meaning the matrix abstraction provides programmatic utility without d
 
 a nice side effect of making operations very generic is any matrix implementation can interact with any other, you can use `stack` based matrices when size is known, recieving the performance advantages, and have them interact with `heap` based matrices with no consequence
 
+### Compatability
+cmat.hpp and mat_ops.hpp are use `concepts` a C++20 exclusive feature, but the individual implementations are compatible with as low as C++11
+
 ### [sMat](smat.hpp)
 `STACK` based Matrix, use this where you would std::array. This implementation has the advantage of having constexpr support so that when applicable it can be done compile time
 
