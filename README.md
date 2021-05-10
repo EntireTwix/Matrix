@@ -22,7 +22,7 @@ generic operation functions supplied with lambdas are avaliable, they come with 
 * `void ScalarOperationMut` scalar variant of OperationMut
 * `void ForEach` effectively std::for_each
 
-if u want to do an operation that does not conform to the above then I recommend using `begin()`, `end()`, and `data()` methods with an existing std alg
+if u want to do an operation that does not conform to the above then I recommend making and then doing a PR so I can merge it in
 
 ### [Benchmarking](benchmarks)
 testing any generic w/lambda vs hand written results in the same time, which means there is no overhead to the generic operation. This can be found [here](https://github.com/EntireTwix/Matrix/blob/main/benchmarks/handwritten_vs_generic.cpp)
