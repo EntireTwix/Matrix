@@ -1,6 +1,6 @@
 #pragma once
 #include <stdexcept>
-#include "cmat.hpp"
+#include <stddef.h>
 
 namespace mat
 {
@@ -79,7 +79,7 @@ namespace mat
         //Size
         size_t Area() const noexcept { return Width() * Height(); }
         size_t Width() const noexcept { return w; }
-        size_t Height() const noexcept { return h; } 
+        size_t Height() const noexcept { return h; }
 
         //Indexing
         T &At(size_t x, size_t y) { return FastAt((y * (Width()) + x)); }
