@@ -3,7 +3,7 @@ a collection of header only zero cost matrix implementations for C++20
 
 Zero cost meaning the matrix abstraction provides programmatic utility without differing in performance from a hand written array manipulation.
 
-a nice side effect of making operations very generic is any matrix implementation can interact with any other, you can use stack based matrices when size is known, recieving the performance advantages, and have them interact with heap based matrices with no consequence
+a nice side effect of making operations very generic is any matrix implementation can interact with any other, you can use `stack` based matrices when size is known, recieving the performance advantages, and have them interact with `heap` based matrices with no consequence
 
 ### [sMat](smat.hpp)
 `STACK` based Matrix, use this where you would std::array. This implementation has the advantage of having constexpr support so that when applicable it can be done compile time
