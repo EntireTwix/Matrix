@@ -1,6 +1,6 @@
 #pragma once
 #include <stdexcept>
-#include "cmat.hpp"
+#include <stddef.h>
 
 namespace mat
 {
