@@ -69,7 +69,7 @@ int main()
 
 the only ASM difference being the file names
 
-+= being a call to the generic operation `OperationMut`
+`+=` being a call to the generic operation `OperationMut`
 ```cpp
 template <Matrix M, Matrix M2>
 requires AddableAs<typename M::type, typename M2::type>
