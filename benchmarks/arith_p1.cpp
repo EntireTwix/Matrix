@@ -5,7 +5,8 @@
 #include <algorithm>
 #include "hmat.hpp"
 #include "smat.hpp"
-#include "mat_ops.hpp"
+#include "operations/other_ops.hpp"
+#include "operations/arithmetic_ops.hpp"
 
 #include <ctime>
 #include <ratio>
