@@ -7,11 +7,6 @@ a nice side effect of making operations very generic is any matrix implementatio
 
 `cmat.hpp` and `mat_ops.hpp` use concepts a **C++20** exclusive feature. But besides those, the individual matrix implementations are compatible with **C++11** and up.
 
-### [Benchmarking](benchmarks)
-testing any generic w/lambda vs hand written results in the same time, which means there is no overhead to the generic operation. This can be found [here](https://github.com/EntireTwix/Matrix/blob/main/benchmarks/handwritten_vs_generic.cpp)
-
-all times in nanoseconds
-
 ## Implementation 
 
 #### [sMat](smat.hpp)
@@ -34,3 +29,52 @@ generic operation functions supplied with lambdas are avaliable, they come with 
 * `void ForEach` effectively std::for_each
 
 if u want to do an operation that does not conform to the above then I recommend making and then doing a PR so I can merge it in
+
+### [Benchmarking](benchmarks)
+testing any generic w/lambda vs hand written results in the same time, which means there is no overhead to the generic operation. This can be found [here](https://github.com/EntireTwix/Matrix/blob/main/benchmarks/handwritten_vs_generic.cpp)(all times in nanoseconds), 
+
+also the instructions were compared and no differences were found
+
+generic
+```cpp
+int main()
+{
+    using namespace mat;
+
+    hMat<int> a(100,100);
+    Fill(a, 3);
+    hMat<int> b(100,100);
+    Fill(b, 5);
+    a+=b;
+}
+```
+hand written
+```cpp
+int main()
+{
+    using namespace mat;
+
+    hMat<int> a(100,100);
+    Fill(a, 3);
+    hMat<int> b(100,100);
+    Fill(b, 5);
+
+    for(size_t i = 0; i < 10000; ++i)
+    {
+        a.FastAt(i)+=b.FastAt(i);
+    }
+}
+```
+![image](https://user-images.githubusercontent.com/31377881/117786562-7eaadf80-b1fa-11eb-9d6f-3d0b8eb164a9.png)
+
+the only ASM difference being the file names
+
++= being a call to the generic operation `OperationMut`
+```cpp
+template <Matrix M, Matrix M2>
+requires AddableAs<typename M::type, typename M2::type>
+constexpr void operator+=(M& a, const M2& b) 
+{ 
+  OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a+=b; }); 
+}    
+```
