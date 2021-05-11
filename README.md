@@ -33,7 +33,7 @@ if u want to do an operation that does not conform to the above then I recommend
 ### [Benchmarking](benchmarks)
 testing any generic w/lambda vs hand written results in the same time, which means there is no overhead to the generic operation. This can be found [here](https://github.com/EntireTwix/Matrix/blob/main/benchmarks/handwritten_vs_generic.cpp)(all times in nanoseconds), 
 
-also the instructions were compared and no differences were found
+additionally the instructions were compared and no differences were found
 
 generic
 ```cpp
@@ -65,9 +65,6 @@ int main()
     }
 }
 ```
-![image](https://user-images.githubusercontent.com/31377881/117786562-7eaadf80-b1fa-11eb-9d6f-3d0b8eb164a9.png)
-
-the only ASM difference being the file names
 
 `+=` being a call to the generic operation `OperationMut`
 ```cpp
