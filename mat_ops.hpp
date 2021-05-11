@@ -44,7 +44,7 @@ namespace mat
 
     //Fill
     template <Matrix M, typename T>
-    void Fill(M& m, copy_fast_cv_t<T> v)
+    void Fill(M& m, T&& v)
     {
         for(auto& e : m)
         {
