@@ -78,3 +78,17 @@ constexpr void operator+=(M& a, const M2& b)
   OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a+=b; }); 
 }    
 ```
+```cpp
+template <Matrix M, Matrix M2, typename F>
+constexpr void OperationMut(M& a, const M2& b, F&& func)
+{
+    if(b.Area() != a.Area()) 
+    {
+        throw std::invalid_argument("arg a size must match b");
+    }
+    for(size_t i = 0; i < b.Area(); ++i)
+    {
+        func(a.FastAt(i), b.FastAt(i));
+    }
+}
+```
