@@ -1,4 +1,5 @@
 #pragma once
+#include "generic_ops.hpp"
 #include "cmat.hpp"
 
 template <typename T, typename T2> 
