@@ -5,7 +5,7 @@ Zero cost meaning the matrix abstraction provides programmatic utility without d
 
 a nice side effect of making operations very generic is any matrix implementation can interact with any other, you can use `stack` based matrices when size is known, recieving the performance advantages, and have them interact with `heap` based matrices with no consequence
 
-While `cmat.hpp` and `mat_ops.hpp` require **C++20** the actual matrix implementations `smat.hpp` and `hmat.hpp` for example, do not, only requiring atleast **C++11**
+While `cmat.hpp` and anything that utilizes it, requires **C++20**. However the actual matrix implementations `smat.hpp` and `hmat.hpp` for example, do not, only requiring atleast **C++11**
 
 ## Implementation 
 
