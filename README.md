@@ -33,7 +33,7 @@ if u want to do an operation that does not conform to the above then I recommend
 ### [Benchmarking](benchmarks)
 testing any generic w/lambda vs hand written results in the same time, which means there is no overhead to the generic operation. This can be found [here](https://github.com/EntireTwix/Matrix/blob/main/benchmarks/handwritten_vs_generic.cpp)(all times in nanoseconds), 
 
-additionally the instructions were compared and no differences were found
+additionally the binaries were compared and no differences were found
 
 generic
 ```cpp
