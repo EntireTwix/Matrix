@@ -1,5 +1,5 @@
 #pragma once
-#include "cmat.hpp"
+#include "../cmat.hpp"
 
 namespace mat
 {
