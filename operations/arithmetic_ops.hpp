@@ -1,6 +1,5 @@
 #pragma once
 #include "generic_ops.hpp"
-#include "cmat.hpp"
 
 template <typename T, typename T2> 
 concept Addable = requires(T a, T2 b) { {a+b}->std::convertible_to<T>; };
