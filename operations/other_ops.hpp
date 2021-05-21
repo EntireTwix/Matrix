@@ -33,6 +33,7 @@ namespace mat
         }
     }
 
+    //ForEach
     template <Matrix M, typename F>
     constexpr void ForEach(M& mat, F&& func)
     {
