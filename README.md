@@ -25,12 +25,12 @@ and/or
 and then include the relevant operations for your usecase in the operations folder. Be sure to distiguish between 11+/20 depending on what version of C++ you're using, there are compile time advantages to C++20s concepts so I suggesting going with that if you can.
 
 #### Using Cuda
-for CUDA you can use the included CMake to link the CUDA operations by simply putting
+after doing the above, for CUDA you can use the included CMake to link the CUDA operations by simply putting
 ```cmake
-target_include_directories(${PROJECT_NAME} PUBLIC Matrix)
 add_subdirectory(Matrix)
 target_link_libraries(${PROJECT_NAME} matrix_cuda)
 ```
+**DISCLAIMER: CUDA is annoying in that its highest version is C++17**
 in your projects CMake file
 
 ## Implementation 
