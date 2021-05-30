@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5.1)
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 option(USE_CUDA "Use CUDA" ON)
 
-file(GLOB gpu_source_files "${CMAKE_CURRENT_LIST_DIR}/*.cu")
+file(GLOB gpu_source_files "${CMAKE_CURRENT_LIST_DIR}/operations/cuda/*.cu")
 
 if(USE_CUDA)
     find_package(CUDA)
