@@ -61,6 +61,7 @@ variants of the standard operations for versions below C++20
 
 #### [CUDA Operations](operations/cuda)
 **In Devolopment**
+GPU accelerated Matrix operations
 
 ### [Benchmarking](benchmarks)
 testing any generic w/lambda vs hand written results in the same time, which means there is no overhead to the generic operation. This can be found [here](https://github.com/EntireTwix/Matrix/blob/main/benchmarks/handwritten_vs_generic.cpp)(all times in nanoseconds), 
