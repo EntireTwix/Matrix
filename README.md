@@ -5,7 +5,33 @@ Zero cost meaning the matrix abstraction provides programmatic utility without d
 
 a nice side effect of making operations very generic is any matrix implementation can interact with any other, you can use `stack` based matrices when size is known, recieving the performance advantages, and have them interact with `heap` based matrices with no consequence
 
-`cmat.hpp` and anything that utilizes it, requires **C++20**. However the actual matrix implementations `smat.hpp` and `hmat.hpp` for example, do not, only requiring atleast **C++11**
+`cmat.hpp` and anything that utilizes it, requires **C++20**. However the actual matrix implementations `smat.hpp` and `hmat.hpp` for example, additionally there are **non-C++20** variants for the standard operations.
+
+## Usage
+
+#### Not Using Cuda
+add to include path
+```cmake
+target_include_directories(${PROJECT_NAME} PUBLIC Matrix)
+```
+as this is header only, simply include the implementation(s) of your choice
+```cpp
+#include "hmat.hpp"
+```
+and/or
+```cpp
+#include "smat.hpp"
+```
+and then include the relevant operations for your usecase in the operations folder. Be sure to distiguish between 11+/20 depending on what version of C++ you're using, there are compile time advantages to C++20s concepts so I suggesting going with that if you can.
+
+#### Using Cuda
+for CUDA you can use the included CMake to link the CUDA operations by simply putting
+```cmake
+target_include_directories(${PROJECT_NAME} PUBLIC Matrix)
+add_subdirectory(Matrix)
+target_link_libraries(${PROJECT_NAME} matrix_cuda)
+```
+in your projects CMake file
 
 ## Implementation 
 
@@ -18,7 +44,7 @@ a nice side effect of making operations very generic is any matrix implementatio
 #### [Matrix Concept](cmat.hpp) (C++20)
 a concept to avoid the cost of vtable lookup, also allows for generic operations and matrix implementations being interchangable, if the requirements for the concept are implemented it can mesh with any existing matrix operation. The only downside to this approach vs inheritance is there is a lot of implementation overlap that usually a parent class would implement
 
-#### [Operations](operations) (C++20)
+#### [Operations](operations/std/20) (C++20)
 a set of generic operations that work with any type that qualifies as a Matrix via the concept. Future devolopment may include support for CUDA operations. 
 
 generic operation functions supplied with lambdas are avaliable, they come with no overhead
@@ -28,7 +54,13 @@ generic operation functions supplied with lambdas are avaliable, they come with 
 * `void ScalarOperationMut` scalar variant of OperationMut
 * `void ForEach` effectively std::for_each
 
-if u want to do an operation that does not conform to the above then I recommend making and then performing a PR so I can merge it in
+if you want to do an operation that does not conform to the above then I recommend making and then performing a PR so I can merge it in
+
+#### [Operations](operations/std/11+) (non C++20)
+variants of the standard operations for versions below C++20
+
+#### [CUDA Operations](operations/cuda)
+**In Devolopment**
 
 ### [Benchmarking](benchmarks)
 testing any generic w/lambda vs hand written results in the same time, which means there is no overhead to the generic operation. This can be found [here](https://github.com/EntireTwix/Matrix/blob/main/benchmarks/handwritten_vs_generic.cpp)(all times in nanoseconds), 

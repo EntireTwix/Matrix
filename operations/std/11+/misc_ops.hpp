@@ -1,22 +1,13 @@
 #pragma once
 #include <iostream>
-#include "../cmat.hpp"
-
-template <typename T>
-concept Printable = requires(T a)
-{
-    {
-        std::cout << a
-    }
-    ->std::same_as<std::ostream &>;
-};
+#include "cmat.hpp" 
+#include "copy_fast.hpp"
 
 namespace mat
 {
     //Print
-    template <Matrix M>
-    requires Printable<typename M::type>
-        std::ostream &operator<<(std::ostream &os, const M &mat)
+    template <typename M>
+    std::ostream &operator<<(std::ostream &os, const M &mat)
     {
         for (size_t i = 0; i < mat.Height(); ++i)
         {
@@ -30,7 +21,7 @@ namespace mat
     }
 
     //Fill
-    template <Matrix M, typename T>
+    template <typename M, typename T>
     constexpr void Fill(M &m, T &&v)
     {
         for (auto &e : m)
@@ -40,7 +31,7 @@ namespace mat
     }
 
     //ForEach
-    template <Matrix M, typename F>
+    template <typename M, typename F>
     constexpr void ForEach(M &mat, F &&func)
     {
         for (typename M::type &e : mat)
