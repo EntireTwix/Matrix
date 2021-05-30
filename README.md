@@ -45,7 +45,7 @@ in your projects CMake file
 A concept to avoid the cost of vtable lookup, also allows for generic operations and matrix implementations being interchangable, if the requirements for the concept are implemented it can mesh with any existing matrix operation. The only downside to this approach vs inheritance is there is a lot of implementation overlap that usually a parent class would implement.
 
 #### [Operations](operations/std/20) (C++20)
-A set of generic operations that work with any type that qualifies as a Matrix via the concept. Future development may include support for CUDA operations. 
+A set of generic operations that work with any type that qualifies as a Matrix via the concept
 
 Generic operation functions supplied with lambdas are avaliable, they come with no overhead
 * `M Operation` for taking two matrices and applying a function to each index of both `func(a[0], b[1])`
