@@ -30,8 +30,8 @@ after doing the above, for CUDA you can use the included CMake to link the CUDA 
 add_subdirectory(Matrix)
 target_link_libraries(${PROJECT_NAME} matrix_cuda)
 ```
-**DISCLAIMER: CUDA is annoying in that its highest version is C++17**
 in your projects CMake file
+**DISCLAIMER: CUDA is annoying in that its highest version is C++17**
 
 ## Implementation 
 
