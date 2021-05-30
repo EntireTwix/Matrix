@@ -7,6 +7,32 @@ a nice side effect of making operations very generic is any matrix implementatio
 
 `cmat.hpp` and anything that utilizes it, requires **C++20**. However the actual matrix implementations `smat.hpp` and `hmat.hpp` for example, additionally there are **non-C++20** variants for the standard operations.
 
+## Usage
+
+#### Not Using Cuda
+add to include path
+```cmake
+target_include_directories(${PROJECT_NAME} PUBLIC Matrix)
+```
+as this is header only, simply include the implementation(s) of your choice
+```cpp
+#include "hmat.hpp"
+```
+and/or
+```cpp
+#include "smat.hpp"
+```
+and then include the relevant operations for your usecase in the operations folder. Be sure to distiguish between 11+/20 depending on what version of C++ you're using, there are compile time advantages to C++20s concepts so I suggesting going with that if you can.
+
+#### Using Cuda
+for CUDA you can use the included CMake to link the CUDA operations by simply putting
+```cmake
+target_include_directories(${PROJECT_NAME} PUBLIC Matrix)
+add_subdirectory(Matrix)
+target_link_libraries(${PROJECT_NAME} matrix_cuda)
+```
+in your projects CMake file
+
 ## Implementation 
 
 #### [sMat](smat.hpp)
