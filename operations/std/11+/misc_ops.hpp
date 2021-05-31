@@ -21,17 +21,17 @@ namespace mat
     }
 
     //Fill
-    template <typename M, typename T>
-    constexpr void Fill(M &m, T &&v)
+    template <typename M, typename T = typename M::type>
+    constexpr void Fill(M &mat, copy_fast_cv_t<T> v)
     {
-        for (auto &e : m)
+        for (auto &e : mat)
         {
             e = v;
         }
     }
 
     //ForEach
-    template <typename M, typename F>
+    template <Matrix M, typename F>
     constexpr void ForEach(M &mat, F &&func)
     {
         for (typename M::type &e : mat)

@@ -6,7 +6,7 @@
 template <typename T>
 concept Printable = requires(T a)
 {
-    {std::cout << a} ->std::same_as<std::ostream &>;
+    {std::cout << a} -> std::same_as<std::ostream &>;
 };
 
 namespace mat
@@ -28,10 +28,10 @@ namespace mat
     }
 
     //Fill
-    template <Matrix M, typename T>
-    constexpr void Fill(M &m, T &&v)
+    template <Matrix M, typename T = typename M::type>
+    constexpr void Fill(M &mat, copy_fast_cv_t<T> v)
     {
-        for (auto &e : m)
+        for (auto &e : mat)
         {
             e = v;
         }
