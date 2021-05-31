@@ -12,6 +12,10 @@ namespace mat
 
     public:
         using type = T;
+        
+        template <size_t W2, size_t H2>
+        using base = sMat<T, W2, H2>;
+        
         static constexpr size_t width = W;
         static constexpr size_t height = H;
         static constexpr size_t area = W*H;
