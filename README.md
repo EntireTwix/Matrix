@@ -60,7 +60,7 @@ if you want to do an operation that does not conform to the above then I recomme
 variants of the standard operations for versions below C++20
 
 #### [CUDA Operations](operations/cuda)
-**In Devolopment**
+**In Development**
 GPU accelerated Matrix operations
 
 ### [Benchmarking](benchmarks)
