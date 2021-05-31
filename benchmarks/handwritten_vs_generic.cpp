@@ -44,28 +44,16 @@ int main()
     std::cout << c << '\n';
 
     {
-        for (int &i : a)
-        {
-            i = 4;
-        }
+        Fill(a, 4);
+        Fill(b, 3);
 
-        for (int &i : b)
-        {
-            i = 3;
-        }
         time_func(a += b);
     }
 
     {
-        for (int &i : a)
-        {
-            i = 4;
-        }
+        Fill(a, 4);
+        Fill(b, 3);
 
-        for (int &i : b)
-        {
-            i = 3;
-        }
         time_func(for (size_t i = 0; i < 10000; ++i) {
             a.FastAt(i) += b.FastAt(i);
         });
