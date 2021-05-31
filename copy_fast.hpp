@@ -1,3 +1,5 @@
+#pragma once
+
 //CopyFast metaprogramming type
 template <typename T>
 struct copy_fast : std::conditional<std::is_trivially_copyable_v<T>, T, const T &>{};
