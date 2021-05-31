@@ -56,7 +56,7 @@ Generic operation functions supplied with lambdas are avaliable, they come with 
 
 if you want to do an operation that does not conform to the above then I recommend making and then performing a PR so I can merge it in
 
-#### [Operations](operations/std/11+) (non C++20)
+#### [Operations](operations/std/11+)
 variants of the standard operations for versions below C++20
 
 #### [CUDA Operations](operations/cuda)
