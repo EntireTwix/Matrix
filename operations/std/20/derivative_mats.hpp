@@ -4,11 +4,11 @@
 namespace mat
 {
     template <Matrix M>
-    constexpr auto FlattenedCopy(const M& mat) //unfortunately has to copy 
+    constexpr auto FlattenedCopy(const M& mat) 
     {
         if constexpr(ConstexprMatrix<M>)
         {
-            typename M::base<M::area, 1> res; //not implementation indepedent
+            typename M::base<M::area, 1> res;
             Copy(mat, res);
             return res;
         }
