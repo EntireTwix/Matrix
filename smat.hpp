@@ -12,6 +12,9 @@ namespace mat
 
     public:
         using type = T;
+        static constexpr size_t width = W;
+        static constexpr size_t height = H;
+        static constexpr size_t area = W*H;
 
         sMat() noexcept = default;
 
@@ -23,7 +26,7 @@ namespace mat
         constexpr T *data() { return &internal[0]; }
 
         //Size
-        constexpr size_t Area() const noexcept { return Width() * Height(); }
+        constexpr size_t Area() const noexcept { return area; }
         constexpr size_t Width() const noexcept { return W; }
         constexpr size_t Height() const noexcept { return H; }
 
@@ -48,6 +51,6 @@ namespace mat
             return internal[index];
         }
 
-        sMat SizeCopy() const noexcept { return sMat<T, W, H>(); }
+        constexpr sMat SizeCopy() const noexcept { return sMat<T, W, H>(); }
     };
 }
