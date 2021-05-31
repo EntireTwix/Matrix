@@ -26,10 +26,17 @@ namespace mat
         { a.SizeCopy() } -> std::same_as<T>;
     };
 
-    template <typename M>
+    template <typename M, size_t W = M::width, size_t H = M::height>
     concept ConstexprMatrix = Matrix<M> && requires(M a) {
+        typename M::base<W, H>;
+
         { M::area } -> std::convertible_to<size_t>;
         { M::width } -> std::convertible_to<size_t>;
         { M::height } -> std::convertible_to<size_t>;
+    };
+
+    template <typename M>
+    concept RuntimeMatrix = Matrix<M> && requires(M a) {
+        { a.Flatten() } -> std::same_as<void>;
     };
 }
