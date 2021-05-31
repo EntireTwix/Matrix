@@ -1,5 +1,5 @@
 #pragma once
-#include "is_constexpr_matrix.hpp"
+#include "is_constexpr_mat.hpp"
 
 namespace mat
 {
