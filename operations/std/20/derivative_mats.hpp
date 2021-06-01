@@ -18,5 +18,6 @@ namespace mat
             res.Flatten(); 
             return res; 
         }
+        return res;
     }
 }
