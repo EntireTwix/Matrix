@@ -26,9 +26,9 @@ namespace mat
         { a.SizeCopy() } -> std::same_as<T>;
     };
 
-    template <typename M, size_t W = M::width, size_t H = M::height>
+    template <typename M>
     concept ConstexprMatrix = Matrix<M> && requires(M a) {
-        typename M::base<W, H>;
+        typename M::base<0, 0>;
 
         { M::area } -> std::convertible_to<size_t>;
         { M::width } -> std::convertible_to<size_t>;
