@@ -68,19 +68,6 @@ testing any generic w/lambda vs hand written results in the same time, which mea
 
 additionally the binaries were compared and no differences were found
 
-generic
-```cpp
-int main()
-{
-    using namespace mat;
-
-    hMat<int> a(100,100);
-    Fill(a, 3);
-    hMat<int> b(100,100);
-    Fill(b, 5);
-    a+=b;
-}
-```
 hand written
 ```cpp
 int main()
@@ -98,7 +85,19 @@ int main()
     }
 }
 ```
+generic
+```cpp
+int main()
+{
+    using namespace mat;
 
+    hMat<int> a(100,100);
+    Fill(a, 3);
+    hMat<int> b(100,100);
+    Fill(b, 5);
+    a+=b;
+}
+```
 `+=` being a call to the generic operation `OperationMut`
 ```cpp
 template <Matrix M, Matrix M2>
