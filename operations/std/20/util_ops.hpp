@@ -25,7 +25,29 @@ namespace mat
     template <Matrix M, Matrix M2>
     constexpr void Copy(const M& src, M2& dest)
     {
-        if constexpr(std::same_as<M, M2>)
+        if constexpr(std::same_as<M, M2> && ConstexprMatrix<M>)
+        {
+            dest = src;
+        }
+        else
+        {
+            for(size_t i = 0; i < dest.Height(); ++i)
+            {
+                for(size_t j = 0; j < dest.Width(); ++j)
+                {
+                    if(j < src.Width() && i < src.Height()) 
+                    {
+                        dest.At(j, i) = src.At(j, i);
+                    }
+                }
+            }
+        }
+    }
+
+    template <Matrix M, Matrix M2>
+    constexpr void CopySameArea(const M& src, M2& dest)
+    {
+        if constexpr(std::same_as<M, M2> && ConstexprMatrix<M>)
         {
             dest = src;
         }
