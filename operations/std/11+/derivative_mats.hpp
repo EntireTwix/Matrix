@@ -1,6 +1,6 @@
 #pragma once
+#include <cstddef>
 #include "util_ops.hpp"
-#include "is_constexpr_mat.hpp"
 
 namespace mat
 {
@@ -19,5 +19,20 @@ namespace mat
             res.Flatten(); 
             return res; 
         }
+    }
+
+    template <typename M>
+    constexpr M Resize(const M& mat, size_t Width, size_t Height)
+    {     
+        M res(Width, Height);
+        Copy(mat, res);
+        return res;
+    }
+    template <typename M, size_t W, size_t H>
+    constexpr auto Resize(const M& mat)
+    {     
+        typename M::base<W, H> res;
+        Copy(mat, res);
+        return res;
     }
 }
