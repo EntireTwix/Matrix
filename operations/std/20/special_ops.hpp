@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "cmat.hpp"
+#include "depedencies/cmat.hpp"
 
 template <typename T>
 concept Printable = requires(T a)
