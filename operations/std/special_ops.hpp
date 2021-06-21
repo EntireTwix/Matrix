@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "depedencies/v_sep.hpp"
 
 #ifdef __cpp_concepts 
 #include "depedencies/cmat.hpp"
@@ -13,7 +14,7 @@ concept Printable = requires(T a)
 
 namespace mat
 {
-    template <Matrix M>
+    template <MATRIX_TYPENAME M>
     #ifdef __cpp_concepts 
     requires Printable<typename M::type>
     #endif

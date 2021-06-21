@@ -1,10 +1,11 @@
-//C++20 Exlcusive
 #pragma once
 #include <stddef.h>
-#include <concepts>
 
 namespace mat
 {
+    #ifdef __cpp_concepts 
+    #include <concepts>
+
     template <typename T>
     concept Matrix = requires(T a, const T b) {
         typename T::type;
@@ -40,4 +41,13 @@ namespace mat
     concept RuntimeMatrix = Matrix<M> && requires(M a) {
         { a.Flatten() } -> std::same_as<void>;
     };
+    #else
+    template <auto E>
+    struct has_constexpr_element : std::integral_constant<decltype(E), E> {};
+
+    template <typename M>
+    using is_constexpr_matrix = has_constexpr_element<M::area>;
+    template <typename T>
+    using is_constexpr_matrix_v = is_constexpr_matrix<T>::value;
+    #endif
 }

@@ -1,9 +1,5 @@
 #pragma once
-#ifdef __cpp_concepts 
 #include "depedencies/cmat.hpp"
-#else
-#include "depedencies/is_constexpr_mat.hpp"
-#endif
 #include "depedencies/copy_fast.hpp"
 
 namespace mat

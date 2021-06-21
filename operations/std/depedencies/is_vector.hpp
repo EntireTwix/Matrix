@@ -1,7 +1,7 @@
 #pragma once
 #include <cassert>
 #include "v_sep.hpp"
-#include EXCLU_C20_ELSE("cmat.hpp", "is_constexpr_mat.hpp")
+#include "cmat.hpp"
 #include "copy_fast.hpp"
 
 namespace mat
