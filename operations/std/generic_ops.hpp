@@ -45,3 +45,8 @@ namespace mat
         }
     }
 };
+
+
+//may mark as noexcept
+//need to benchmark
+//update README

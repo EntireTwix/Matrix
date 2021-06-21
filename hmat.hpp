@@ -103,7 +103,6 @@ namespace mat
         }
 
         void Flatten() { w *= h; h = 1; }
-        hMat SizeCopy() const noexcept { return hMat(w, h); }
 
         ~hMat() { delete[] internal; }
     };

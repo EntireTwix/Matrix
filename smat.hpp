@@ -54,7 +54,5 @@ namespace mat
             }
             return internal[index];
         }
-
-        constexpr sMat SizeCopy() const noexcept { return sMat<T, W, H>(); }
     };
 }
