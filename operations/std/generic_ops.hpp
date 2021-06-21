@@ -11,11 +11,7 @@ namespace mat
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
     constexpr M Operation(const M& a, const M2& b, F &&func)
     {
-        if (b.Area() != a.Area())
-        {
-            throw std::invalid_argument("arg a size must match b");
-        }
-        M res(a.SizeCopy());
+        M res(a);
         for (size_t i = 0; i < b.Area(); ++i)
         {
             res.FastAt(i) = func(a.FastAt(i), b.FastAt(i));
@@ -23,12 +19,8 @@ namespace mat
         return res;
     }
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
-    constexpr void OperationMut(M &a, const M2&     b, F &&func)
+    constexpr void OperationMut(M &a, const M2& b, F &&func)
     {
-        if (b.Area() != a.Area())
-        {
-            throw std::invalid_argument("arg a size must match b");
-        }
         for (size_t i = 0; i < b.Area(); ++i)
         {
             func(a.FastAt(i), b.FastAt(i));
@@ -37,7 +29,7 @@ namespace mat
     template <MATRIX_TYPENAME M, typename F, typename T = typename M::type>
     constexpr M ScalarOperation(const M& mat, T&& v, F &&func)
     {
-        M res(mat.SizeCopy());
+        M res(mat);
         for (size_t i = 0; i < mat.Area(); ++i)
         {
             res.FastAt(i) = func(mat.FastAt(i), v);

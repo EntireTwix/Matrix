@@ -24,8 +24,6 @@ namespace mat
         { a.At(0,0) } -> std::convertible_to<typename T::type>;
         { a.FastAt(0) } -> std::convertible_to<typename T::type&>;
         { a.FastAt(0) } -> std::convertible_to<typename T::type>;
-    
-        { a.SizeCopy() } -> std::same_as<T>;
     };
 
     template <typename M>
