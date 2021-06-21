@@ -18,3 +18,15 @@
 #else
 #define MATRIX_TYPENAME typename
 #endif
+
+#ifdef __cpp_concepts  
+#define RUNTIME_MATRIX_TYPENAME RuntimeMatrix
+#else
+#define RUNTIME_MATRIX_TYPENAME typename
+#endif
+
+#ifdef __cpp_concepts  
+#define CONSTEXPR_MATRIX_TYPENAME ConstexprMatrix
+#else
+#define CONSTEXPR_MATRIX_TYPENAME typename
+#endif
