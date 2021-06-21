@@ -1,13 +1,15 @@
 #pragma once
 #include <cassert>
-#include "depedencies/cmat.hpp"
+#include "v_sep.hpp"
+#include "cmat.hpp"
+#include "copy_fast.hpp"
 
 namespace mat
 {
-    template <Matrix M>
-    constexpr void IsVector(const M &mat)
+    template <MATRIX_TYPENAME M>
+    constexpr void IsVector(copy_fast_cv_t<M> mat)
     {
-        if constexpr (ConstexprMatrix<M>)
+        if constexpr (EXCLU_C20_ELSE(ConstexprMatrix<M>, is_constexpr_matrix_v<M>))
         {
             static_assert(mat.Width() == 1 || mat.Height() == 1);
         }

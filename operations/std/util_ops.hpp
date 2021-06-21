@@ -1,11 +1,11 @@
 #pragma once
-#include "depedencies/is_constexpr_mat.hpp"
-#include "copy_fast.hpp"
+#include "depedencies/cmat.hpp"
+#include "depedencies/copy_fast.hpp"
 
 namespace mat
 {
-    template <typename M, typename T = typename M::type>
-    constexpr void Fill(M &mat, copy_fast_cv_t<T> v)
+    template <Matrix M, typename T = typename M::type>
+    constexpr void Fill(M &mat, T&& v)
     {
         for (typename M::type &e : mat)
         {
@@ -13,7 +13,7 @@ namespace mat
         }
     }
 
-    template <typename M, typename F>
+    template <Matrix M, typename F>
     constexpr void ForEach(M &mat, F &&func)
     {
         for (typename M::type &e : mat)
@@ -22,10 +22,10 @@ namespace mat
         }
     }
 
-    template <typename M, typename M2>
+    template <Matrix M, Matrix M2>
     constexpr void Copy(const M &src, M2 &dest)
     {
-        if constexpr (std::is_same_v<M, M2> && is_constexpr_matrix_v<M>)
+        if constexpr (std::is_same_v<M, M2> && ConstexprMatrix<M>)
         {
             dest = src;
         }
@@ -44,10 +44,10 @@ namespace mat
         }
     }
 
-    template <typename M, typename M2>
+    template <Matrix M, Matrix M2>
     constexpr void CopySameArea(const M &src, M2 &dest)
     {
-        if constexpr (std::is_same_v<M, M2> && is_constexpr_matrix_v<M>)
+        if constexpr (std::same_as<M, M2> && ConstexprMatrix<M>)
         {
             dest = src;
         }
