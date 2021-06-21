@@ -103,14 +103,10 @@ constexpr void operator+=(M& a, const M2& b)
 }    
 ```
 ```cpp
-template <Matrix M, Matrix M2, typename F>
-constexpr void OperationMut(M& a, const M2& b, F&& func)
+template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
+constexpr void OperationMut(M &a, const M2& b, F &&func)
 {
-    if(b.Area() != a.Area()) 
-    {
-        throw std::invalid_argument("arg a size must match b");
-    }
-    for(size_t i = 0; i < b.Area(); ++i)
+    for (size_t i = 0; i < b.Area(); ++i)
     {
         func(a.FastAt(i), b.FastAt(i));
     }

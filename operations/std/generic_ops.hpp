@@ -27,7 +27,7 @@ namespace mat
         }
     }
     template <MATRIX_TYPENAME M, typename F, typename T = typename M::type>
-    constexpr M ScalarOperation(const M& mat, T&& v, F &&func)
+    constexpr M ScalarOperation(const M& mat, copy_fast_cv_t<T> v, F &&func)
     {
         M res(mat);
         for (size_t i = 0; i < mat.Area(); ++i)
@@ -45,8 +45,3 @@ namespace mat
         }
     }
 };
-
-
-//may mark as noexcept
-//need to benchmark
-//update README
