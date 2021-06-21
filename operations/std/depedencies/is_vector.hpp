@@ -9,7 +9,7 @@ namespace mat
     template <MATRIX_TYPENAME M>
     constexpr void IsVector(copy_fast_cv_t<M> mat)
     {
-        if constexpr (EXCLU_C20_ELSE(ConstexprMatrix<M>, is_constexpr_matrix_v<M>))
+        if constexpr (ConstexprMatrix<M>)
         {
             static_assert(mat.Width() == 1 || mat.Height() == 1);
         }
