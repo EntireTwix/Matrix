@@ -1,5 +1,5 @@
 #pragma once
-#include "depdencies/is_constexpr_mat.hpp"
+#include "depedencies/is_constexpr_mat.hpp"
 #include "copy_fast.hpp"
 
 namespace mat

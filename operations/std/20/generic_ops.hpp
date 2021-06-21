@@ -1,5 +1,5 @@
 #pragma once
-#include "cmat.hpp" 
+#include "depedencies/cmat.hpp"
 #include "copy_fast.hpp"
 
 namespace mat

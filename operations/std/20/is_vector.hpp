@@ -1,6 +1,6 @@
 #pragma once
 #include <cassert>
-#include "cmat.hpp"
+#include "depedencies/cmat.hpp"
 
 namespace mat
 {
