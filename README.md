@@ -50,7 +50,6 @@ Generic operation functions supplied with lambdas are avaliable, they come with 
 * `void OperationMut` the same as above but intended to mutate `a` or `b` instead of using the returned value to form the resulting matrix
 * `M ScalarOperation` the `Operation` function but with a value instead of another matrix `func(a[0], v)`
 * `void ScalarOperationMut` scalar variant of OperationMut
-* `void ForEach` effectively std::for_each
 
 if you want to do an operation that does not conform to the above then I recommend making and then performing a PR so I can merge it in
 
