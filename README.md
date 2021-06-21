@@ -5,7 +5,7 @@ Zero cost meaning the matrix abstraction provides programmatic utility without d
 
 A nice side effect of making operations very generic is any matrix implementation can interact with any other, you can use `stack` based matrices when size is known, recieving the performance advantages, and have them interact with `heap` based matrices with no consequence
 
-`cmat.hpp` and anything that utilizes it, requires **C++20**. However, the actual matrix implementations `smat.hpp` and `hmat.hpp` for example do not, additionally there are **non-C++20** variants for the standard operations.
+some files such as `cmat.hpp` and anything that uses it, are **C++20** exclusive
 
 ## Usage
 
@@ -44,8 +44,8 @@ in your projects CMake file
 #### [Matrix Concept](cmat.hpp) (C++20)
 A concept to avoid the cost of vtable lookup, also allows for generic operations and matrix implementations being interchangable, if the requirements for the concept are implemented it can mesh with any existing matrix operation. The only downside to this approach vs inheritance is there is a lot of implementation overlap that usually a parent class would implement.
 
-#### [Operations](operations/std/20) (C++20)
-A set of generic operations that work with any type that qualifies as a Matrix via the concept
+#### [Operations](operations/std)
+A set of generic operations that work with any type that qualifies as a Matrix via the concept (if compiling with C++20)
 
 Generic operation functions supplied with lambdas are avaliable, they come with no overhead
 * `M Operation` for taking two matrices and applying a function to each index of both `func(a[0], b[1])`
@@ -55,9 +55,6 @@ Generic operation functions supplied with lambdas are avaliable, they come with 
 * `void ForEach` effectively std::for_each
 
 if you want to do an operation that does not conform to the above then I recommend making and then performing a PR so I can merge it in
-
-#### [Operations](operations/std/11+)
-variants of the standard operations for versions below C++20
 
 #### [CUDA Operations](operations/cuda)
 **In Development**

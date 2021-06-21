@@ -1,11 +1,15 @@
 #pragma once
+#include "depedencies/copy_fast.hpp"
+#include "depedencies/v_sep.hpp"
+
+#ifdef __cpp_concepts 
 #include "depedencies/cmat.hpp"
-#include "copy_fast.hpp"
+#endif
 
 namespace mat
 {
-    template <Matrix M, Matrix M2, typename F>
-    constexpr M Operation(const M &a, const M2 &b, F &&func)
+    template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
+    constexpr M Operation(const M& a, const M2& b, F &&func)
     {
         if (b.Area() != a.Area())
         {
@@ -18,8 +22,8 @@ namespace mat
         }
         return res;
     }
-    template <Matrix M, Matrix M2, typename F>
-    constexpr void OperationMut(M &a, const M2 &b, F &&func)
+    template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
+    constexpr void OperationMut(M &a, const M2&     b, F &&func)
     {
         if (b.Area() != a.Area())
         {
@@ -30,8 +34,8 @@ namespace mat
             func(a.FastAt(i), b.FastAt(i));
         }
     }
-    template <Matrix M, typename F, typename T = typename M::type>
-    constexpr M ScalarOperation(const M &mat, copy_fast_cv_t<T> v, F &&func)
+    template <MATRIX_TYPENAME M, typename F, typename T = typename M::type>
+    constexpr M ScalarOperation(const M& mat, T&& v, F &&func)
     {
         M res(mat.SizeCopy());
         for (size_t i = 0; i < mat.Area(); ++i)
@@ -40,8 +44,8 @@ namespace mat
         }
         return res;
     }
-    template <Matrix M, typename F, typename T = typename M::type>
-    constexpr void ScalarOperationMut(M &mat, copy_fast_cv_t<T> v, F &&func)
+    template <MATRIX_TYPENAME M, typename F, typename T = typename M::type>
+    constexpr void ScalarOperationMut(M &mat, T&& v, F &&func)
     {
         for (T &e : mat)
         {

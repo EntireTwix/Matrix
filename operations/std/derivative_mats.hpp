@@ -4,7 +4,7 @@
 namespace mat
 {
     template <Matrix M>
-    constexpr auto FlattenedCopy(const M& mat) 
+    constexpr auto FlattenedCopy(copy_fast_cv_t<M> mat) 
     {
         if constexpr(ConstexprMatrix<M>)
         {
@@ -22,14 +22,14 @@ namespace mat
     }
 
     template <RuntimeMatrix M>
-    constexpr M Resize(const M& mat, size_t Width, size_t Height)
+    constexpr M Resize(copy_fast_cv_t<M> mat, size_t Width, size_t Height)
     {     
         M res(Width, Height);
         Copy(mat, res);
         return res;
     }
     template <ConstexprMatrix M, size_t W, size_t H>
-    constexpr auto Resize(const M& mat)
+    constexpr auto Resize(copy_fast_cv_t<M> mat)
     {     
         typename M::base<W, H> res;
         Copy(mat, res);

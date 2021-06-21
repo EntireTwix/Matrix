@@ -1,3 +1,4 @@
+//cmat.hpp's ConstexprMatrix concept for versions less then C++20
 #pragma once
 
 template <auto E>
