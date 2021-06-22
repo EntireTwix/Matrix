@@ -19,7 +19,6 @@ and/or
 ```cpp
 #include "smat.hpp"
 ```
-Then include the relevant operations for your usecase in the operations folder. Be sure to distiguish between 11+/20. Depending on what version of C++ you're using, there are compile time advantages to C++20s concepts so I suggesting going with that if you can.
 
 #### Optional CUDA usage
 After doing the above, for CUDA you can use the included CMake to link the CUDA operations by simply putting
