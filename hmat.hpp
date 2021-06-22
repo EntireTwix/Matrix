@@ -30,7 +30,7 @@ namespace mat
         }
         hMat &operator=(const hMat &m) noexcept
         {
-            if((w != m.w || h != m.h) && (Area() != m.Area()))
+            if(Area() != m.Area())
             {
                 if (internal)
                 {
@@ -40,7 +40,7 @@ namespace mat
                 h = m.h;
                 this->internal = new T[w * h]{}; //allocate and default initialize
             }
-            else if(Area() == m.Area()) //same area wrong dims
+            else if(w != m.w || h != m.h)
             {
                 w = m.w;
                 h = m.h;
