@@ -23,11 +23,7 @@ namespace mat
         hMat(const hMat &m) noexcept : w(m.w), h(m.h)
         {
             this->internal = new T[w * h]{}; //allocate and default initialize
-            //may replace with memcpy
-            for (size_t i = 0; i < this->Area(); ++i)
-            {
-                this->internal[i] = m.internal[i];
-            }
+            memcpy(internal, m.internal, this->Area()*sizeof(T));
         }
         hMat &operator=(const hMat &m) noexcept
         {
