@@ -1,5 +1,5 @@
 # Matrix 
-A collection of header only zero cost matrix implementations for **C++20** & **C++17** with CUDA
+A header only zero cost matrix library for C++20 or C++17 w/CUDA 
 
 Zero cost meaning the matrix abstraction provides programmatic utility without differing in performance from a hand written array manipulation.
 
@@ -34,10 +34,10 @@ in your projects CMake file
 ## Implementation 
 
 #### [sMat](smat.hpp)
-`STACK` based Matrix, use this where you would std::array. This implementation has the advantage of having constexpr support so that when applicable it can be done compile time
+`STACK` based Matrix, use this where you would `std::array`. This implementation has the advantage of having constexpr support so that when applicable it can be done compile time
 
 #### [hMat](hmat.hpp)
-`HEAP` based Matrix, use this where you would std::vector
+`HEAP` based Matrix, use this where you would `std::vector`
 
 #### [Matrix Concept](cmat.hpp) (C++20)
 A concept to avoid the cost of vtable lookup, also allows for generic operations and matrix implementations being interchangable, if the requirements for the concept are implemented it can mesh with any existing matrix operation. The only downside to this approach vs inheritance is there is a lot of implementation overlap that usually a parent class would implement.
