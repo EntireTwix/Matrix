@@ -23,7 +23,7 @@ namespace mat
     }
 
     template <Matrix M, Matrix M2>
-    constexpr void Copy(const M &src, M2 &dest)
+    constexpr void CopyTrunc(const M &src, M2 &dest)
     {
         for (size_t i = 0; i < dest.Height(); ++i)
         {

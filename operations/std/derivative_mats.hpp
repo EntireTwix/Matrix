@@ -32,7 +32,7 @@ namespace mat
         else
         {
             M res(Width, Height);
-            Copy(mat, res);
+            CopyTrunc(mat, res);
             return res;
         }
     }
@@ -46,7 +46,7 @@ namespace mat
         else 
         {
             typename M::base<W, H> res;
-            Copy(mat, res);
+            CopyTrunc(mat, res);
             return res;
         }
     }
