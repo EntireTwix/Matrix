@@ -1,4 +1,5 @@
 #pragma once
+#include <cstring>
 #include <stdexcept>
 #include <stddef.h>
 
@@ -45,11 +46,7 @@ namespace mat
                 w = m.w;
                 h = m.h;
             }
-            //may replace with memcpy
-            for (size_t i = 0; i < this->Area(); ++i)
-            {
-                this->internal[i] = m.internal[i];
-            }
+            memcpy(internal, m.internal, this->Area()*sizeof(T));
             return *this;
         }
         hMat(hMat &&m) noexcept : w(m.w), h(m.h)
