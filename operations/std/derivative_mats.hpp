@@ -25,7 +25,7 @@ namespace mat
     template <RUNTIME_MATRIX_TYPENAME M>
     constexpr M Resize(const M& mat, size_t Width, size_t Height)
     {    
-        if(mat.Width() == Width() && mat.Height() == Height())
+        if(mat.Width() == Width && mat.Height() == Height)
         {
             return mat;
         }
@@ -39,7 +39,7 @@ namespace mat
     template <CONSTEXPR_MATRIX_TYPENAME M, size_t W, size_t H>
     constexpr auto Resize(const M& mat)
     {    
-        if(mat.Width() == Width() && mat.Height() == Height())
+        if(mat.Width() == W && mat.Height() == H)
         {
             return mat;
         }
