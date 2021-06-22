@@ -5,7 +5,7 @@
 namespace mat
 {
     template <Matrix M, typename T = typename M::type>
-    constexpr void Fill(M &mat, T&& v)
+    constexpr void Fill(M &mat, copy_fast_cv_t<T> v)
     {
         for (typename M::type &e : mat)
         {
