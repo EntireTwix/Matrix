@@ -29,13 +29,16 @@ namespace mat
         }
         hMat &operator=(const hMat &m) noexcept
         {
-            if (internal)
+            if(w != m.w || h != m.h)
             {
-                delete[] internal;
+                if (internal)
+                {
+                    delete[] internal;
+                }
+                w = m.w;
+                h = m.h;
+                this->internal = new T[w * h]{}; //allocate and default initialize
             }
-            w = m.w;
-            h = m.h;
-            this->internal = new T[w * h]{}; //allocate and default initialize
             for (size_t i = 0; i < this->Area(); ++i)
             {
                 this->internal[i] = m.internal[i];
