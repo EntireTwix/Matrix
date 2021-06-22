@@ -25,20 +25,13 @@ namespace mat
     template <Matrix M, Matrix M2>
     constexpr void Copy(const M &src, M2 &dest)
     {
-        if constexpr (std::is_same_v<M, M2> && ConstexprMatrix<M>)
+        for (size_t i = 0; i < dest.Height(); ++i)
         {
-            dest = src;
-        }
-        else
-        {
-            for (size_t i = 0; i < dest.Height(); ++i)
+            for (size_t j = 0; j < dest.Width(); ++j)
             {
-                for (size_t j = 0; j < dest.Width(); ++j)
+                if (j < src.Width() && i < src.Height())
                 {
-                    if (j < src.Width() && i < src.Height())
-                    {
-                        dest.At(j, i) = src.At(j, i);
-                    }
+                    dest.At(j, i) = src.At(j, i);
                 }
             }
         }
@@ -47,22 +40,14 @@ namespace mat
     template <Matrix M, Matrix M2>
     constexpr void CopySameArea(const M &src, M2 &dest)
     {
-        if constexpr (std::same_as<M, M2> && ConstexprMatrix<M>)
+        if (src.Area() != dest.Area())
         {
-            dest = src;
+            throw std::invalid_argument("must be same Area if of different Matrix types");
         }
-        else
+        //may replace with memcpy
+        for (size_t i = 0; i < src.Area(); ++i)
         {
-            if (src.Area() != dest.Area())
-            {
-                throw std::invalid_argument("must be same Area if of different Matrix types");
-            }
-            for (size_t i = 0; i < src.Area(); ++i)
-            {
-                dest.FastAt(i) = src.FastAt(i);
-            }
+            dest.FastAt(i) = src.FastAt(i);
         }
     }
 };
-
-//NEEDS C++17 support

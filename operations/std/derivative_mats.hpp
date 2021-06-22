@@ -24,16 +24,30 @@ namespace mat
 
     template <RUNTIME_MATRIX_TYPENAME M>
     constexpr M Resize(const M& mat, size_t Width, size_t Height)
-    {     
-        M res(Width, Height);
-        Copy(mat, res);
-        return res;
+    {    
+        if(mat.Width() == Width() && mat.Height() == Height())
+        {
+            return mat;
+        }
+        else
+        {
+            M res(Width, Height);
+            Copy(mat, res);
+            return res;
+        }
     }
     template <CONSTEXPR_MATRIX_TYPENAME M, size_t W, size_t H>
     constexpr auto Resize(const M& mat)
-    {     
-        typename M::base<W, H> res;
-        Copy(mat, res);
-        return res;
+    {    
+        if(mat.Width() == Width() && mat.Height() == Height())
+        {
+            return mat;
+        }
+        else 
+        {
+            typename M::base<W, H> res;
+            Copy(mat, res);
+            return res;
+        }
     }
 }
