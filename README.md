@@ -93,12 +93,11 @@ int main()
 ```
 `+=` being a call to the generic operation `OperationMut`
 ```cpp
-template <Matrix M, Matrix M2>
+template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
+#ifdef __cpp_concepts 
 requires AddableAs<typename M::type, typename M2::type>
-constexpr void operator+=(M& a, const M2& b) 
-{ 
-  OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a+=b; }); 
-}    
+#endif
+constexpr void operator+=(M& a, const M2&b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a+=b; }); }
 ```
 ```cpp
 template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
