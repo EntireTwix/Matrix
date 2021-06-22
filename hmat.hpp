@@ -22,6 +22,7 @@ namespace mat
         hMat(const hMat &m) noexcept : w(m.w), h(m.h)
         {
             this->internal = new T[w * h]{}; //allocate and default initialize
+            //may replace with memcpy
             for (size_t i = 0; i < this->Area(); ++i)
             {
                 this->internal[i] = m.internal[i];
@@ -29,7 +30,7 @@ namespace mat
         }
         hMat &operator=(const hMat &m) noexcept
         {
-            if(w != m.w || h != m.h)
+            if((w != m.w || h != m.h) && (Area() == m.Area()))
             {
                 if (internal)
                 {
@@ -39,6 +40,12 @@ namespace mat
                 h = m.h;
                 this->internal = new T[w * h]{}; //allocate and default initialize
             }
+            else //same area wrong dims
+            {
+                w = m.w;
+                h = m.h;
+            }
+            //may replace with memcpy
             for (size_t i = 0; i < this->Area(); ++i)
             {
                 this->internal[i] = m.internal[i];
