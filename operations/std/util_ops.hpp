@@ -42,7 +42,7 @@ namespace mat
     {
         if (src.Area() != dest.Area())
         {
-            throw std::invalid_argument("must be same Area if of different Matrix types");
+            throw std::invalid_argument("CopySameArea: must be same Area if of different Matrix types");
         }
         if constexpr(std::is_same_v<M, M2>)
         {
