@@ -30,7 +30,7 @@ namespace mat
         }
         hMat &operator=(const hMat &m) noexcept
         {
-            if((w != m.w || h != m.h) && (Area() == m.Area()))
+            if((w != m.w || h != m.h) && (Area() != m.Area()))
             {
                 if (internal)
                 {
