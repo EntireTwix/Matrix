@@ -74,10 +74,7 @@ namespace mat
         }
 
         //Iterators
-        T *begin() noexcept
-        {
-            return &internal[0];
-        }
+        T *begin() noexcept { return &internal[0]; }
         T *end() noexcept { return &internal[this->Area()]; }
         const T *begin() const noexcept { return &internal[0]; }
         const T *end() const noexcept { return &internal[this->Area()]; }
