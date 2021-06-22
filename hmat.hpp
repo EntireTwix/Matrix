@@ -40,7 +40,7 @@ namespace mat
                 h = m.h;
                 this->internal = new T[w * h]{}; //allocate and default initialize
             }
-            else //same area wrong dims
+            else if(Area() == m.Area()) //same area wrong dims
             {
                 w = m.w;
                 h = m.h;
