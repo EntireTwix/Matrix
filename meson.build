@@ -1,7 +1,7 @@
 project('matrix', 'cpp', default_options : ['cpp_std=c++17'])
 
 matrix_cuda_dep = []
-if get_option('use_cuda').enabled()
+if get_option('matrix_use_cuda').enabled()
 	matrix_cuda_dep = subproject('matrix-cuda').get_variable('matrix_cuda_dep')
 endif
 

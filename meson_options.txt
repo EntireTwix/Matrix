@@ -1,1 +1,1 @@
-option('use_cuda', type : 'feature', value : 'disabled')
+option('matrix_use_cuda', type : 'feature', value : 'disabled')
