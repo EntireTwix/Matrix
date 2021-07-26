@@ -4,7 +4,7 @@
 
 namespace mat
 {
-    template <Matrix M, typename T = typename M::type>
+    template <MATRIX_TYPENAME M, typename T = typename M::type>
     constexpr void Fill(M &mat, T&& v)
     {
         for (typename M::type &e : mat)
@@ -13,7 +13,7 @@ namespace mat
         }
     }
 
-    template <Matrix M, typename F>
+    template <MATRIX_TYPENAME M, typename F>
     constexpr void ForEach(M &mat, F &&func)
     {
         for (typename M::type &e : mat)
@@ -22,7 +22,7 @@ namespace mat
         }
     }
 
-    template <Matrix M, Matrix M2>
+    template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void CopyTrunc(const M &src, M2 &dest)
     {
         for (size_t i = 0; i < dest.Height(); ++i)
@@ -37,7 +37,7 @@ namespace mat
         }
     }
 
-    template <Matrix M, Matrix M2>
+    template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void CopySameArea(const M &src, M2 &dest)
     {
         if (src.Area() != dest.Area())
