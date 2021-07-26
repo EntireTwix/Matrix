@@ -1,9 +1,9 @@
 #include <iostream>
-#include "hmat.hpp"
-#include "smat.hpp"
-#include "operations/std/util_ops.hpp"
-#include "operations/std/arithmetic_ops.hpp"
-#include "operations/std/special_ops.hpp"
+#include <hmat.hpp>
+#include <smat.hpp>
+#include <matrix/std/util_ops.hpp>
+#include <matrix/std/arithmetic_ops.hpp>
+#include <matrix/std/special_ops.hpp>
 
 #include <ctime>
 #include <ratio>
