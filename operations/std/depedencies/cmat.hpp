@@ -81,9 +81,9 @@ namespace mat
     struct has_height<T, decltype((void)T::height, void())> : std::true_type {};
 
     template <typename T>
-    using is_constexpr_matrix = std::integral_constant<bool, has_area<T>::value && has_width<T>::value && has_height<T>::value>;
+    struct is_constexpr_matrix : std::integral_constant<bool, has_area<T>::value && has_width<T>::value && has_height<T>::value> {};
     template <typename T>
-    using is_constexpr_matrix_v = is_constexpr_matrix<T>::value;
+    constexpr bool is_constexpr_matrix_v = is_constexpr_matrix<T>::value;
 
     #define CONSTEXPR_MATRIX(T) is_constexpr_matrix_v<T>
     #define RUNTIME_MATRIX(T) !CONSTEXPR_MATRIX(T)
