@@ -5,7 +5,7 @@ if get_option('matrix_use_cuda').enabled()
 	matrix_cuda_dep = subproject('matrix-cuda').get_variable('matrix_cuda_dep')
 endif
 
-matrix_inc = include_directories('.', 'matrix')
+matrix_inc = include_directories('.')
 matrix_dep = declare_dependency(include_directories : matrix_inc, dependencies : matrix_cuda_dep)
 
 if not meson.is_subproject()
