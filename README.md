@@ -1,7 +1,7 @@
 # Matrix 
-A header only zero cost matrix library for C++20 or C++17 w/CUDA 
+A header only zero overhead matrix library for C++20 or C++17 w/CUDA 
 
-Zero cost meaning the matrix abstraction provides programmatic utility without differing in performance from a hand written array manipulation.
+Zero overhead meaning the matrix abstraction provides programmatic utility without differing in performance from a hand written array manipulation.
 
 A nice side effect of making operations very generic is any matrix implementation can interact with any other, you can use `stack` based matrices when size is known, recieving the performance advantages, and have them interact with `heap` based matrices with no consequence
 
