@@ -76,7 +76,7 @@ int main()
     AddMatMut(a, b);
 }
 ```
-`+=` being a call to the generic operation `OperationMut`
+`AddMatMut` being a call to the generic operation `OperationMut`
 ```cpp
 template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
 #ifdef HAS_CONCEPTS 
