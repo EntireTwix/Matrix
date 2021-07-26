@@ -56,10 +56,8 @@ if you want to do an operation that does not conform to the above then I recomme
 **In Development**
 GPU accelerated Matrix operations
 
-### [Benchmarking](benchmarks)
-testing any generic w/lambda vs hand written results in the same time, which means there is no overhead to the generic operation. This can be found [here](https://github.com/EntireTwix/Matrix/blob/main/benchmarks/handwritten_vs_generic.cpp)(all times in nanoseconds), 
-
-additionally the binaries were compared and no differences were found
+### Overhead
+the binaries were compared and no differences were found, meaning no overhead. This cannot be garaunteed for all operations however ideally it should hold.
 
 hand written
 ```cpp
@@ -68,13 +66,13 @@ int main()
     using namespace mat;
 
     hMat<int> a(100,100);
-    Fill(a, 3);
     hMat<int> b(100,100);
+    Fill(a, 3);
     Fill(b, 5);
 
     for(size_t i = 0; i < 10000; ++i)
     {
-        a.FastAt(i)+=b.FastAt(i);
+        a.FastAt(i) += b.FastAt(i);
     }
 }
 ```
@@ -85,10 +83,10 @@ int main()
     using namespace mat;
 
     hMat<int> a(100,100);
-    Fill(a, 3);
     hMat<int> b(100,100);
+    Fill(a, 3);
     Fill(b, 5);
-    a+=b;
+    a += b;
 }
 ```
 `+=` being a call to the generic operation `OperationMut`
