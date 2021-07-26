@@ -1,7 +1,7 @@
 #pragma once
 #include "depedencies/copy_fast.hpp"
 
-#ifdef __cpp_concepts 
+#ifdef HAS_CONCEPTS 
 #include "depedencies/cmat.hpp"
 #endif
 
