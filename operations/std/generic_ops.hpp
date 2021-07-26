@@ -25,7 +25,7 @@ namespace mat
             func(a.FastAt(i), b.FastAt(i));
         }
     }
-    template <MATRIX_TYPENAME M, typename F, typename T = typename M::type>
+    template <MATRIX_TYPENAME M, typename F, typename T>
     constexpr M ScalarOperation(const M& mat, T&& v, F &&func)
     {
         M res(mat);
@@ -35,7 +35,7 @@ namespace mat
         }
         return res;
     }
-    template <MATRIX_TYPENAME M, typename F, typename T = typename M::type>
+    template <MATRIX_TYPENAME M, typename F, typename T>
     constexpr void ScalarOperationMut(M &mat, T&& v, F &&func)
     {
         for (T &e : mat)
