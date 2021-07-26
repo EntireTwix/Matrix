@@ -2,7 +2,7 @@
 #include <type_traits>
 #include <stddef.h>
 
-#ifdef HAS_CONCEPTS
+#ifdef __cpp_concepts
     #if __cplusplus >= __cpp_concepts
     #define HAS_CONCEPTS true
     #endif
