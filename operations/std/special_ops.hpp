@@ -18,7 +18,7 @@ namespace mat
     #ifdef HAS_CONCEPTS 
     requires Printable<typename M::type>
     #endif
-    std::ostream &operator<<(std::ostream &os, const M &mat)
+    std::ostream &Print(std::ostream &os, const M &mat)
     {
         for (size_t i = 0; i < mat.Height(); ++i)
         {
