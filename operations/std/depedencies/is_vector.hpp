@@ -1,6 +1,7 @@
 #pragma once
 #include <cassert>
 #include "cmat.hpp"
+#include "copy_fast.hpp"
 
 namespace mat
 {
