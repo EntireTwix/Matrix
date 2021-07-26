@@ -1,5 +1,4 @@
 #pragma once
-#include "depedencies/v_sep.hpp"
 #include "util_ops.hpp"
 
 namespace mat
@@ -7,13 +6,13 @@ namespace mat
     template <MATRIX_TYPENAME M>
     constexpr auto FlattenedCopy(const M& mat) 
     {
-        if constexpr(ConstexprMatrix<M>)
+        if constexpr(CONSTEXPR_MATRIX(M))
         {
             typename M::base<M::area, 1> res;
             CopySameArea(mat, res);
             return res;
         }
-        else if(RuntimeMatrix<M>)
+        else if(RUNTIME_MATRIX(M))
         {
             M res(mat); 
             res.Flatten(); 
