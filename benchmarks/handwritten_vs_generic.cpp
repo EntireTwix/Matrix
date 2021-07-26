@@ -30,7 +30,6 @@
         time_func_a(v, a, x); \
     }
 
-
 int main()
 {
     using namespace mat;
@@ -39,8 +38,9 @@ int main()
     Fill(a, 3);
     Fill(b, 8);
 
-    Op_a(AddMatMut(a,b), "+= generic     ", 10000, Fill(a, 3);Fill(b, 8););
-    Op_a(for(size_t i =0 ; i < 100; ++i) a.FastAt(i)+=b.FastAt(i), "+= handwritten ", 10000, Fill(a, 3);Fill(b, 8););
+    Print(std::cout, a);
+    Op_a(AddMatMut(a, b), "+= generic     ", 10000, Fill(a, 3); Fill(b, 8););
+    Op_a(for (size_t i = 0; i < 100; ++i) a.FastAt(i) += b.FastAt(i), "+= handwritten ", 10000, Fill(a, 3); Fill(b, 8););
 
     return 0;
 }
