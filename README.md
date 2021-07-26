@@ -73,7 +73,7 @@ int main()
     hMat<int> b(100,100);
     Fill(a, 3);
     Fill(b, 5);
-    a += b;
+    AddMatMut(a, b);
 }
 ```
 `+=` being a call to the generic operation `OperationMut`
@@ -82,7 +82,7 @@ template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
 #ifdef HAS_CONCEPTS 
 requires AddableAs<typename M::type, typename M2::type>
 #endif
-constexpr void operator+=(M& a, const M2&b) 
+constexpr void AddMatMut(M& a, const M2&b) 
 { 
     OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ 
         a+=b; 
