@@ -1,7 +1,8 @@
 #pragma once
+#include <type_traits>
 #include <stddef.h>
 
-#ifdef __cpp_concepts
+#ifdef HAS_CONCEPTS
     #if __cplusplus >= __cpp_concepts
     #define HAS_CONCEPTS true
     #endif
@@ -23,9 +24,9 @@
 #define RUNTIME_MATRIX_TYPENAME EXEC_IF_20_ELSE(RuntimeMatrix, typename)
 #define CONSTEXPR_MATRIX_TYPENAME EXEC_IF_20_ELSE(ConstexprMatrix, typename)
 
+#ifdef HAS_CONCEPTS
 namespace mat
 {
-#ifdef HAS_CONCEPTS
     #include <concepts>
 
     template <typename T>
@@ -61,9 +62,10 @@ namespace mat
     concept RuntimeMatrix = Matrix<M> && requires(M a) {
         { a.Flatten() } -> std::same_as<void>;
     };
+}
 
-    #define CONSTEXPR_MATRIX(T) ConstexprMatrix<T>
-    #define RUNTIME_MATRIX(T) RuntimeMatrix<T>
+    #define CONSTEXPR_MATRIX(T) mat::ConstexprMatrix<T>
+    #define RUNTIME_MATRIX(T) mat::RuntimeMatrix<T>
 #else
     template <typename T, typename = void>
     struct has_area : std::false_type{};
@@ -79,11 +81,10 @@ namespace mat
     struct has_height<T, decltype((void)T::height, void())> : std::true_type {};
 
     template <typename T>
-    using is_constexpr_matrix = has_area<T>::value && has_width<T>::value && has_height<T>::value;
+    using is_constexpr_matrix = std::integral_constant<bool, has_area<T>::value && has_width<T>::value && has_height<T>::value>;
     template <typename T>
     using is_constexpr_matrix_v = is_constexpr_matrix<T>::value;
 
     #define CONSTEXPR_MATRIX(T) is_constexpr_matrix_v<T>
     #define RUNTIME_MATRIX(T) !CONSTEXPR_MATRIX(T)
 #endif
-}
