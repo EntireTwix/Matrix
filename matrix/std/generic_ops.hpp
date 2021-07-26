@@ -1,8 +1,8 @@
 #pragma once
-#include "depedencies/copy_fast.hpp"
+#include "dependencies/copy_fast.hpp"
 
 #ifdef HAS_CONCEPTS 
-#include "depedencies/cmat.hpp"
+#include "dependencies/cmat.hpp"
 #endif
 
 namespace mat

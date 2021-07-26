@@ -1,5 +1,5 @@
 #pragma once
-#include "depedencies/cmat.hpp"
+#include "dependencies/cmat.hpp"
 
 #ifdef HAS_CONCEPTS 
 #include <iostream>
