@@ -92,7 +92,7 @@ int main()
 `+=` being a call to the generic operation `OperationMut`
 ```cpp
 template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
-#ifdef __cpp_concepts 
+#ifdef HAS_CONCEPTS 
 requires AddableAs<typename M::type, typename M2::type>
 #endif
 constexpr void operator+=(M& a, const M2&b) 
