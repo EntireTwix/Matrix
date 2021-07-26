@@ -21,7 +21,7 @@ and/or
 ```
 
 #### Optional CUDA usage
-for CUDA you can use the included CMake to link the CUDA operations by simply putting in your existing `CMakeList.txt`
+for CUDA you can use the included CMake to link the CUDA operations by simply putting:
 ```cmake
 add_subdirectory(Matrix)
 target_link_libraries(${PROJECT_NAME} matrix_cuda)
