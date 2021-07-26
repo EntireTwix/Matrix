@@ -28,18 +28,18 @@ namespace mat
     #ifdef HAS_CONCEPTS 
     requires Addable<typename M::type, typename M2::type>
     #endif
-    constexpr M operator+(const M& a, const M2&b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a+b; }); }
+    constexpr M operator+(const M& a, const M2&b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M2::type> b){ return a+b; }); }
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     #ifdef HAS_CONCEPTS 
     requires AddableAs<typename M::type, typename M2::type>
     #endif
-    constexpr void operator+=(M& a, const M2&b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a+=b; }); }
-    template <MATRIX_TYPENAME M, typename T = typename M::type>
+    constexpr void operator+=(M& a, const M2&b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M2::type> b){ a+=b; }); }
+    template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires Addable<typename M::type, T>
     #endif
     constexpr M operator+(const M& mat, T&& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ return a+b; }); }
-    template <MATRIX_TYPENAME M, typename T = typename M::type>
+    template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires AddableAs<typename M::type, T>
     #endif
@@ -50,18 +50,18 @@ namespace mat
     #ifdef HAS_CONCEPTS 
     requires Subtractable<typename M::type, typename M2::type>
     #endif
-    constexpr M operator-(const M& a, const M2&b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a-b; }); }
+    constexpr M operator-(const M& a, const M2&b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M2::type> b){ return a-b; }); }
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     #ifdef HAS_CONCEPTS 
     requires SubtractableAs<typename M::type, typename M2::type>
     #endif
-    constexpr void operator-=(M& a, const M2&b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a-=b; }); }
-    template <MATRIX_TYPENAME M, typename T = typename M::type>
+    constexpr void operator-=(M& a, const M2&b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M2::type> b){ a-=b; }); }
+    template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires Subtractable<typename M::type, T>
     #endif
     constexpr M operator-(const M& mat, T&& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ return a-b; }); }
-    template <MATRIX_TYPENAME M, typename T = typename M::type>
+    template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires SubtractableAs<typename M::type, T>
     #endif
@@ -72,18 +72,18 @@ namespace mat
     #ifdef HAS_CONCEPTS 
     requires Multipliable<typename M::type, typename M2::type>
     #endif
-    constexpr M operator*(const M& a, const M2&b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a*b; }); }
+    constexpr M operator*(const M& a, const M2&b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M2::type> b){ return a*b; }); }
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     #ifdef HAS_CONCEPTS 
     requires MultipliableAs<typename M::type, typename M2::type>
     #endif
-    constexpr void operator*=(M& a, const M2&b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a*=b; }); }
-    template <MATRIX_TYPENAME M, typename T = typename M::type>
+    constexpr void operator*=(M& a, const M2&b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M2::type> b){ a*=b; }); }
+    template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires Multipliable<typename M::type, T>
     #endif
     constexpr M operator*(const M& mat, T&& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ return a*b; }); }
-    template <MATRIX_TYPENAME M, typename T = typename M::type>
+    template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires MultipliableAs<typename M::type, T>
     #endif
@@ -94,18 +94,18 @@ namespace mat
     #ifdef HAS_CONCEPTS 
     requires Divideable<typename M::type, typename M2::type>
     #endif
-    constexpr M operator/(const M& a, const M2&b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M::type> b){ return a/b; }); }
+    constexpr M operator/(const M& a, const M2&b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M2::type> b){ return a/b; }); }
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     #ifdef HAS_CONCEPTS 
     requires DivideableAs<typename M::type, typename M2::type>
     #endif
-    constexpr void operator/=(M& a, const M2&b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M::type> b){ a/=b; }); }
-    template <MATRIX_TYPENAME M, typename T = typename M::type>
+    constexpr void operator/=(M& a, const M2&b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M2::type> b){ a/=b; }); }
+    template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires Divideable<typename M::type, T>
     #endif
     constexpr M operator/(const M& mat, T&& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ return a/b; }); }
-    template <MATRIX_TYPENAME M, typename T = typename M::type>
+    template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires DivideableAs<typename M::type, T>
     #endif
