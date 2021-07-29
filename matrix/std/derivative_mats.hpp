@@ -49,4 +49,15 @@ namespace mat
             return res;
         }
     }
+
+    template <RUNTIME_MATRIX_TYPENAME M>
+    constexpr void ResizeMut(M &mat, size_t Width, size_t Height)
+    {
+        static_assert(CONSTEXPR_MATRIX(M), "ResizeMut: M cannot be CONSTEXPR");
+        if (mat.Width() != Width || mat.Height() != Height)
+        {
+            M res(Width, Height);
+            Copy(mat, res);
+        }
+    }
 }
