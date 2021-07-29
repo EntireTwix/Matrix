@@ -1,4 +1,5 @@
 #pragma once
+#include <cassert>
 #include "dependencies/cmat.hpp"
 #include "dependencies/copy_fast.hpp"
 
@@ -25,9 +26,13 @@ namespace mat
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void CopySameArea(const M &src, M2 &dest)
     {
-        if (src.Area() != dest.Area())
+        if constexpr (CONSTEXPR_MATRIX(M) && CONSTEXPR_MATRIX(M2))
         {
-            throw std::invalid_argument("CopySameArea: must be same Area");
+            static_assert(src.Area() == dest.Area(), "CopySameArea: must be same Area");
+        }
+        else
+        {
+            assert(src.Area() == dest.Area());
         }
 
         if constexpr (std::is_same_v<M, M2>)
