@@ -67,18 +67,10 @@ namespace mat
     #define CONSTEXPR_MATRIX(T) mat::ConstexprMatrix<T>
     #define RUNTIME_MATRIX(T) mat::RuntimeMatrix<T>
 #else
-    template <typename T, typename = void>
-    struct has_area : std::false_type{};
-    template <typename T>
-    struct has_area<T, decltype((void)T::area, void())> : std::true_type {};
-    template <typename T, typename = void>
-    struct has_width : std::false_type{};
-    template <typename T>
-    struct has_width<T, decltype((void)T::width, void())> : std::true_type {};
-    template <typename T, typename = void>
-    struct has_height : std::false_type{};
-    template <typename T>
-    struct has_height<T, decltype((void)T::height, void())> : std::true_type {};
+    #define HAS_(member, member_type, name) template <typename T, typename = member_type> struct name : std::false_type { }; template <typename T> struct name <T, decltype((void) T::member, 0)> : std::true_type { };
+    HAS_(area, size_t, has_area);
+    HAS_(width, size_t, has_width);
+    HAS_(height, size_t, has_height);
 
     template <typename T>
     struct is_constexpr_matrix : std::integral_constant<bool, has_area<T>::value && has_width<T>::value && has_height<T>::value> {};
