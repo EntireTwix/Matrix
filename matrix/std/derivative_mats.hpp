@@ -58,6 +58,7 @@ namespace mat
         {
             M res(Width, Height);
             Copy(mat, res);
+            mat = std::move(res);
         }
     }
 }
