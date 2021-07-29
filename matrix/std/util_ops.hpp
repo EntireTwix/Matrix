@@ -5,7 +5,7 @@
 namespace mat
 {
     template <MATRIX_TYPENAME M, typename T = typename M::type>
-    constexpr void Fill(M &mat, T&& v)
+    constexpr void Fill(M &mat, T &&v)
     {
         for (typename M::type &e : mat)
         {
@@ -23,28 +23,14 @@ namespace mat
     }
 
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
-    constexpr void CopyTrunc(const M &src, M2 &dest)
-    {
-        for (size_t i = 0; i < dest.Height(); ++i)
-        {
-            for (size_t j = 0; j < dest.Width(); ++j)
-            {
-                if (j < src.Width() && i < src.Height())
-                {
-                    dest.At(j, i) = src.At(j, i);
-                }
-            }
-        }
-    }
-
-    template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void CopySameArea(const M &src, M2 &dest)
     {
         if (src.Area() != dest.Area())
         {
-            throw std::invalid_argument("CopySameArea: must be same Area if of different Matrix types");
+            throw std::invalid_argument("CopySameArea: must be same Area");
         }
-        if constexpr(std::is_same_v<M, M2>)
+
+        if constexpr (std::is_same_v<M, M2>)
         {
             dest = src; //calling operator=
         }
@@ -53,6 +39,39 @@ namespace mat
             for (size_t i = 0; i < src.Area(); ++i)
             {
                 dest.FastAt(i) = src.FastAt(i);
+            }
+        }
+    }
+
+    template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
+    constexpr void Copy(const M &src, M2 &dest)
+    {
+        if (src.Area() == dest.Area())
+        {
+            //CopySameArea definition, without exception
+            if constexpr (std::is_same_v<M, M2>)
+            {
+                dest = src; //calling operator=
+            }
+            else
+            {
+                for (size_t i = 0; i < src.Area(); ++i)
+                {
+                    dest.FastAt(i) = src.FastAt(i);
+                }
+            }
+        }
+        else
+        {
+            for (size_t i = 0; i < dest.Height(); ++i)
+            {
+                for (size_t j = 0; j < dest.Width(); ++j)
+                {
+                    if (j < src.Width() && i < src.Height())
+                    {
+                        dest.At(j, i) = src.At(j, i);
+                    }
+                }
             }
         }
     }
