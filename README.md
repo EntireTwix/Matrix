@@ -12,11 +12,6 @@ The recommended way to use Matrix in your project is as a subproject with the me
 ```meson
 matrix_dep = subproject('matrix').get_variable('matrix_dep')
 ```
-#### CMake
-or with CMake
-```cmake
-target_include_directories(${PROJECT_NAME} PUBLIC Matrix)
-```
 
 As this is header only, simply include the implementation(s) of your choice
 ```cpp
@@ -39,8 +34,6 @@ target_link_libraries(${PROJECT_NAME} matrix_cuda)
 ```
 aswell as 
 `-DUSE_CUDA=true` when constructing your project.
-
-The original `target_include_directories` line isnt nessasary if you do so
 
 **DISCLAIMER: CUDA is annoying in that its highest version is C++17**
 
