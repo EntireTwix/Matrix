@@ -5,7 +5,7 @@
 namespace mat
 {
     template <MATRIX_TYPENAME M>
-    constexpr void IsVector(const M& mat)
+    constexpr void IsVector(const M &mat)
     {
         if constexpr (CONSTEXPR_MATRIX<M>)
         {

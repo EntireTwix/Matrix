@@ -1,12 +1,12 @@
 #pragma once
 #include "dependencies/cmat.hpp"
 
-#ifdef HAS_CONCEPTS 
+#ifdef HAS_CONCEPTS
 #include <iostream>
 template <typename T>
 concept Printable = requires(T a)
 {
-    {std::cout << a} -> std::same_as<std::ostream &>;
+    { std::cout << a } ->std::same_as<std::ostream &>;
 };
 #else
 #include <ostream>
@@ -15,10 +15,10 @@ concept Printable = requires(T a)
 namespace mat
 {
     template <MATRIX_TYPENAME M>
-    #ifdef HAS_CONCEPTS 
+#ifdef HAS_CONCEPTS
     requires Printable<typename M::type>
-    #endif
-    std::ostream &Print(std::ostream &os, const M &mat)
+#endif
+        std::ostream &Print(std::ostream &os, const M &mat)
     {
         for (size_t i = 0; i < mat.Height(); ++i)
         {

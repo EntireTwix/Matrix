@@ -13,7 +13,7 @@ namespace mat
             CopySameArea(mat, res);
             return res;
         }
-        else if(RUNTIME_MATRIX(M))
+        else if (RUNTIME_MATRIX(M))
         {
             M res(mat);
             res.Flatten();
