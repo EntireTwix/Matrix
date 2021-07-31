@@ -53,7 +53,7 @@ namespace mat
     {
         if (src.Area() == dest.Area())
         {
-            //CopySameArea definition, without exception
+            //CopySameArea definition, without static_assert
             if constexpr (std::is_same_v<M, M2>)
             {
                 dest = src; //calling operator=
@@ -79,5 +79,19 @@ namespace mat
                 }
             }
         }
+    }
+
+    template <RUNTIME_MATRIX_TYPENAME M>
+    constexpr void FlattenMut(M &mat)
+    {
+        static_assert(RUNTIME_MATRIX(M), "FlattenMut: M must be RUNTIME_MATRIX");
+        mat.Flatten();
+    }
+
+    template <RUNTIME_MATRIX_TYPENAME M>
+    constexpr void ResizeMut(M &mat, size_t w, size_t h)
+    {
+        static_assert(RUNTIME_MATRIX(M), "ResizeMut: M must be RUNTIME_MATRIX");
+        mat.Resize(w, h);
     }
 };
