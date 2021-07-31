@@ -16,14 +16,11 @@ and/or
 #include "smat.hpp"
 ```
 
+### Optional CUDA usage
 #### Meson
-The recommended way to use Matrix in your project is as a subproject with the meson build system. Get the dependency object like this:
 ```meson
 matrix_dep = subproject('matrix').get_variable('matrix_dep')
 ```
-
-### Optional CUDA usage
-#### Meson
 for CUDA you can set the `matrix_use_cuda` meson feature option to `enabled`.
 
 #### CMake
@@ -40,26 +37,18 @@ aswell as
 ## Implementation 
 
 #### [sMat](smat.hpp)
-`STACK` based Matrix, use this where you would `std::array`. This implementation has the advantage of having constexpr support so that when applicable it can be done compile time
+`STACK` based Matrix, use this where you would `std::array`. This implementation has the advantage of having constexpr support so that when applicable it can be done compile time.
 
 #### [hMat](hmat.hpp)
 `HEAP` based Matrix, use this where you would `std::vector`
 
-#### [Matrix Concept](cmat.hpp) (C++20)
-A concept to avoid the cost of vtable lookup, also allows for generic operations and matrix implementations being interchangable, if the requirements for the concept are implemented it can mesh with any existing matrix operation. The only downside to this approach vs inheritance is there is a lot of implementation overlap that usually a parent class would implement.
+#### [Matrix Concept](matrix/std/dependencies/cmat.hpp) (C++20)
+A concept that allows for generic operations and matrix implementations being interchangable, if the requirements for the concept are implemented it can mesh with any existing matrix operation
 
-#### [Operations](operations/std)
-A set of generic operations that work with any type that qualifies as a Matrix via the concept (if compiling with C++20)
+#### [Operations](matrix/std)
+A set of generic zero overhead operations that work with any type that qualifies as a Matrix via the concept (if compiling with C++20)
 
-Generic operation functions supplied with lambdas are avaliable, they come with no overhead
-* `M Operation` for taking two matrices and applying a function to each index of both `func(a[0], b[1])`
-* `void OperationMut` the same as above but intended to mutate `a` or `b` instead of using the returned value to form the resulting matrix
-* `M ScalarOperation` the `Operation` function but with a value instead of another matrix `func(a[0], v)`
-* `void ScalarOperationMut` scalar variant of OperationMut
-
-if you want to do an operation that does not conform to the above then I recommend making and then performing a PR so I can merge it in
-
-#### [CUDA Operations](operations/cuda)
+#### [CUDA Operations](subprojects/cuda)
 **In Development**
 GPU accelerated Matrix operations
 
