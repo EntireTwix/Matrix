@@ -8,12 +8,32 @@ A nice side effect of making operations very generic is any matrix implementatio
 ## Usage
 
 The recommended way to use Matrix in your project is as a subproject with the meson build system. Get the dependency object like this:
+#### Meson
 ```meson
 matrix_dep = subproject('matrix').get_variable('matrix_dep')
 ```
 
-#### Optional CUDA usage
+As this is header only, simply include the implementation(s) of your choice
+```cpp
+#include "hmat.hpp"
+```
+and/or
+```cpp
+#include "smat.hpp"
+```
+
+### Optional CUDA usage
+#### Meson
 for CUDA you can set the `matrix_use_cuda` meson feature option to `enabled`.
+
+#### CMake
+or with CMake
+```cmake
+add_subdirectory(Matrix)
+target_link_libraries(${PROJECT_NAME} matrix_cuda)
+```
+aswell as 
+`-DUSE_CUDA=true` when constructing your project.
 
 **DISCLAIMER: CUDA is annoying in that its highest version is C++17**
 
