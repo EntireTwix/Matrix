@@ -6,7 +6,7 @@ namespace mat
     template <MATRIX_TYPENAME M>
     constexpr auto FlattenCopy(const M &mat)
     {
-        static_assert(RUNTIME_MATRIX(M), "FlattenCopy: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX");
+        EXEC_IF_20(static_assert(RUNTIME_MATRIX(M), "FlattenCopy: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX");)
         if constexpr (CONSTEXPR_MATRIX(M))
         {
             typename M::base<M::area, 1> res;
