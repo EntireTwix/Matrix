@@ -123,7 +123,7 @@ namespace mat
                     {
                         if (j-1 < this->_w && i-1 < this->_h)
                         {
-                            this->_internal[((i-1) * w) + (j-1)] = ((i-1) * this->_w) + (j-1); //copy
+                            this->_internal[((i-1) * w) + (j-1)] = this->_internal[((i-1) * this->_w) + (j-1)]; //copy
                         }
                         else
                         {
