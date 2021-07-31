@@ -7,12 +7,6 @@ A nice side effect of making operations very generic is any matrix implementatio
 
 ## Usage
 
-The recommended way to use Matrix in your project is as a subproject with the meson build system. Get the dependency object like this:
-#### Meson
-```meson
-matrix_dep = subproject('matrix').get_variable('matrix_dep')
-```
-
 As this is header only, simply include the implementation(s) of your choice
 ```cpp
 #include "hmat.hpp"
@@ -20,6 +14,12 @@ As this is header only, simply include the implementation(s) of your choice
 and/or
 ```cpp
 #include "smat.hpp"
+```
+
+#### Meson
+The recommended way to use Matrix in your project is as a subproject with the meson build system. Get the dependency object like this:
+```meson
+matrix_dep = subproject('matrix').get_variable('matrix_dep')
 ```
 
 ### Optional CUDA usage
