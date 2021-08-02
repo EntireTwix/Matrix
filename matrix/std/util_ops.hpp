@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <cassert>
 #include "dependencies/cmat.hpp"
 #include "dependencies/copy_fast.hpp"
@@ -8,6 +9,7 @@ namespace mat
     template <MATRIX_TYPENAME M, typename T = typename M::type>
     constexpr void Fill(M &mat, T &&v)
     {
+        EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Fill: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         for (typename M::type &e : mat)
         {
             e = v;
@@ -17,6 +19,7 @@ namespace mat
     template <MATRIX_TYPENAME M, typename F>
     constexpr void ForEach(M &mat, F &&func)
     {
+        EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "ForEach: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         for (typename M::type &e : mat)
         {
             func(e);
@@ -26,6 +29,7 @@ namespace mat
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void CopySameArea(const M &src, M2 &dest)
     {
+        EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "CopySameArea: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if constexpr (CONSTEXPR_MATRIX(M) && CONSTEXPR_MATRIX(M2))
         {
             static_assert(src.Area() == dest.Area(), "CopySameArea: must be same Area");
@@ -51,6 +55,7 @@ namespace mat
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void Copy(const M &src, M2 &dest)
     {
+        EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Copy: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if (src.Area() == dest.Area())
         {
             //CopySameArea definition, without static_assert
@@ -93,5 +98,18 @@ namespace mat
     {
         EXEC_IF_20(static_assert(RUNTIME_MATRIX(M), "ResizeMut: M must be RUNTIME_MATRIX");)
         mat.Resize(w, h);
+    }
+
+    template <MATRIX_TYPENAME M, typename F>
+    constexpr void SortMut(M& mat, F Comp)
+    {
+        EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SortMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        std::sort(mat.begin(), mat.end(), Comp);
+    }
+    template <MATRIX_TYPENAME M>
+    constexpr void SortMut(M& mat)
+    {
+        EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SortMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        std::sort(mat.begin(), mat.end());
     }
 };

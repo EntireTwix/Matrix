@@ -18,8 +18,9 @@ namespace mat
 #ifdef HAS_CONCEPTS
     requires Printable<typename M::type>
 #endif
-        std::ostream &Print(std::ostream &os, const M &mat)
+    std::ostream &Print(std::ostream &os, const M &mat)
     {
+        EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Print: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         for (size_t i = 0; i < mat.Height(); ++i)
         {
             for (size_t j = 0; j < mat.Width(); ++j)
