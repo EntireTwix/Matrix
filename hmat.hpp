@@ -38,6 +38,10 @@ namespace mat
         using type = T;
 
         hMat() noexcept = default;
+        explicit hMat(size_t w, size_t h, T init) noexcept
+        {
+            this->_internal = new T[this->_size]{init}; //allocate and initialize
+        }
         explicit hMat(size_t w, size_t h) noexcept : _w(w), _h(h), _size(w * h), _capacity(w * h)
         {
             this->_internal = new T[this->_size]{}; //allocate and default initialize
@@ -47,7 +51,7 @@ namespace mat
             if (m._size > this->_capacity)
             {
                 this->_internal = new T[this->_size]; //allocate
-                this->_capacity = m->_size;
+                this->_capacity = m._size;
             }
             memcpy(this->_internal, m._internal, this->Area() * sizeof(T));
         }
