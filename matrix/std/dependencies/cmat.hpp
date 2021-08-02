@@ -79,6 +79,7 @@ namespace mat
     HAS_FUNC_(Flatten);
     HAS_FUNC_(Capacity);
     HAS_FUNC_(Resize);
+    HAS_FUNC_(Reserve);
 
     template <typename T>
     struct is_constexpr_matrix : std::integral_constant<bool, has_area<T>::value && has_width<T>::value && has_height<T>::value> {};
