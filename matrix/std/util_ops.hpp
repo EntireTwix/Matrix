@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <cassert>
 #include "dependencies/cmat.hpp"
-#include "dependencies/copy_fast.hpp"
 
 namespace mat
 {
@@ -101,13 +100,13 @@ namespace mat
     }
 
     template <MATRIX_TYPENAME M, typename F>
-    constexpr void SortMut(M& mat, F Comp)
+    constexpr void SortMut(M &mat, F Comp)
     {
         EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SortMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         std::sort(mat.begin(), mat.end(), Comp);
     }
     template <MATRIX_TYPENAME M>
-    constexpr void SortMut(M& mat)
+    constexpr void SortMut(M &mat)
     {
         EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SortMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         std::sort(mat.begin(), mat.end());
