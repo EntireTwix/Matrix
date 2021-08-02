@@ -6,8 +6,8 @@
 
 namespace mat
 {
-    template <MATRIX_TYPENAME M, typename T = typename M::type>
-    constexpr void Fill(M &mat, T &&v)
+    template <MATRIX_TYPENAME M, typename T>
+    constexpr void Fill(M &mat, T v)
     {
         EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Fill: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         for (typename M::type &e : mat)
