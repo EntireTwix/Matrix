@@ -62,7 +62,8 @@ namespace mat
     concept RuntimeMatrix = Matrix<M> && requires(M a) {
         { a.Flatten() } -> std::same_as<void>;
         { a.Capacity() } -> std::same_as<size_t>;
-        { a.Resize(1, 1) } -> std::same_as<void>;
+        { a.Resize(0, 0) } -> std::same_as<void>;
+        { a.Reserve(0) } -> std::same_as<void>;
     };
 }
 

@@ -110,6 +110,15 @@ namespace mat
             _h = 1;
         }
 
+        void Reserve(size_t sz) noexcept
+        {
+            if (sz > this->_capacity)
+            {
+                this->_internal = (T *)reallocarray(this->_internal, sz, sizeof(T)); //allocate
+                this->_capacity = sz;
+            }
+        }
+
         void Resize(size_t w, size_t h) noexcept
         {
             if (this->_w == w && this->_h == h)
