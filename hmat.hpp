@@ -59,7 +59,7 @@ namespace mat
             this->_size = m._size;
             if (m._size > this->_capacity)
             {
-                this->_internal = (T*)reallocarray(this->_internal, m._size, sizeof(T)); //allocate
+                this->_internal = (T *)reallocarray(this->_internal, m._size, sizeof(T)); //allocate
                 this->_capacity = m._size;
             }
             memcpy(this->_internal, m._internal, m._size * sizeof(T));
@@ -103,31 +103,37 @@ namespace mat
         size_t Height() const noexcept { return _h; }
         size_t Area() const noexcept { return _size; }
         size_t Capacity() const noexcept { return _capacity; }
-        
+
+        void Flatten()
+        {
+            _w *= _h;
+            _h = 1;
+        }
+
         void Resize(size_t w, size_t h) noexcept
         {
             if (this->_w == w && this->_h == h)
             {
                 return;
             }
-            
+
             this->_size = w * h;
-            if(this->_size > this->_capacity) 
+            if (this->_size > this->_capacity)
             {
                 //is larger
-                this->_internal = (T*)reallocarray(this->_internal, this->_size, sizeof(T)); //allocate
+                this->_internal = (T *)reallocarray(this->_internal, this->_size, sizeof(T)); //allocate
                 this->_capacity = this->_size;
                 for (size_t i = h; i > 0; --i)
                 {
                     for (size_t j = w; j > 0; --j)
                     {
-                        if (j-1 < this->_w && i-1 < this->_h)
+                        if (j - 1 < this->_w && i - 1 < this->_h)
                         {
-                            this->_internal[((i-1) * w) + (j-1)] = this->_internal[((i-1) * this->_w) + (j-1)]; //copy
+                            this->_internal[((i - 1) * w) + (j - 1)] = this->_internal[((i - 1) * this->_w) + (j - 1)]; //copy
                         }
                         else
                         {
-                            this->_internal[((i-1) * w) + (j-1)] = T(); //init 
+                            this->_internal[((i - 1) * w) + (j - 1)] = T(); //init
                         }
                     }
                 }
@@ -151,8 +157,8 @@ namespace mat
         }
 
         //Indexing
-        T &At(size_t x, size_t y) { return FastAt( (y * this->_w()) + x); }
-        T At(size_t x, size_t y) const { return FastAt( (y * this->_w) + x); }
+        T &At(size_t x, size_t y) { return FastAt((y * this->_w()) + x); }
+        T At(size_t x, size_t y) const { return FastAt((y * this->_w) + x); }
 
         T &FastAt(size_t index)
         {
@@ -169,12 +175,6 @@ namespace mat
                 throw std::out_of_range("FastAt out of range");
             }
             return this->_internal[index];
-        }
-
-        void Flatten()
-        {
-            _w *= _h;
-            _h = 1;
         }
 
         ~hMat()
