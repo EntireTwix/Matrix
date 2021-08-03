@@ -18,6 +18,14 @@ template <typename T, typename T2>
 concept Divideable = requires(T a, T2 b) { {a/b}->std::convertible_to<T>; };
 template <typename T, typename T2>
 concept DivideableAs = requires(T a, T2 b) { {a/=b}->std::convertible_to<T>; };
+template <typename T, typename T2>
+concept Powable = requires(T a, T2 b)
+{
+    { a = 1 };
+    { 0 < b } -> std::same_as<bool>;
+    { a *= a };
+    { a = a};
+};
 #endif
 
 
@@ -110,4 +118,47 @@ namespace mat
     requires DivideableAs<typename M::type, T>
     #endif
     constexpr void DivMut(M& mat, T&& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "DivMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); a/=b; }); }
+    
+    //Pow
+    template <typename T, typename T2>
+    constexpr T Pow(T base, T2 power) 
+    {
+        T res = 1;
+        for(size_t i = 0; i < power; ++i) 
+        {
+            res *= base;
+        }
+        return res;
+    }
+    template <typename T, typename T2>
+    constexpr void PowMut(T& base, T2 power) 
+    {
+        T res = 1;
+        for(size_t i = 0; i < power; ++i) 
+        {
+            res *= base;
+        }
+        base = res;
+    }
+
+    template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
+    #ifdef HAS_CONCEPTS 
+    requires Powable<typename M::type, typename M2::type>
+    #endif
+    constexpr M PowMat(const M& a, const M2&b) { return Operation(a,b,[](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<typename M2::type> b){ EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "DivMat: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return Pow(a, b); }); }
+    template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
+    #ifdef HAS_CONCEPTS 
+    requires Powable<typename M::type, typename M2::type>
+    #endif
+    constexpr void PowMatMut(M& a, const M2&b) { OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M2::type> b){ EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "DivMatMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); PowMut(a, b); }); }
+    template <MATRIX_TYPENAME M, typename T>
+    #ifdef HAS_CONCEPTS 
+    requires Powable<typename M::type, T>
+    #endif
+    constexpr M Pow(const M& mat, T&& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Div: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return Pow(a, b); }); }
+    template <MATRIX_TYPENAME M, typename T>
+    #ifdef HAS_CONCEPTS 
+    requires Powable<typename M::type, T>
+    #endif
+    constexpr void PowMut(M& mat, T&& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "DivMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); PowMut(a, b); }); }
 };
