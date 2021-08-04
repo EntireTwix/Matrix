@@ -82,16 +82,57 @@ namespace mat
     #define CONSTEXPR_MATRIX(T) mat::ConstexprMatrix<T>
     #define RUNTIME_MATRIX(T) mat::RuntimeMatrix<T>
 #else
-    #define HAS_(member, member_type) template <typename T, typename = member_type> struct has_##member : std::false_type { }; template <typename T> struct has_##member <T, decltype((void) T::member, 0)> : std::true_type { };
+#define HAS_(member, member_type)                                         \
+    template <typename T, typename = member_type>                         \
+    struct has_##member : std::false_type                                 \
+    {                                                                     \
+    };                                                                    \
+    template <typename T>                                                 \
+    struct has_##member<T, decltype((void)T::member, 0)> : std::true_type \
+    {                                                                     \
+    };    
     HAS_(area, size_t);
     HAS_(width, size_t);
     HAS_(height, size_t);
 
-    #define HAS_FUNC_(func_name) template<typename, typename T> struct has_##func_name { static_assert(std::integral_constant<T, false>::value,"Second template parameter needs to be of function type.");};template<typename C, typename Ret, typename... Args>struct has_##func_name<C, Ret(Args...)> {private:template<typename T>static constexpr auto check(T*)-> typename std::is_same<decltype( std::declval<T>().func_name( std::declval<Args>()... ) ),Ret   >::type;  template<typename>static constexpr std::false_type check(...);typedef decltype(check<C>(0)) type;public:static constexpr bool value = type::value;}
+#define HAS_FUNC_(func_name)                                                                                                                  \
+    template <typename, typename T>                                                                                                           \
+    struct has_##func_name                                                                                                                    \
+    {                                                                                                                                         \
+        static_assert(std::integral_constant<T, false>::value, "Second template parameter needs to be of function type.");                    \
+    };                                                                                                                                        \
+    template <typename C, typename Ret, typename... Args>                                                                                     \
+    struct has_##func_name<C, Ret(Args...)>                                                                                                   \
+    {                                                                                                                                         \
+    private:                                                                                                                                  \
+        template <typename T>                                                                                                                 \
+        static constexpr auto check(T *) -> typename std::is_same<decltype(std::declval<T>().func_name(std::declval<Args>()...)), Ret>::type; \
+        template <typename>                                                                                                                   \
+        static constexpr std::false_type check(...);                                                                                          \
+        typedef decltype(check<C>(0)) type;                                                                                                   \
+    public:                                                                                                                                   \
+        static constexpr bool value = type::value;                                                                                            \
+    }    
     HAS_FUNC_(Flatten);
     HAS_FUNC_(Capacity);
     HAS_FUNC_(Resize);
     HAS_FUNC_(Reserve);
+
+#define HAS_STATIC_FUNC(static_method_name)                                                                                             \
+    template <typename, typename T>                                                                                                     \
+    struct has_##static_method_name                                                                                                     \
+    {                                                                                                                                   \
+        static_assert(std::integral_constant<T, false>::value, "Second template parameter needs to be of function type.");              \
+    };                                                                                                                                  \
+    template <typename C, typename Ret, typename... Args>                                                                               \
+    struct has_##static_method_name<C, Ret(Args...)>                                                                                    \
+    {                                                                                                                                   \
+        template <typename T>                                                                                                           \
+        static constexpr auto check(T *) -> typename std::is_same<decltype(T::static_method_name(std::declval<Args>()...)), Ret>::type; \
+        template <typename>                                                                                                             \
+        static constexpr std::false_type check(...);                                                                                    \
+        static constexpr bool value = decltype(check<C>(nullptr))::value;                                                               \
+    };
 
     template <typename T>
     struct is_constexpr_matrix : std::integral_constant<bool, has_area<T>::value && has_width<T>::value && has_height<T>::value> {};
