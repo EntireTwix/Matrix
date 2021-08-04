@@ -27,8 +27,8 @@ namespace mat
             func(a.FastAt(i), b.FastAt(i));
         }
     }
-    template <MATRIX_TYPENAME M, typename F, typename T>
-    constexpr M ScalarOperation(const M &mat, T &&v, F &&func)
+    template <MATRIX_TYPENAME M, typename F, typename T = typename M::type>
+    constexpr M ScalarOperation(const M &mat, copy_fast_cv_t<T> v, F &&func)
     {
         EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "ScalarOperation: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         M res(mat);
@@ -38,8 +38,8 @@ namespace mat
         }
         return res;
     }
-    template <MATRIX_TYPENAME M, typename F, typename T>
-    constexpr void ScalarOperationMut(M &mat, T &&v, F &&func)
+    template <MATRIX_TYPENAME M, typename F, typename T = typename M::type>
+    constexpr void ScalarOperationMut(M &mat, copy_fast_cv_t<T> v, F &&func)
     {
         EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "ScalarOperationMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         for (T &e : mat)

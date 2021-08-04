@@ -1,11 +1,12 @@
 #pragma once
 #include <algorithm>
+#include "dependencies/copy_fast.hpp"
 #include "dependencies/cmat.hpp"
 
 namespace mat
 {
-    template <MATRIX_TYPENAME M, typename T>
-    constexpr void Fill(M &mat, const T& v)
+    template <MATRIX_TYPENAME M, typename T = typename M::type>
+    constexpr void Fill(M &mat, copy_fast_cv_t<T> v)
     {
         EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Fill: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         for (typename M::type &e : mat)
