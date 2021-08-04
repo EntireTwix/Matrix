@@ -1,5 +1,4 @@
 #pragma once
-#include <algorithm>
 #include "dependencies/copy_fast.hpp"
 #include "dependencies/cmat.hpp"
 
@@ -97,18 +96,5 @@ namespace mat
     {
         EXEC_IF_NOT_20(static_assert(RUNTIME_MATRIX(M), "ResizeMut: M must be RUNTIME_MATRIX");)
         mat.Resize(w, h);
-    }
-
-    template <MATRIX_TYPENAME M, typename F>
-    constexpr void SortMut(M &mat, F Comp)
-    {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SortMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        std::sort(mat.begin(), mat.end(), Comp);
-    }
-    template <MATRIX_TYPENAME M>
-    constexpr void SortMut(M &mat)
-    {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SortMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        std::sort(mat.begin(), mat.end());
     }
 };
