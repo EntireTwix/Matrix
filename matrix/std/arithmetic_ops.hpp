@@ -46,12 +46,12 @@ namespace mat
     #ifdef HAS_CONCEPTS 
     requires Addable<typename M::type, T>
     #endif
-    constexpr M Add(const M& mat, T&& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Add: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return a+b; }); }
+    constexpr M Add(const M& mat, const T& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Add: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return a+b; }); }
     template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires AddableAs<typename M::type, T>
     #endif
-    constexpr void AddMut(M& mat, T&& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "AddMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); a+=b; }); }
+    constexpr void AddMut(M& mat, const T& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "AddMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); a+=b; }); }
 
     //Sub
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
@@ -68,12 +68,12 @@ namespace mat
     #ifdef HAS_CONCEPTS 
     requires Subtractable<typename M::type, T>
     #endif
-    constexpr M Sub(const M& mat, T&& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Sub: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return a-b; }); }
+    constexpr M Sub(const M& mat, const T& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Sub: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return a-b; }); }
     template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires SubtractableAs<typename M::type, T>
     #endif
-    constexpr void SubMut(M& mat, T&& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SubMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); a-=b; }); }
+    constexpr void SubMut(M& mat, const T& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SubMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); a-=b; }); }
 
     //Mul
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
@@ -90,12 +90,12 @@ namespace mat
     #ifdef HAS_CONCEPTS 
     requires Multipliable<typename M::type, T>
     #endif
-    constexpr M Mul(const M& mat, T&& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Mul: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return a*b; }); }
+    constexpr M Mul(const M& mat, const T& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Mul: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return a*b; }); }
     template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires MultipliableAs<typename M::type, T>
     #endif
-    constexpr void MulMut(M& mat, T&& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "MulMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); a*=b; }); }
+    constexpr void MulMut(M& mat, const T& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "MulMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); a*=b; }); }
 
     //Div
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
@@ -112,12 +112,12 @@ namespace mat
     #ifdef HAS_CONCEPTS 
     requires Divideable<typename M::type, T>
     #endif
-    constexpr M Div(const M& mat, T&& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Div: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return a/b; }); }
+    constexpr M Div(const M& mat, const T& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Div: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return a/b; }); }
     template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires DivideableAs<typename M::type, T>
     #endif
-    constexpr void DivMut(M& mat, T&& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "DivMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); a/=b; }); }
+    constexpr void DivMut(M& mat, const T& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "DivMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); a/=b; }); }
     
     //Pow
     template <typename T, typename T2>
@@ -155,10 +155,10 @@ namespace mat
     #ifdef HAS_CONCEPTS 
     requires Powable<typename M::type, T>
     #endif
-    constexpr M Pow(const M& mat, T&& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Div: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return Pow(a, b); }); }
+    constexpr M Pow(const M& mat, const T& v) { return ScalarOperation(mat, std::move(v), [](copy_fast_cv_t<typename M::type> a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Div: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); return Pow(a, b); }); }
     template <MATRIX_TYPENAME M, typename T>
     #ifdef HAS_CONCEPTS 
     requires Powable<typename M::type, T>
     #endif
-    constexpr void PowMut(M& mat, T&& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "DivMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); PowMut(a, b); }); }
+    constexpr void PowMut(M& mat, const T& v)  { ScalarOperationMut(mat, std::move(v), [](typename M::type& a, copy_fast_cv_t<T> b){ EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "DivMut: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX")); PowMut(a, b); }); }
 };
