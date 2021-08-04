@@ -53,7 +53,6 @@ namespace mat
         }
         hMat &operator=(const hMat &m) noexcept
         {
-            size_t area = this->_size;
             this->_w = m._w;
             this->_h = m._h;
             this->_size = m._size;
@@ -194,5 +193,4 @@ namespace mat
             }
         }
     };
-
 }
