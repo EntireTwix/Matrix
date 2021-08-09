@@ -1,6 +1,7 @@
 #pragma once
 #include <type_traits>
 #include <stddef.h>
+#include "matrix/std/dependencies/copy_fast.hpp"
 
 #ifdef __cpp_concepts
     #if __cplusplus >= __cpp_concepts
@@ -56,9 +57,9 @@ namespace mat
         { a.Height() } -> std::same_as<size_t>;
 
         { a.At(0,0) } -> std::convertible_to<typename T::type&>;
-        { a.At(0,0) } -> std::convertible_to<typename T::type>;
+        { a.At(0,0) } -> std::convertible_to<copy_fast_cv_t<typename T::type>>;
         { a.FastAt(0) } -> std::convertible_to<typename T::type&>;
-        { a.FastAt(0) } -> std::convertible_to<typename T::type>;
+        { a.FastAt(0) } -> std::convertible_to<copy_fast_cv_t<typename T::type>>;
     };
 
     template <typename M>
