@@ -23,7 +23,6 @@
 #pragma once
 #include <cstring>
 #include <cassert>
-#include <stdexcept>
 #include <stddef.h>
 #include "matrix/std/dependencies/copy_fast.hpp"
 
