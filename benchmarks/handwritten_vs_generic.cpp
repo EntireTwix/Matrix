@@ -35,12 +35,12 @@ int main()
     using namespace mat;
     hMat<int> a(10, 10);
     hMat<int> b(10, 10);
-    Fill(a, 3);
-    Fill(b, 8);
+    std::fill(a.begin(), a.end(), 3);
+    std::fill(a.begin(), a.end(), 8);
 
     Print(std::cout, a);
-    Op_a(AddMatMut(a, b), "+= generic     ", 10000, Fill(a, 3); Fill(b, 8););
-    Op_a(for (size_t i = 0; i < 100; ++i) a.FastAt(i) += b.FastAt(i), "+= handwritten ", 10000, Fill(a, 3); Fill(b, 8););
+    Op_a(AddMatMut(a, b), "+= generic     ", 10000, std::fill(a.begin(), a.end(), 3); std::fill(a.begin(), a.end(), 8););
+    Op_a(for (size_t i = 0; i < 100; ++i) a.FastAt(i) += b.FastAt(i), "+= handwritten ", 10000, std::fill(a.begin(), a.end(), 3); std::fill(a.begin(), a.end(), 8););
 
     return 0;
 }
