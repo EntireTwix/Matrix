@@ -4,26 +4,6 @@
 
 namespace mat
 {
-    template <MATRIX_TYPENAME M, typename T = typename M::type>
-    constexpr void Fill(M &mat, copy_fast_cv_t<T> v)
-    {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Fill: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        for (typename M::type &e : mat)
-        {
-            e = v;
-        }
-    }
-
-    template <MATRIX_TYPENAME M, typename F>
-    constexpr void ForEach(M &mat, F &&func)
-    {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "ForEach: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        for (typename M::type &e : mat)
-        {
-            func(e);
-        }
-    }
-
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void CopySameArea(const M &src, M2 &dest)
     {
