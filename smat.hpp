@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 #pragma once
-#include <stdexcept>
 #include <stddef.h>
 
 namespace mat
@@ -56,23 +55,17 @@ namespace mat
         constexpr size_t Height() const noexcept { return H; }
 
         //Indexing
-        constexpr T &At(size_t x, size_t y) { return FastAt((y * (Width()) + x)); }
-        constexpr T At(size_t x, size_t y) const { return FastAt((y * (Width()) + x)); }
+        constexpr T &At(size_t x, size_t y) noexcept { return FastAt((y * (Width()) + x)); }
+        constexpr T At(size_t x, size_t y) const noexcept { return FastAt((y * (Width()) + x)); }
 
-        constexpr T &FastAt(size_t index)
+        constexpr T &FastAt(size_t index) noexcept
         {
-            if (index >= this->Area())
-            {
-                throw std::out_of_range("FastAt& out of range");
-            }
+            static_assert(index >= this->Area(), "FastAt& out of range");
             return this->_internal[index];
         }
-        constexpr T FastAt(size_t index) const
+        constexpr T FastAt(size_t index) const noexcept
         {
-            if (index >= this->Area())
-            {
-                throw std::out_of_range("FastAt out of range");
-            }
+            static_assert(index >= this->Area(), "FastAt out of range");
             return this->_internal[index];
         }
     };
