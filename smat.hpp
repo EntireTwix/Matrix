@@ -22,6 +22,7 @@
 
 #pragma once
 #include <stddef.h>
+#include <cassert>
 #include "matrix/std/dependencies/copy_fast.hpp"
 
 namespace mat
@@ -61,12 +62,12 @@ namespace mat
 
         constexpr T &FastAt(size_t index) noexcept
         {
-            static_assert(index < this->Area(), "FastAt& out of range");
+            assert(index < this->Area());
             return this->_internal[index];
         }
         constexpr copy_fast_cv_t<T> FastAt(size_t index) const noexcept
         {
-            static_assert(index < this->Area(), "FastAt out of range");
+            assert(index < this->Area());
             return this->_internal[index];
         }
     };

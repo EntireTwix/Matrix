@@ -172,12 +172,12 @@ namespace mat
 
         T &FastAt(size_t index) noexcept
         {
-            assert(index >= this->_size);
+            assert(index < this->_size);
             return this->_internal[index];
         }
         copy_fast_cv_t<T> FastAt(size_t index) const noexcept
         {
-            assert(index >= this->_size);
+            assert(index < this->_size);
             return this->_internal[index];
         }
 
