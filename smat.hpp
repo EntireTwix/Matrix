@@ -60,12 +60,12 @@ namespace mat
 
         constexpr T &FastAt(size_t index) noexcept
         {
-            static_assert(index >= this->Area(), "FastAt& out of range");
+            static_assert(index < this->Area(), "FastAt& out of range");
             return this->_internal[index];
         }
         constexpr T FastAt(size_t index) const noexcept
         {
-            static_assert(index >= this->Area(), "FastAt out of range");
+            static_assert(index < this->Area(), "FastAt out of range");
             return this->_internal[index];
         }
     };
