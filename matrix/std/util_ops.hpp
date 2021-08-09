@@ -77,4 +77,31 @@ namespace mat
         EXEC_IF_NOT_20(static_assert(RUNTIME_MATRIX(M), "ResizeMut: M must be RUNTIME_MATRIX");)
         mat.Resize(w, h);
     }
+
+    template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
+    constexpr bool Equal(const M &a, const M &b)
+    {
+        if constexpr (CONSTEXPR_MATRIX(M) && std::is_same_v<M, M2>)
+        {
+            if constexpr (a.Area() != b.Area())
+            {
+                return false;
+            }
+            else
+            {
+                return std::equal(a.begin(), a.end(), b.begin());
+            }
+        }
+        else
+        {
+            if (a.Area() != b.Area())
+            {
+                return false;
+            }
+            else
+            {
+                return std::equal(a.begin(), a.end(), b.begin());
+            }
+        }
+    }
 };
