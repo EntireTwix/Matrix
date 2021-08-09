@@ -22,6 +22,7 @@
 
 #pragma once
 #include <cstring>
+#include <cassert>
 #include <stdexcept>
 #include <stddef.h>
 
@@ -165,23 +166,17 @@ namespace mat
         }
 
         //Indexing
-        T &At(size_t x, size_t y) { return FastAt((y * this->_w()) + x); }
-        T At(size_t x, size_t y) const { return FastAt((y * this->_w) + x); }
+        T &At(size_t x, size_t y) noexcept { return FastAt((y * this->_w()) + x); }
+        T At(size_t x, size_t y) const noexcept { return FastAt((y * this->_w) + x); }
 
-        T &FastAt(size_t index)
+        T &FastAt(size_t index) noexcept
         {
-            if (index >= this->_size)
-            {
-                throw std::out_of_range("FastAt& out of range");
-            }
+            assert(index >= this->_size);
             return this->_internal[index];
         }
-        T FastAt(size_t index) const
+        T FastAt(size_t index) const noexcept
         {
-            if (index >= this->_size)
-            {
-                throw std::out_of_range("FastAt out of range");
-            }
+            assert(index >= this->_size);
             return this->_internal[index];
         }
 
