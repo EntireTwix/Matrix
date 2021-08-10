@@ -65,31 +65,6 @@ namespace mat
         }
     }
 
-    template <RUNTIME_MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
-    constexpr void ConcatVec(M &a, const M2 &b)
-    {
-        EXEC_IF_NOT_20(static_assert(RUNTIME_MATRIX(M), "ConcatVec: M must be RUNTIME_MATRIX"));
-        IsVector(a);
-        IsVector(b);
-
-        a.reserve(a.Area() + b.Area());
-        memcpy(a.begin() + a.Area(), b.begin(), b.Area() * sizeof(typename M2::type));
-    }
-
-    template <RUNTIME_MATRIX_TYPENAME M>
-    constexpr void FlattenMut(M &mat)
-    {
-        EXEC_IF_NOT_20(static_assert(RUNTIME_MATRIX(M), "FlattenMut: M must be RUNTIME_MATRIX");)
-        mat.Flatten();
-    }
-
-    template <RUNTIME_MATRIX_TYPENAME M>
-    constexpr void ResizeMut(M &mat, size_t w, size_t h)
-    {
-        EXEC_IF_NOT_20(static_assert(RUNTIME_MATRIX(M), "ResizeMut: M must be RUNTIME_MATRIX");)
-        mat.Resize(w, h);
-    }
-
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr bool Equal(const M &a, const M &b)
     {
