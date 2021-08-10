@@ -1,4 +1,5 @@
 #pragma once
+#include "dependencies/is_vector.hpp"
 #include "dependencies/copy_fast.hpp"
 #include "dependencies/cmat.hpp"
 
@@ -62,6 +63,17 @@ namespace mat
                 }
             }
         }
+    }
+
+    template <RUNTIME_MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
+    constexpr void ConcatVec(M &a, const M2 &b)
+    {
+        EXEC_IF_NOT_20(static_assert(RUNTIME_MATRIX(M) ), "ConcatVec: M must be RUNTIME_MATRIX"));
+        IsVector(a);
+        IsVector(b);
+
+        a.reserve(a.Area() + b.Area());
+        memcpy(a.begin() + a.Area(), b.begin(), b.Area() * sizeof(typename M2::type));
     }
 
     template <RUNTIME_MATRIX_TYPENAME M>
