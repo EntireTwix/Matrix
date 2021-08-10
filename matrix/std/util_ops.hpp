@@ -68,7 +68,7 @@ namespace mat
     template <RUNTIME_MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void ConcatVec(M &a, const M2 &b)
     {
-        EXEC_IF_NOT_20(static_assert(RUNTIME_MATRIX(M) ), "ConcatVec: M must be RUNTIME_MATRIX"));
+        EXEC_IF_NOT_20(static_assert(RUNTIME_MATRIX(M), "ConcatVec: M must be RUNTIME_MATRIX"));
         IsVector(a);
         IsVector(b);
 
