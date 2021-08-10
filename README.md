@@ -46,7 +46,7 @@ aswell as
 A concept that allows for generic operations and matrix implementations being interchangable, if the requirements for the concept are implemented it can mesh with any existing matrix operation
 
 #### [Operations](matrix/std)
-A set of generic zero overhead operations that work with any type that qualifies as a Matrix via the concept (if compiling with C++20)
+A set of generic zero overhead operations that work with any type that qualifies as a Matrix via the concept (if compiling with C++20). Use these operations if they exist for your purposes, otherwise look for an [STL alg](https://en.cppreference.com/w/cpp/algorithm), lastly if that too fails resort to implementing the function.
 
 #### [CUDA Operations](subprojects/cuda)
 **In Development**
