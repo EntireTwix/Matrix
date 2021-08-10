@@ -63,8 +63,8 @@ int main()
 
     hMat<int> a(100,100);
     hMat<int> b(100,100);
-    Fill(a, 3);
-    Fill(b, 5);
+    std::fill(a.begin(), a.end(), 3);
+    std::fill(b.begin(), b.end(), 8);
 
     for(size_t i = 0; i < 10000; ++i)
     {
@@ -80,8 +80,8 @@ int main()
 
     hMat<int> a(100,100);
     hMat<int> b(100,100);
-    Fill(a, 3);
-    Fill(b, 5);
+    std::fill(a.begin(), a.end(), 3);
+    std::fill(b.begin(), b.end(), 8);
     AddMatMut(a, b);
 }
 ```
