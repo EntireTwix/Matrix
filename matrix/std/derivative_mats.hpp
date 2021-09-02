@@ -18,6 +18,11 @@ namespace mat
             res.Flatten();
             return res;
         }
+        else
+        {
+            // So that a failure breaks rather than doing nothing
+            static_assert(false, "FlattenCopy: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));       
+        }
     }
 
     template <RUNTIME_MATRIX_TYPENAME M>
