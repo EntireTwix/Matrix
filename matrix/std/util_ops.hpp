@@ -8,7 +8,6 @@ namespace mat
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void CopySameArea(const M &src, M2 &dest)
     {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "CopySameArea: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if constexpr (CONSTEXPR_MATRIX(M) && CONSTEXPR_MATRIX(M2))
         {
             static_assert(src.Area() == dest.Area(), "CopySameArea: must be same Area");
@@ -34,7 +33,6 @@ namespace mat
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void Copy(const M &src, M2 &dest)
     {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Copy: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if (src.Area() == dest.Area())
         {
             //CopySameArea definition, without static_assert
