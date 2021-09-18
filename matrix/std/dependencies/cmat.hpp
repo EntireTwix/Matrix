@@ -113,7 +113,7 @@ namespace mat
         typedef decltype(check<C>(0)) type;                                                                                                   \
     public:                                                                                                                                   \
         static constexpr bool value = type::value;                                                                                            \
-    }    
+    };    
     HAS_FUNC_(Flatten);
     HAS_FUNC_(Capacity);
     HAS_FUNC_(Resize);
