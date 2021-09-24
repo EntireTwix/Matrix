@@ -88,20 +88,19 @@ int main()
 `AddMatMut` being a call to the generic operation `OperationMut`
 ```cpp
 template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
-#ifdef HAS_CONCEPTS 
+#ifdef HAS_CONCEPTS
 requires AddableAs<typename M::type, typename M2::type>
 #endif
-constexpr void AddMatMut(M& a, const M2&b) 
-{ 
-    OperationMut(a, b, [](typename M::type& a, copy_fast_cv_t<typename M2::type> b)
-    { 
-        a+=b; 
-    }); 
+constexpr void AddMatMut(M & a, const M2 &b)
+{
+    OperationMut(a, b, [](typename M::type &a, copy_fast_cv_t<typename M2::type> b) {
+        a += b;
+    });
 }
 ```
 ```cpp
 template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
-constexpr void OperationMut(M &a, const M2 &b, F &&func)
+constexpr void OperationMut(M & a, const M2 &b, F &&func)
 {
     for (size_t i = 0; i < b.Area(); ++i)
     {
