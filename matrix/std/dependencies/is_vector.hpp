@@ -7,7 +7,7 @@ namespace mat
     template <MATRIX_TYPENAME M>
     constexpr void IsVector(const M &mat)
     {
-        if constexpr (CONSTEXPR_MATRIX<M>)
+        if constexpr (CONSTEXPR_MATRIX(M))
         {
             static_assert(mat.Width() == 1 || mat.Height() == 1);
         }
