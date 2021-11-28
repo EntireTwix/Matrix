@@ -1,9 +1,6 @@
 #pragma once
 #include "dependencies/copy_fast.hpp"
-
-#ifdef HAS_CONCEPTS
 #include "dependencies/cmat.hpp"
-#endif
 
 namespace mat
 {
