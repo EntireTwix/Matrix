@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5.1)
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 option(USE_CUDA "Use CUDA" ON)
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_LIST_DIR}/matrix/std/")
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 
 file(GLOB gpu_source_files "${CMAKE_CURRENT_LIST_DIR}/subprojects/matrix-cuda/matrix/cuda/*.cu")
 
