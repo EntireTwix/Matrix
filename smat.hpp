@@ -57,8 +57,8 @@ namespace mat
         constexpr size_t Height() const noexcept { return H; }
 
         //Indexing
-        constexpr T &At(size_t x, size_t y) noexcept { return FastAt((y * (Width()) + x)); }
-        constexpr copy_fast_cv_t<T> At(size_t x, size_t y) const noexcept { return FastAt((y * (Width()) + x)); }
+        constexpr T &At(size_t x, size_t y) noexcept { return FastAt((y * (this->Width()) + x)); }
+        constexpr copy_fast_cv_t<T> At(size_t x, size_t y) const noexcept { return FastAt((y * (this->Width()) + x)); }
 
         constexpr T &FastAt(size_t index) noexcept
         {
