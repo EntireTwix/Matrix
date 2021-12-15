@@ -166,8 +166,16 @@ namespace mat
         }
 
         //Indexing
-        T &At(size_t x, size_t y) noexcept { return FastAt((y * this->_w) + x); }
-        copy_fast_cv_t<T> At(size_t x, size_t y) const noexcept { return FastAt((y * this->_w) + x); }
+        T &At(size_t x, size_t y) noexcept 
+        { 
+            assert(x < this->w && y < this->_h);
+            return this->_internal[(y * this->_w) + x]; 
+        }
+        copy_fast_cv_t<T> At(size_t x, size_t y) const noexcept 
+        { 
+            assert(x < this->w && y < this->_h);
+            return this->_internal[(y * this->_w) + x]; 
+        }
 
         T &FastAt(size_t index) noexcept
         {

@@ -39,8 +39,9 @@ namespace mat
         template <size_t W2, size_t H2>
         using base = sMat<T, W2, H2>;
 
+        // compile time dimensions
         static constexpr size_t width = W;
-        static constexpr size_t height = H;
+        static constexpr size_t height = H; 
 
         sMat() noexcept = default;
 
@@ -57,17 +58,25 @@ namespace mat
         constexpr size_t Height() const noexcept { return H; }
 
         //Indexing
-        constexpr T &At(size_t x, size_t y) noexcept { return FastAt((y * (this->Width()) + x)); }
-        constexpr copy_fast_cv_t<T> At(size_t x, size_t y) const noexcept { return FastAt((y * (this->Width()) + x)); }
+        constexpr T &At(size_t x, size_t y) noexcept 
+        { 
+            assert(x < W && y < H);
+            return this->_internal[(y * W) + x]; 
+        }
+        constexpr copy_fast_cv_t<T> At(size_t x, size_t y) const noexcept 
+        { 
+            assert(x < W && y < H);
+            return this->_internal[(y * W) + x]; 
+        }
 
         constexpr T &FastAt(size_t index) noexcept
         {
-            assert(index < this->Area());
+            assert(index < W * H);
             return this->_internal[index];
         }
         constexpr copy_fast_cv_t<T> FastAt(size_t index) const noexcept
         {
-            assert(index < this->Area());
+            assert(index < W * H);
             return this->_internal[index];
         }
     };
