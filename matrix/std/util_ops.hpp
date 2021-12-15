@@ -93,7 +93,7 @@ namespace mat
     }
 
     template <MATRIX_TYPENAME M>
-    auto* SafeFastAt(size_t index, M& mat)
+    constexpr auto* SafeFastAt(size_t index, M& mat)
     {
         if(index < mat.Area())
         {
@@ -106,7 +106,7 @@ namespace mat
     }
 
     template <MATRIX_TYPENAME M>
-    auto* SafeAt(size_t x, size_t y, M& mat) 
+    constexpr auto* SafeAt(size_t x, size_t y, M& mat) 
     { 
         if(x < mat.Width() && y < mat.Height())
         {
