@@ -1,4 +1,5 @@
 #pragma once
+#include <optional>
 #include "dependencies/is_vector.hpp"
 #include "dependencies/copy_fast.hpp"
 #include "dependencies/cmat.hpp"
@@ -63,6 +64,7 @@ namespace mat
         }
     }
 
+    //STL generic macro gen?
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr bool Equal(const M &a, const M &b)
     {
@@ -88,5 +90,31 @@ namespace mat
                 return std::equal(a.begin(), a.end(), b.begin());
             }
         }
+    }
+
+    template <MATRIX_TYPENAME M>
+    auto* SafeFastAt(size_t index, M& mat)
+    {
+        if(index < mat.Area())
+        {
+            return &mat.FastAt(index);
+        }
+        else
+        {
+            return (typename M::type*)nullptr;
+        }
+    }
+
+    template <MATRIX_TYPENAME M>
+    auto* SafeAt(size_t x, size_t y, M& mat) 
+    { 
+        if(x < mat.Width() && y < mat.Height())
+        {
+            return &mat.At(x, y);
+        }
+        else
+        {
+            return (typename M::type*)nullptr;
+        }    
     }
 };
