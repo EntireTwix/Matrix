@@ -63,7 +63,7 @@ namespace mat
             assert(x < W && y < H);
             return this->_internal[(y * W) + x]; 
         }
-        constexpr copy_fast_cv_t<T> At(size_t x, size_t y) const noexcept 
+        constexpr copy_fast_t<T> At(size_t x, size_t y) const noexcept 
         { 
             assert(x < W && y < H);
             return this->_internal[(y * W) + x]; 
@@ -74,7 +74,7 @@ namespace mat
             assert(index < W * H);
             return this->_internal[index];
         }
-        constexpr copy_fast_cv_t<T> FastAt(size_t index) const noexcept
+        constexpr copy_fast_t<T> FastAt(size_t index) const noexcept
         {
             assert(index < W * H);
             return this->_internal[index];
