@@ -41,19 +41,20 @@ namespace mat
 
         // compile time dimensions
         static constexpr size_t width = W;
-        static constexpr size_t height = H; 
+        static constexpr size_t height = H;
+        static constexpr size_t area = W * H; 
 
         sMat() noexcept = default;
 
         //Iterators
         constexpr T *begin() noexcept { return &this->_internal[0]; }
-        constexpr T *end() noexcept { return &this->_internal[this->Area()]; }
+        constexpr T *end() noexcept { return &this->_internal[area]; }
         constexpr const T *begin() const noexcept { return &this->_internal[0]; }
-        constexpr const T *end() const noexcept { return &this->_internal[this->Area()]; }
+        constexpr const T *end() const noexcept { return &this->_internal[area]; }
         constexpr T *data() { return &this->_internal[0]; }
 
         //Size
-        constexpr size_t Area() const noexcept { return W * H; }
+        constexpr size_t Area() const noexcept { return area; }
         constexpr size_t Width() const noexcept { return W; }
         constexpr size_t Height() const noexcept { return H; }
 
