@@ -59,22 +59,4 @@ namespace mat
             return res;
         }
     }
-
-    template <MATRIX_TYPENAME M>
-    constexpr auto TransposeCopy(const M &mat)
-    {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Func: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        if constexpr (CONSTEXPR_MATRIX(M))
-        {
-            typename M::base<M::height, M::width> res;
-            TruncCopy(mat, res);
-            return res;
-        }
-        else
-        {
-            M res(mat.Height(), mat.Width());
-            TruncCopy(mat, res);
-            return res;
-        }
-    }
 }
