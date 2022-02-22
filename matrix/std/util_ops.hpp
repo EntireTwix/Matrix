@@ -19,16 +19,9 @@ namespace mat
             assert(src.Area() <= dest.Area());
         }
 
-        if constexpr (std::is_same_v<M, M2>)
+        for (size_t i = 0; i < src.Area(); ++i)
         {
-            dest = src; //calling operator=
-        }
-        else
-        {
-            for (size_t i = 0; i < src.Area(); ++i)
-            {
-                dest.FastAt(i) = src.FastAt(i);
-            }
+            dest.FastAt(i) = src.FastAt(i);
         }
     }
 
