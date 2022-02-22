@@ -20,6 +20,7 @@ namespace mat
 #endif
     std::ostream &Print(std::ostream &os, const M &mat)
     {
+        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "OperationMut: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         for (size_t i = 0; i < mat.Height(); ++i)
         {
             for (size_t j = 0; j < mat.Width(); ++j)

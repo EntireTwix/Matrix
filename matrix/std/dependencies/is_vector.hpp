@@ -11,9 +11,13 @@ namespace mat
         {
             static_assert(mat.Width() == 1 || mat.Height() == 1);
         }
-        else
+        else if constexpr (RUNTIME_MATRIX(M))
         {
             assert(mat.Width() == 1 || mat.Height() == 1);
+        }
+        else 
+        { 
+            static_assert(false, "IsVector: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"); 
         }
     }
 };

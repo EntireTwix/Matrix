@@ -8,11 +8,11 @@ namespace mat
     {
         if constexpr (CONSTEXPR_MATRIX(M))
         {
-            typename M::base<M::area, 1> res;   
+            typename M::base<M::area, 1> res;
             CopySameArea(mat, res);
             return res;
         }
-        else if (RUNTIME_MATRIX(M))
+        else if constexpr (RUNTIME_MATRIX(M))
         {
             M res(mat);
             res.Flatten();
@@ -21,7 +21,7 @@ namespace mat
         else
         {
             // So that a failure breaks rather than doing nothing
-            static_assert(false, "FlattenCopy: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"));       
+            static_assert(false, "FlattenCopy: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX");
         }
     }
 
@@ -53,6 +53,28 @@ namespace mat
             typename M::base<W, H> res;
             Copy(mat, res);
             return res;
+        }
+    }
+
+    template <MATRIX_TYPENAME M>
+    constexpr auto TransposeCopy(const M &mat)
+    {
+        if constexpr (CONSTEXPR_MATRIX(M))
+        {
+            typename M::base<mat.Height(), mat.Width()> res;
+            Copy(mat, res);
+            return res;
+        }
+        else if constexpr (RUNTIME_MATRIX(M))
+        {
+            M res(mat.Height(), mat.Width());
+            Copy(mat, res);
+            return res;
+        }
+        else
+        {
+            // So that a failure breaks rather than doing nothing
+            static_assert(false, "TransposeCopy: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX");
         }
     }
 }

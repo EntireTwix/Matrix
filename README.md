@@ -82,6 +82,7 @@ int main()
     hMat<int> b(100,100);
     std::fill(a.begin(), a.end(), 3);
     std::fill(b.begin(), b.end(), 8);
+    
     AddMatMut(a, b);
 }
 ```
@@ -93,7 +94,7 @@ requires AddableAs<typename M::type, typename M2::type>
 #endif
 constexpr void AddMatMut(M & a, const M2 &b)
 {
-    OperationMut(a, b, [](typename M::type &a, copy_fast_cv_t<typename M2::type> b) {
+    OperationMut(a, b, [](typename M::type &a, copy_fast_t<typename M2::type> b) {
         a += b;
     });
 }
