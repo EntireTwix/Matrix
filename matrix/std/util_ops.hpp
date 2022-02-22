@@ -36,31 +36,32 @@ namespace mat
     constexpr void Copy(const M &src, M2 &dest)
     {
         EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "Copy: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        if (src.Area() == dest.Area()) // why can't we make this compile time?
+        if constexpr (CONSTEXPR_MATRIX(M) && CONSTEXPR_MATRIX(M2))
         {
-            //CopySameArea definition, without asserts as we know they are the same area
-            if constexpr (std::is_same_v<M, M2>)
-            {
-                dest = src; //calling operator=
-            }
-            else
+            // both constexpr and same area
+            if constexpr (src.Area() == dest.Area())
             {
                 for (size_t i = 0; i < src.Area(); ++i)
                 {
                     dest.FastAt(i) = src.FastAt(i);
                 }
+                return;
+            }
+            else if constexpr (std::is_same_v<M, M2>) // both constexpr, same area, and same dimension 
+            {
+                dest = src;
+                return;
             }
         }
-        else
+
+        // is ran if its not the case that both are constexpr and/or if they differ in area
+        for (size_t i = 0; i < dest.Height(); ++i)
         {
-            for (size_t i = 0; i < dest.Height(); ++i)
+            for (size_t j = 0; j < dest.Width(); ++j)
             {
-                for (size_t j = 0; j < dest.Width(); ++j)
+                if (j < src.Width() && i < src.Height())
                 {
-                    if (j < src.Width() && i < src.Height())
-                    {
-                        dest.At(j, i) = src.At(j, i);
-                    }
+                    dest.At(j, i) = src.At(j, i);
                 }
             }
         }
