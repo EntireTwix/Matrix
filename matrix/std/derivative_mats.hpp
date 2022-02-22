@@ -20,7 +20,6 @@ namespace mat
         }
         else
         {
-            // So that a failure breaks rather than doing nothing
             static_assert(false, "FlattenCopy: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX");
         }
     }
@@ -73,7 +72,6 @@ namespace mat
         }
         else
         {
-            // So that a failure breaks rather than doing nothing
             static_assert(false, "TransposeCopy: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX");
         }
     }
