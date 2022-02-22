@@ -55,8 +55,8 @@ namespace mat
 
         //Size
         constexpr size_t Area() const noexcept { return area; }
-        constexpr size_t Width() const noexcept { return W; }
-        constexpr size_t Height() const noexcept { return H; }
+        constexpr size_t Width() const noexcept { return width; }
+        constexpr size_t Height() const noexcept { return height; }
 
         //Indexing
         constexpr T &At(size_t x, size_t y) noexcept 
