@@ -9,6 +9,7 @@ namespace mat
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void CopySameArea(const M &src, M2 &dest)
     {
+        EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "CopySameArea: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if constexpr (CONSTEXPR_MATRIX(M) && CONSTEXPR_MATRIX(M2))
         {
             static_assert(src.Area() == dest.Area(), "CopySameArea: must be same Area");
@@ -34,9 +35,10 @@ namespace mat
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr void Copy(const M &src, M2 &dest)
     {
+        EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "Copy: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if (src.Area() == dest.Area())
         {
-            //CopySameArea definition, without static_assert
+            //CopySameArea definition, without asserts as we know they are the same area
             if constexpr (std::is_same_v<M, M2>)
             {
                 dest = src; //calling operator=
@@ -68,6 +70,7 @@ namespace mat
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
     constexpr bool Equal(const M &a, const M &b)
     {
+        EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "Equal: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if constexpr (CONSTEXPR_MATRIX(M) && std::is_same_v<M, M2>)
         {
             if constexpr (a.Area() != b.Area())
@@ -95,7 +98,8 @@ namespace mat
     template <MATRIX_TYPENAME M>
     constexpr auto* SafeFastAt(size_t index, M& mat)
     {
-        if(index < mat.Area())
+        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)), "SafeFastAt: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        if(index < mat.Area())        
         {
             return &mat.FastAt(index);
         }
@@ -108,6 +112,7 @@ namespace mat
     template <MATRIX_TYPENAME M>
     constexpr auto* SafeAt(size_t x, size_t y, M& mat) 
     { 
+        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)), "SafeAt: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if(x < mat.Width() && y < mat.Height())
         {
             return &mat.At(x, y);
