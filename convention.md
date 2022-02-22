@@ -19,9 +19,33 @@ what `*` in `template <* T>` should be depending on what types you want to accep
 |         F          |        F         |        T         |         `typename T`          |
 
 here is the convention for what checks should be enforced depending on what the type of Matrix is acceptable
-| `MATRIX_TYPENAME` | `CONSTEXPR_MATRIX_TYPENAME` | `RUNTIME_MATRIX_TYPENAME` | Implementation Differs between Matrix categories |                                                                              Convention                                                                               |
-| :---------------: | :-------------------------: | :-----------------------: | :----------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|         T         |            `N/A`            |           `N/A`           |                        T                         | `if constexpr (CONSTEXPR_MATRIX(M)) {} else if constexpr (RUNTIME_MATRIX(M)) {} else { static_assert(false, "Func: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"); }` |
-|         T         |            `N/A`            |           `N/A`           |                        F                         |                  `EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Func: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));`                   |
-|         F         |              T              |             F             |                      `N/A`                       |                                      `EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M), "Func: M must be a CONSTEXPR_MATRIX"));`                                      |
-|         F         |              F              |             T             |                      `N/A`                       |                                        `EXEC_IF_NOT_20(static_assert(RUNTIME_MATRIX(M), "Func: M must be a RUNTIME_MATRIX"));`                                        |
+| `MATRIX_TYPENAME` | `CONSTEXPR_MATRIX_TYPENAME` | `RUNTIME_MATRIX_TYPENAME` | Implementation Differs between Matrix categories | Convention |
+| :---------------: | :-------------------------: | :-----------------------: | :----------------------------------------------: | :--------- |
+|         T         |            `N/A`            |           `N/A`           |                        T                         | 1          |
+|         T         |            `N/A`            |           `N/A`           |                        F                         | 2          |
+|         F         |              T              |             F             |                      `N/A`                       | 3          |
+|         F         |              F              |             T             |                      `N/A`                       | 4          |
+
+1. ```cpp
+   if constexpr (CONSTEXPR_MATRIX(M)) 
+   {
+
+   } 
+   else if constexpr (RUNTIME_MATRIX(M)) 
+   {
+
+   } 
+   else 
+   { 
+       static_assert(false, "Func: M must be CONSTEXPR_MATRIX or RUNTIME_MATRIX"); 
+   }
+   ```
+2. ```cpp 
+   EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Func: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+   ```
+3. ```cpp
+   EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M), "Func: M must be a CONSTEXPR_MATRIX"));
+   ```
+4. ```cpp
+   EXEC_IF_NOT_20(static_assert(RUNTIME_MATRIX(M), "Func: M must be a RUNTIME_MATRIX"));
+   ```
