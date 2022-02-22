@@ -12,7 +12,7 @@ namespace mat
         EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "DirectCopy: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if constexpr (CONSTEXPR_MATRIX(M) && CONSTEXPR_MATRIX(M2))
         {
-            static_assert(src.Area() == dest.Area(), "DirectCopy: must be same Area");
+            static_assert(M::area == M2::area, "DirectCopy: must be same Area");
         }
         else
         {
@@ -50,12 +50,12 @@ namespace mat
 
     //STL generic macro gen?
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
-    constexpr bool Equal(const M &a, const M &b)
+    constexpr bool Equal(const M &a, const M2 &b)
     {
         EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "Equal: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if constexpr (CONSTEXPR_MATRIX(M) && std::is_same_v<M, M2>)
         {
-            if constexpr (a.Area() != b.Area())
+            if constexpr (M::area != M2::area)
             {
                 return false;
             }
