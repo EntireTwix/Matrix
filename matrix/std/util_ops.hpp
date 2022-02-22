@@ -36,20 +36,20 @@ namespace mat
     constexpr void Copy(const M &src, M2 &dest)
     {
         EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "Copy: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        static_assert(CONSTEXPR_MATRIX(M));
         if constexpr (CONSTEXPR_MATRIX(M) && CONSTEXPR_MATRIX(M2))
         {
-            // both constexpr and same area
-            if constexpr (src.Area() == dest.Area())
+            if constexpr (std::is_same_v<M, M2>) // both constexpr, same area, and same dimension 
+            {
+                dest = src;
+                return;
+            }
+            else if constexpr (M::area == M2::area) // both constexpr and same area
             {
                 for (size_t i = 0; i < src.Area(); ++i)
                 {
                     dest.FastAt(i) = src.FastAt(i);
                 }
-                return;
-            }
-            else if constexpr (std::is_same_v<M, M2>) // both constexpr, same area, and same dimension 
-            {
-                dest = src;
                 return;
             }
         }
