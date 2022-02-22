@@ -12,7 +12,7 @@ namespace mat
         {
             static_assert(mat.Width() == 1 || mat.Height() == 1);
         }
-        else if constexpr (RUNTIME_MATRIX(M))
+        else
         {
             assert(mat.Width() == 1 || mat.Height() == 1);
         } 
