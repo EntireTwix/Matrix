@@ -168,12 +168,12 @@ namespace mat
         //Indexing
         T &At(size_t x, size_t y) noexcept 
         { 
-            assert(x < this->w && y < this->_h);
+            assert(x < this->_w && y < this->_h);
             return this->_internal[(y * this->_w) + x]; 
         }
         copy_fast_t<T> At(size_t x, size_t y) const noexcept 
         { 
-            assert(x < this->w && y < this->_h);
+            assert(x < this->_w && y < this->_h);
             return this->_internal[(y * this->_w) + x]; 
         }
 
