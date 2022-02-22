@@ -10,7 +10,7 @@ namespace mat
         if constexpr (CONSTEXPR_MATRIX(M))
         {
             typename M::base<M::area, 1> res;
-            CopySameArea(mat, res);
+            DirectCopy(mat, res);
             return res;
         }
         else
@@ -32,7 +32,7 @@ namespace mat
         else
         {
             M res(w, h);
-            Copy(mat, res);
+            TruncCopy(mat, res);
             return res;
         }
     }
@@ -47,7 +47,7 @@ namespace mat
         else
         {
             typename M::base<W, H> res;
-            Copy(mat, res);
+            TruncCopy(mat, res);
             return res;
         }
     }
@@ -59,13 +59,13 @@ namespace mat
         if constexpr (CONSTEXPR_MATRIX(M))
         {
             typename M::base<mat.Height(), mat.Width()> res;
-            Copy(mat, res);
+            TruncCopy(mat, res);
             return res;
         }
         else
         {
             M res(mat.Height(), mat.Width());
-            Copy(mat, res);
+            TruncCopy(mat, res);
             return res;
         }
     }

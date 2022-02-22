@@ -7,12 +7,12 @@
 namespace mat
 {
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
-    constexpr void CopySameArea(const M &src, M2 &dest)
+    constexpr void DirectCopy(const M &src, M2 &dest)
     {
-        EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "CopySameArea: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "DirectCopy: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if constexpr (CONSTEXPR_MATRIX(M) && CONSTEXPR_MATRIX(M2))
         {
-            static_assert(src.Area() == dest.Area(), "CopySameArea: must be same Area");
+            static_assert(src.Area() == dest.Area(), "DirectCopy: must be same Area");
         }
         else
         {
@@ -33,27 +33,9 @@ namespace mat
     }
 
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
-    constexpr void Copy(const M &src, M2 &dest)
+    constexpr void TruncCopy(const M &src, M2 &dest)
     {
-        EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "Copy: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        if constexpr (CONSTEXPR_MATRIX(M) && CONSTEXPR_MATRIX(M2))
-        {
-            if constexpr (std::is_same_v<M, M2>) // both constexpr, same area, and same dimension 
-            {
-                dest = src;
-                return;
-            }
-            else if constexpr (M::area == M2::area) // both constexpr and same area
-            {
-                for (size_t i = 0; i < src.Area(); ++i)
-                {
-                    dest.FastAt(i) = src.FastAt(i);
-                }
-                return;
-            }
-        }
-
-        // is ran if its not the case that both are constexpr and/or if they differ in area
+        EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "TruncCopy: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         for (size_t i = 0; i < dest.Height(); ++i)
         {
             for (size_t j = 0; j < dest.Width(); ++j)
