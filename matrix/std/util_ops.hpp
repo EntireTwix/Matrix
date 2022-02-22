@@ -12,11 +12,11 @@ namespace mat
         EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "DirectCopy: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if constexpr (CONSTEXPR_MATRIX(M) && CONSTEXPR_MATRIX(M2))
         {
-            static_assert(M::area == M2::area, "DirectCopy: must be same Area");
+            static_assert(M::area <= M2::area, "DirectCopy: must be same Area");
         }
         else
         {
-            assert(src.Area() == dest.Area());
+            assert(src.Area() <= dest.Area());
         }
 
         if constexpr (std::is_same_v<M, M2>)
