@@ -41,35 +41,6 @@ namespace mat
         }
     }
 
-    //STL generic macro gen?
-    template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
-    constexpr bool Equal(const M &a, const M2 &b)
-    {
-        EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "Equal: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        if constexpr (CONSTEXPR_MATRIX(M) && std::is_same_v<M, M2>)
-        {
-            if constexpr (M::area != M2::area)
-            {
-                return false;
-            }
-            else
-            {
-                return std::equal(a.begin(), a.end(), b.begin());
-            }
-        }
-        else
-        {
-            if (a.Area() != b.Area())
-            {
-                return false;
-            }
-            else
-            {
-                return std::equal(a.begin(), a.end(), b.begin());
-            }
-        }
-    }
-
     template <MATRIX_TYPENAME M>
     constexpr auto* SafeFastAt(size_t index, M& mat)
     {
