@@ -31,7 +31,7 @@ namespace mat
     class sMat
     {
     private:
-        T _internal[H * W]{};
+        T _internal[H][W]{};
 
     public:
         using type = T;
@@ -44,14 +44,16 @@ namespace mat
         static constexpr size_t height = H;
         static constexpr size_t area = W * H; 
 
+        // Constructors
         sMat() noexcept = default;
+        template <typename... Args>
+        sMat(Args... list) : _internal{list...} {};
 
         //Iterators
-        constexpr T *begin() noexcept { return &this->_internal[0]; }
-        constexpr T *end() noexcept { return &this->_internal[area]; }
-        constexpr const T *begin() const noexcept { return &this->_internal[0]; }
-        constexpr const T *end() const noexcept { return &this->_internal[area]; }
-        constexpr T *data() { return &this->_internal[0]; }
+        constexpr T *begin() noexcept { return this->_internal[0]; }
+        constexpr T *end() noexcept { return this->_internal[area]; }
+        constexpr const T *begin() const noexcept { return this->_internal[0]; }
+        constexpr const T *end() const noexcept { return this->_internal[area]; }
 
         //Size
         constexpr size_t Area() const noexcept { return area; }
@@ -62,23 +64,23 @@ namespace mat
         constexpr T &At(size_t x, size_t y) noexcept 
         { 
             assert(x < W && y < H);
-            return this->_internal[(y * W) + x]; 
+            return this->_internal[y][x]; 
         }
         constexpr copy_fast_t<T> At(size_t x, size_t y) const noexcept 
         { 
             assert(x < W && y < H);
-            return this->_internal[(y * W) + x]; 
+            return this->_internal[y][x]; 
         }
 
         constexpr T &FastAt(size_t index) noexcept
         {
-            assert(index < W * H);
-            return this->_internal[index];
+            assert(index < area);
+            return this->_internal[0][index];
         }
         constexpr copy_fast_t<T> FastAt(size_t index) const noexcept
         {
-            assert(index < W * H);
-            return this->_internal[index];
+            assert(index < area);
+            return this->_internal[0][index];
         }
     };
 }
