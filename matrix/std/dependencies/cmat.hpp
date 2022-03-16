@@ -59,9 +59,6 @@ namespace mat
         {
             b.end()
             } -> std::same_as<const typename T::type *>;
-        {
-            a.data()
-            } -> std::same_as<typename T::type *>;
 
         {
             a.Area()
