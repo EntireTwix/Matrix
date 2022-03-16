@@ -19,12 +19,11 @@ what `*` in `template <* T>` should be depending on what types you want to accep
 |         F          |        F         |        T         |         `typename T`          |
 
 here is the convention for what checks should be enforced depending on what the type of Matrix is acceptable
-| `MATRIX_TYPENAME` | `CONSTEXPR_MATRIX_TYPENAME` | `RUNTIME_MATRIX_TYPENAME` | Implementation Differs between Matrix categories | Convention |
-| :---------------: | :-------------------------: | :-----------------------: | :----------------------------------------------: | :--------- |
-|         T         |            `N/A`            |           `N/A`           |                        T                         | 1          |
-|         T         |            `N/A`            |           `N/A`           |                        F                         | 1          |
-|         F         |              T              |             F             |                      `N/A`                       | 2          |
-|         F         |              F              |             T             |                      `N/A`                       | 3          |
+| `MATRIX_TYPENAME` | `CONSTEXPR_MATRIX_TYPENAME` | `RUNTIME_MATRIX_TYPENAME` | Convention |
+| :---------------: | :-------------------------: | :-----------------------: | :--------- |
+|         T         |            `N/A`            |           `N/A`           | 1          |
+|         F         |              T              |             F             | 2          |
+|         F         |              F              |             T             | 3          |
 
 1. ```cpp 
    EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Func: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
