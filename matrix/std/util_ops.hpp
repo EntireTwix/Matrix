@@ -1,7 +1,5 @@
 #pragma once
 #include <optional>
-#include "dependencies/is_vector.hpp"
-#include "dependencies/copy_fast.hpp"
 #include "dependencies/cmat.hpp"
 
 namespace mat
