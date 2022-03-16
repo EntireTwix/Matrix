@@ -92,10 +92,10 @@ namespace mat
         }
 
         //Iterators
-        T *begin() noexcept { return this->_internal[0]; }
-        T *end() noexcept { return this->_internal[this->Area()]; }
-        const T *begin() const noexcept { return this->_internal[0]; }
-        const T *end() const noexcept { return this->_internal[this->Area()]; }
+        T *begin() noexcept { return &this->_internal[0]; }
+        T *end() noexcept { return &this->_internal[this->Area()]; }
+        const T *begin() const noexcept { return &this->_internal[0]; }
+        const T *end() const noexcept { return &this->_internal[this->Area()]; }
 
         //Size
         size_t Width() const noexcept { return _w; }

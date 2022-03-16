@@ -51,10 +51,10 @@ namespace mat
         constexpr sMat(Args... list) : _internal{list...} {}
 
         //Iterators
-        constexpr T *begin() noexcept { return this->_internal[0]; }
-        constexpr T *end() noexcept { return this->_internal[area]; }
-        constexpr const T *begin() const noexcept { return this->_internal[0]; }
-        constexpr const T *end() const noexcept { return this->_internal[area]; }
+        constexpr T *begin() noexcept { return &this->_internal[0][0]; }
+        constexpr T *end() noexcept { return &this->_internal[0][area]; }
+        constexpr const T *begin() const noexcept { return &this->_internal[0][0]; }
+        constexpr const T *end() const noexcept { return &this->_internal[0][area]; }
 
         //Size
         constexpr size_t Area() const noexcept { return area; }
