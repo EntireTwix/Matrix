@@ -23,7 +23,6 @@
 #pragma once
 #include <stddef.h>
 #include <cassert>
-#include <initializer_list>
 #include "dependencies/copy_fast.hpp"
 
 namespace mat
@@ -48,7 +47,7 @@ namespace mat
         // Constructors
         constexpr sMat() noexcept = default;
         template <typename... Args>
-        constexpr sMat(Args... list) : _internal{list...} {}
+        constexpr explicit sMat(Args... list) : _internal{list...} {}
 
         //Iterators
         constexpr T *begin() noexcept { return &this->_internal[0][0]; }
