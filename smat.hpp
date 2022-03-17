@@ -24,7 +24,7 @@
 #include <stddef.h>
 #include <cassert>
 #include <initializer_list>
-#include "matrix/std/dependencies/copy_fast.hpp"
+#include "dependencies/copy_fast.hpp"
 
 namespace mat
 {

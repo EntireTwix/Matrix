@@ -6,6 +6,10 @@ Zero overhead meaning the matrix abstraction provides programmatic utility witho
 A nice side effect of making operations very generic is any matrix implementation can interact with any other, you can use `stack` based matrices when size is known, recieving the performance advantages, and have them interact with `heap` based matrices with no consequence
 
 ## Usage
+After adding the include directory to your build system.
+```cmake
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Matrix)
+```
 
 As this is header only, simply include the implementation(s) of your choice
 ```cpp
@@ -17,20 +21,12 @@ and/or
 ```
 
 ### Optional CUDA usage
-#### Meson
-```meson
-matrix_dep = subproject('matrix').get_variable('matrix_dep')
-```
-for CUDA you can set the `matrix_use_cuda` meson feature option to `enabled`.
-
-#### CMake
-or with CMake
+in your project's `CMakeLists.txt` file add: 
 ```cmake
 add_subdirectory(Matrix)
 target_link_libraries(${PROJECT_NAME} matrix_cuda)
 ```
-aswell as 
-`-DUSE_CUDA=true` when constructing your project.
+aswell as `-DUSE_CUDA=true` when constructing your project.
 
 **DISCLAIMER: CUDA is annoying in that its highest version is C++17**
 
@@ -42,13 +38,13 @@ aswell as
 #### [hMat](hmat.hpp)
 `HEAP` based Matrix, use this where you would `std::vector`
 
-#### [Matrix Concept](matrix/std/dependencies/cmat.hpp) (C++20)
+#### [Matrix Concept](include/dependencies/cmat.hpp) (C++20)
 A concept that allows for generic operations and matrix implementations being interchangable, if the requirements for the concept are implemented it can mesh with any existing matrix operation
 
-#### [Operations](matrix/std)
+#### [Operations](include)
 A set of generic zero overhead operations that work with any type that qualifies as a Matrix via the concept (if compiling with C++20). Use these operations if they exist for your purposes, otherwise look for an [STL alg](https://en.cppreference.com/w/cpp/algorithm), lastly if that too fails resort to implementing the function.
 
-#### [CUDA Operations](subprojects/cuda)
+#### [CUDA Operations](cuda)
 **In Development**
 GPU accelerated Matrix operations
 

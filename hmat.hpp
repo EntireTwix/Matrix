@@ -24,7 +24,7 @@
 #include <cstring>
 #include <cassert>
 #include <stddef.h>
-#include "matrix/std/dependencies/copy_fast.hpp"
+#include "dependencies/copy_fast.hpp"
 
 namespace mat
 {
