@@ -45,7 +45,7 @@ namespace mat
     template <typename T>
     concept Matrix = requires(T a, const T b)
     {
-        typename T::type;
+        typename T::value_type;
 
         {
             a.begin()

@@ -36,7 +36,7 @@ namespace mat
         size_t _w = 0, _h = 0, _size = 0, _capacity = 0;
 
     public:
-        using type = T;
+        using value_type = T;
 
         hMat() noexcept = default;
         explicit hMat(size_t w, size_t h) noexcept : _w(w), _h(h), _size(w * h), _capacity(w * h)

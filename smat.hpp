@@ -34,7 +34,7 @@ namespace mat
         T _internal[H][W]{};
 
     public:
-        using type = T;
+        using value_type = T;
 
         template <size_t W2, size_t H2>
         using base = sMat<T, W2, H2>;
