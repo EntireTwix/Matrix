@@ -29,6 +29,7 @@ constexpr void SoftMaxMut(T first, T end)
     }
 }
 
+// possibly suboptimal
 template <size_t W2, size_t H, size_t S>
 constexpr MLMat<W2, H> Dot(const MLMat<S, H>& a, const MLMat<W2, S>& b)
 {
@@ -75,3 +76,6 @@ public:
     constexpr value_type &FastAt(size_t index) noexcept { return _ref.At(index / _ref.Height(), index % _ref.Height()); }
     constexpr copy_fast_t<value_type> FastAt(size_t index) const noexcept { return _ref.At(index / _ref.Height(), index % _ref.Height()); }
 };
+
+template <MATRIX_TYPENAME M, typename T>
+constexpr void GenInit(M& mat, T&& func) { for(auto& f : mat) { f = func(); } }
