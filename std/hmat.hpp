@@ -196,5 +196,3 @@ namespace mat
         }
     };
 }
-
-// TODO: std::initializer_list constructor

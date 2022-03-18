@@ -8,7 +8,7 @@ A nice side effect of making operations very generic is any matrix implementatio
 ## Usage
 After adding the include directory to your build system.
 ```cmake
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Matrix)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Matrix/std)
 ```
 
 As this is header only, simply include the implementation(s) of your choice
