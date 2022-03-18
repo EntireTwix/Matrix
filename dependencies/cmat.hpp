@@ -49,16 +49,16 @@ namespace mat
 
         {
             a.begin()
-            } -> std::same_as<typename T::type *>;
+            } -> std::same_as<typename T::value_type*>;
         {
             a.end()
-            } -> std::same_as<typename T::type *>;
+            } -> std::same_as<typename T::value_type*>;
         {
             b.begin()
-            } -> std::same_as<const typename T::type *>;
+            } -> std::same_as<const typename T::value_type*>;
         {
             b.end()
-            } -> std::same_as<const typename T::type *>;
+            } -> std::same_as<const typename T::value_type*>;
 
         {
             a.Area()
@@ -72,16 +72,16 @@ namespace mat
 
         {
             a.At(0, 0)
-            } -> std::convertible_to<typename T::type &>;
+            } -> std::convertible_to<typename T::value_type &>;
         {
             a.At(0, 0)
-            } -> std::convertible_to<copy_fast_t<typename T::type>>;
+            } -> std::convertible_to<copy_fast_t<typename T::value_type>>;
         {
             a.FastAt(0)
-            } -> std::convertible_to<typename T::type &>;
+            } -> std::convertible_to<typename T::value_type &>;
         {
             a.FastAt(0)
-            } -> std::convertible_to<copy_fast_t<typename T::type>>;
+            } -> std::convertible_to<copy_fast_t<typename T::value_type>>;
     };
 
     template <typename M>

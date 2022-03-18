@@ -1,22 +1,17 @@
 #pragma once
+#include <ostream>
 #include "dependencies/cmat.hpp"
 
 #ifdef HAS_CONCEPTS
-#include <iostream>
 template <typename T>
-concept Printable = requires(T a)
-{
-    { std::cout << a } ->std::same_as<std::ostream &>;
-};
-#else
-#include <ostream>
+concept Printable = requires(const T a, std::ostream os) {{ os << a } ->std::same_as<std::ostream &>;};
 #endif
 
 namespace mat
 {
     template <MATRIX_TYPENAME M>
 #ifdef HAS_CONCEPTS
-    requires Printable<typename M::type>
+    requires Printable<typename M::value_type>
 #endif
     std::ostream &Print(std::ostream &os, const M &mat)
     {
