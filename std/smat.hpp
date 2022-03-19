@@ -31,7 +31,7 @@ namespace mat
     class sMat
     {
     private:
-        T _internal[H][W]{};
+        T _internal[H * W]{};
 
     public:
         using value_type = T;
@@ -50,10 +50,10 @@ namespace mat
         constexpr explicit sMat(Args... list) : _internal{list...} {}
 
         //Iterators
-        constexpr T *begin() noexcept { return &this->_internal[0][0]; }
-        constexpr T *end() noexcept { return &this->_internal[0][area - 1] + 1; }
-        constexpr const T *begin() const noexcept { return &this->_internal[0][0]; }
-        constexpr const T *end() const noexcept { return &this->_internal[0][area - 1] + 1; }
+        constexpr T *begin() noexcept { return &this->_internal[0]; }
+        constexpr T *end() noexcept { return &this->_internal[area - 1] + 1; }
+        constexpr const T *begin() const noexcept { return &this->_internal[0]; }
+        constexpr const T *end() const noexcept { return &this->_internal[area - 1] + 1; }
 
         //Size
         constexpr size_t Area() const noexcept { return area; }
@@ -64,23 +64,23 @@ namespace mat
         constexpr T &At(size_t x, size_t y) noexcept 
         { 
             assert(x < W && y < H);
-            return this->_internal[y][x]; 
+            return this->_internal[(y * W) + x]; 
         }
         constexpr copy_fast_t<T> At(size_t x, size_t y) const noexcept 
         { 
             assert(x < W && y < H);
-            return this->_internal[y][x]; 
+            return this->_internal[(y * W) + x]; 
         }
 
         constexpr T &FastAt(size_t index) noexcept
         {
             assert(index < area);
-            return this->_internal[0][index];
+            return this->_internal[index];
         }
         constexpr copy_fast_t<T> FastAt(size_t index) const noexcept
         {
             assert(index < area);
-            return this->_internal[0][index];
+            return this->_internal[index];
         }
     };
 }
