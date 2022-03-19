@@ -31,7 +31,7 @@ constexpr void SoftMaxMut(T first, T end)
 
 // possibly suboptimal
 template <size_t W2, size_t H, size_t S>
-constexpr MLMat<W2, H> Dot(const MLMat<S, H>& a, const MLMat<W2, S>& b)
+constexpr MLMat<W2, H> SimpleMatrixMult(const MLMat<S, H>& a, const MLMat<W2, S>& b)
 {
     MLMat<W2, H> res;
     for (size_t i = 0; i < H; ++i) 
@@ -78,4 +78,13 @@ public:
 };
 
 template <MATRIX_TYPENAME M, typename T>
-constexpr void GenInit(M& mat, T&& func) { for(auto& f : mat) { f = func(); } }
+constexpr void GenInit(M& mat, T&& func) 
+{ 
+    EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "GenInit: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+    for(auto& f : mat) { f = func(); } 
+}
+
+template <size_t W, size_t H>
+constexpr MLMat<H, 1> WeightForward(const MLMat<W, 1>& inputs, const MLMat<H, W>& weights) { return SimpleMatrixMult(inputs, weights); } // TODO: faster matrix multiplications via SIMD and GPU
+template <size_t W, typename T>
+constexpr MLMat<W, 1> HiddenForward(const MLMat<W, 1>& inputs, const MLMat<W, 1>& biases, T&& activation_func) { return Operation(inputs, biases, [](float a, float b){ return activation_func(a + b); }); }
