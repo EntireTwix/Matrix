@@ -87,4 +87,4 @@ constexpr void GenInit(M& mat, T&& func)
 template <size_t W, size_t H>
 constexpr MLMat<H, 1> WeightForward(const MLMat<W, 1>& inputs, const MLMat<H, W>& weights) { return SimpleMatrixMult(inputs, weights); } // TODO: faster matrix multiplications via SIMD and GPU
 template <size_t W, typename T>
-constexpr MLMat<W, 1> HiddenForward(const MLMat<W, 1>& inputs, const MLMat<W, 1>& biases, T&& activation_func) { return Operation(inputs, biases, [](float a, float b){ return activation_func(a + b); }); }
+constexpr MLMat<W, 1> HiddenForward(const MLMat<W, 1>& inputs, const MLMat<W, 1>& biases, T&& activation_func) { return Operation(inputs, biases, [activation_func](float a, float b){ return activation_func(a + b); }); }
