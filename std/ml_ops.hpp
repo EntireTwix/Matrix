@@ -1,6 +1,8 @@
 #pragma once
+#include <cmath>
 #include <type_traits>
 #include "smat.hpp"
+#include "generic_ops.hpp"
 
 template <size_t W, size_t H>
 using MLMat = mat::sMat<float, W, H>;
@@ -77,14 +79,53 @@ public:
     constexpr copy_fast_t<value_type> FastAt(size_t index) const noexcept { return _ref.At(index / _ref.Height(), index % _ref.Height()); }
 };
 
+// Initializations
 template <MATRIX_TYPENAME M, typename T>
 constexpr void GenInit(M& mat, T&& func) 
 { 
     EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "GenInit: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-    for(auto& f : mat) { f = func(); } 
+    for (auto& f : mat) { f = func(); } 
 }
 
+// Loss Functions
+//     Regression
+constexpr float MeanSquare(MLMat<1, 1> guess, MLMat<1, 1> actual) { return std::pow(guess.FastAt(0) - actual.FastAt(0), 2); }
+constexpr float MeanSquarePrime(MLMat<1, 1> guess, MLMat<1, 1> actual) { return guess.FastAt(0) - actual.FastAt(0); }
+template <size_t W>
+constexpr float MeanSquare(MLMat<1, W> guess, MLMat<1, W> actual) 
+{   
+    float sum = 0.0f;
+    for (size_t i = 0; i < W; ++i)
+    {
+        sum += std::pow(guess.FastAt(i) - actual.FastAt(i), 2);
+    }
+    return sum /= W;  
+}
+template <size_t W>
+constexpr float MeanSquarePrime(MLMat<1, W> guess, MLMat<1, W> actual) 
+{
+    float sum = 0.0f;
+    for (size_t i = 0; i < W; ++i)
+    {
+        sum += guess.FastAt(i) - actual.FastAt(i);
+    }
+    return sum /= W;  
+}
+
+// Forward Prop
 template <size_t W, size_t H>
 constexpr MLMat<H, 1> WeightForward(const MLMat<W, 1>& inputs, const MLMat<H, W>& weights) { return SimpleMatrixMult(inputs, weights); } // TODO: faster matrix multiplications via SIMD and GPU
 template <size_t W, typename T>
 constexpr MLMat<W, 1> HiddenForward(const MLMat<W, 1>& inputs, const MLMat<W, 1>& biases, T&& activation_func) { return Operation(inputs, biases, [activation_func](float a, float b){ return activation_func(a + b); }); }
+
+// Backward Prop
+template <size_t W, typename T>
+constexpr MLMat<W, 1> OutputBackward(MLMat<W, 1> cost, const MLMat<W, 1>& output, T&& activation_func_prime)
+{
+    MLMat<W, 1> res;
+    for (size_t i = 0; i < output.Area(); ++i)
+    {
+        res.FastAt(i) = activation_func_prime(output.FastAt(i)) * cost;
+    } 
+    return res;
+}
