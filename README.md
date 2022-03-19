@@ -86,11 +86,11 @@ int main()
 ```cpp
 template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
 #ifdef HAS_CONCEPTS
-requires AddableAs<typename M::type, typename M2::type>
+requires AddableAs<typename M::value_type, typename M2::value_type>
 #endif
 constexpr void AddMatMut(M & a, const M2 &b)
 {
-    OperationMut(a, b, [](typename M::type &a, copy_fast_t<typename M2::type> b) {
+    OperationMut(a, b, [](typename M::value_type &a, copy_fast_t<typename M2::value_type> b) {
         a += b;
     });
 }

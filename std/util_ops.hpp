@@ -30,7 +30,7 @@ namespace mat
         }
         else
         {
-            return (typename M::type*)nullptr;
+            return (typename M::value_type*)nullptr;
         }
     }
 
@@ -44,7 +44,7 @@ namespace mat
         }
         else
         {
-            return (typename M::type*)nullptr;
+            return (typename M::value_type*)nullptr;
         }    
     }
 };
