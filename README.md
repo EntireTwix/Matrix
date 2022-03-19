@@ -62,7 +62,7 @@ int main()
     std::fill(a.begin(), a.end(), 3);
     std::fill(b.begin(), b.end(), 8);
 
-    for(size_t i = 0; i < 10000; ++i)
+    for (size_t i = 0; i < 10000; ++i)
     {
         a.FastAt(i) += b.FastAt(i);
     }

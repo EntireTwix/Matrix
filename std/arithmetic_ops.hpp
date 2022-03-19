@@ -124,7 +124,7 @@ namespace mat
     constexpr T Pow(T base, T2 power) 
     {
         T res = 1;
-        for(size_t i = 0; i < power; ++i) 
+        for (size_t i = 0; i < power; ++i) 
         {
             res *= base;
         }
@@ -134,7 +134,7 @@ namespace mat
     constexpr void PowMut(T& base, T2 power) 
     {
         T res = 1;
-        for(size_t i = 0; i < power; ++i) 
+        for (size_t i = 0; i < power; ++i) 
         {
             res *= base;
         }
