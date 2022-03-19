@@ -31,9 +31,9 @@ constexpr void SoftMaxMut(T first, T end)
     }
 }
 
-// possibly suboptimal
+// TODO: faster matrix multiplications via SIMD and GPU
 template <size_t W2, size_t H, size_t S>
-constexpr MLMat<W2, H> SimpleMatrixMult(const MLMat<S, H>& a, const MLMat<W2, S>& b)
+constexpr MLMat<W2, H> MatrixMult(const MLMat<S, H>& a, const MLMat<W2, S>& b)
 {
     MLMat<W2, H> res;
     for (size_t i = 0; i < H; ++i) 
@@ -113,10 +113,8 @@ constexpr float MeanSquarePrime(MLMat<1, W> guess, MLMat<1, W> actual)
 }
 
 // Forward Prop
-template <size_t W, size_t H>
-constexpr MLMat<H, 1> WeightForward(const MLMat<W, 1>& inputs, const MLMat<H, W>& weights) { return SimpleMatrixMult(inputs, weights); } // TODO: faster matrix multiplications via SIMD and GPU
-template <size_t W, typename T>
-constexpr MLMat<W, 1> HiddenForward(const MLMat<W, 1>& inputs, const MLMat<W, 1>& biases, T&& activation_func) { return Operation(inputs, biases, [activation_func](float a, float b){ return activation_func(a + b); }); }
+template <size_t W, size_t H, typename T>
+constexpr MLMat<W, H> HiddenForward(const MLMat<W, H>& inputs, const MLMat<W, 1>& biases, T&& activation_func) { return Operation(inputs, biases, [activation_func](float a, float b){ return activation_func(a + b); }); }
 
 // Backward Prop
 template <size_t W, typename T>
