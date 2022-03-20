@@ -96,7 +96,7 @@ template <size_t W>
 constexpr float MeanSquare(MLMat<W, 1> guess, MLMat<W, 1> actual) 
 {   
     float sum = 0.0f;
-    for (size_t i = 0; i < W; ++i) { sum += pow2(guess.FastAt(i) - actual.FastAt(i)); }
+    for (size_t i = 0; i < W; ++i) { sum += pow2<float>(guess.FastAt(i) - actual.FastAt(i)); }
     return sum /= W;  
 }
 template <size_t W>
