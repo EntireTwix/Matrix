@@ -3,6 +3,7 @@
 #include <type_traits>
 #include "smat.hpp"
 #include "arithmetic_ops.hpp"
+#include "dependencies/pow.hpp"
 
 template <size_t W, size_t H>
 using MLMat = mat::sMat<float, W, H>;
@@ -95,7 +96,7 @@ template <size_t W>
 constexpr float MeanSquare(MLMat<W, 1> guess, MLMat<W, 1> actual) 
 {   
     float sum = 0.0f;
-    for (size_t i = 0; i < W; ++i) { sum += std::pow(guess.FastAt(i) - actual.FastAt(i), 2); }
+    for (size_t i = 0; i < W; ++i) { sum += pow2(guess.FastAt(i) - actual.FastAt(i)); }
     return sum /= W;  
 }
 template <size_t W>
