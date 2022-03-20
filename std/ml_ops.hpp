@@ -91,31 +91,19 @@ constexpr void GenInit(M& mat, T&& func)
 
 // Loss Functions
 //     Regression
-template <size_t W, size_t H>
-constexpr float MeanSquare(MLMat<W, H> guess, MLMat<W, 1> actual) 
+template <size_t W>
+constexpr float MeanSquare(MLMat<W, 1> guess, MLMat<W, 1> actual) 
 {   
     float sum = 0.0f;
-    for (size_t i = 0; i < H; ++i)
-    {
-        for (size_t j = 0; j < W; ++j)
-        {
-            sum += std::pow(guess.At(j, i) - actual.At(j, 0), 2);
-        }
-    }
-    return sum /= (W * H);  
+    for (size_t i = 0; i < W; ++i) { sum += std::pow(guess.FastAt(i) - actual.FastAt(i), 2); }
+    return sum /= W;  
 }
-template <size_t W, size_t H>
-constexpr float MeanSquarePrime(MLMat<W, H> guess, MLMat<W, 1> actual) 
+template <size_t W>
+constexpr float MeanSquarePrime(MLMat<W, 1> guess, MLMat<W, 1> actual) 
 {
     float sum = 0.0f;
-    for (size_t i = 0; i < H; ++i)
-    {
-        for (size_t j = 0; j < W; ++j)
-        {
-            sum += guess.At(j, i) - actual.At(j, 0);
-        }
-    }
-    return sum /= (W * H);  
+    for (size_t i = 0; i < W; ++i) { sum += guess.FastAt(i) - actual.FastAt(i); }
+    return sum /= W;  
 }
 
 // Forward Prop
