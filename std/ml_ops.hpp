@@ -2,7 +2,7 @@
 #include <cmath>
 #include <type_traits>
 #include "smat.hpp"
-#include "generic_ops.hpp"
+#include "arithmetic_ops.hpp"
 
 template <size_t W, size_t H>
 using MLMat = mat::sMat<float, W, H>;
@@ -33,7 +33,7 @@ constexpr void SoftMaxMut(T first, T end)
 
 // TODO: faster matrix multiplications via SIMD and GPU
 template <size_t W2, size_t H, size_t S>
-constexpr MLMat<W2, H> MatrixMult(const MLMat<S, H>& a, const MLMat<W2, S>& b)
+constexpr MLMat<W2, H> MatMult(const MLMat<S, H>& a, const MLMat<W2, S>& b)
 {
     MLMat<W2, H> res;
     for (size_t i = 0; i < H; ++i) 
@@ -89,8 +89,6 @@ constexpr void GenInit(M& mat, T&& func)
 
 // Loss Functions
 //     Regression
-constexpr float MeanSquare(MLMat<1, 1> guess, MLMat<1, 1> actual) { return std::pow(guess.FastAt(0) - actual.FastAt(0), 2); }
-constexpr float MeanSquarePrime(MLMat<1, 1> guess, MLMat<1, 1> actual) { return guess.FastAt(0) - actual.FastAt(0); }
 template <size_t W>
 constexpr float MeanSquare(MLMat<1, W> guess, MLMat<1, W> actual) 
 {   
@@ -113,17 +111,33 @@ constexpr float MeanSquarePrime(MLMat<1, W> guess, MLMat<1, W> actual)
 }
 
 // Forward Prop
-template <size_t W, size_t H, typename T>
-constexpr MLMat<W, H> HiddenForward(const MLMat<W, H>& inputs, const MLMat<W, 1>& biases, T&& activation_func) { return Operation(inputs, biases, [activation_func](float a, float b){ return activation_func(a + b); }); }
-
-// Backward Prop
-template <size_t W, typename T>
-constexpr MLMat<W, 1> OutputBackward(MLMat<W, 1> cost, const MLMat<W, 1>& output, T&& activation_func_prime)
+template <size_t S, size_t W, size_t H>
+constexpr MLMat<W, H> WeightForward(const MLMat<S, H>& inputs, const MLMat<W, S>& weights, const MLMat<W, 1>& biases)
 {
-    MLMat<W, 1> res;
-    for (size_t i = 0; i < output.Area(); ++i)
+    // TODO: optimize this to be added while matrix mult
+    MLMat<W, H> res(MatMult(inputs, weights));
+    if constexpr (H == 1) { AddMatMut(res, biases); }
+    else
     {
-        res.FastAt(i) = activation_func_prime(output.FastAt(i)) * cost;
-    } 
+        for (size_t i = 0; i < H; ++i)
+        {
+            for (size_t j = 0; j < W; ++j)
+            {
+                res.At(j, i) + biases.At(j, 0);
+            }
+        }
+    }
     return res;
 }
+template <size_t W, size_t H, typename T>
+constexpr MLMat<W, H> HiddenForward(const MLMat<W, H>& input, T&& activation_func) 
+{
+    MLMat<W, H> res;
+    for (size_t i = 0; i < (W * H); ++i)
+    {
+        res.FastAt(i) = activation_func(input.FastAt(i));
+    }
+    return res;
+}
+
+// Backward Prop
