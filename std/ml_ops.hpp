@@ -11,14 +11,16 @@ template <typename T>
 constexpr void SoftMaxMut(T first, T end)
 {
     std::remove_reference_t<decltype(*first)> sum{};
-    for (T ptr = first; ptr != end; ++ptr)
+    T ptr(first);
+    for (;ptr != end; ++ptr)
     {
         if (*ptr > 0)
         {
             sum += *ptr;
         }
     }
-    for (T ptr = first; ptr != end; ++ptr)
+    ptr = first;
+    for (;ptr != end; ++ptr)
     {
         if (*ptr > 0)
         {
@@ -89,25 +91,31 @@ constexpr void GenInit(M& mat, T&& func)
 
 // Loss Functions
 //     Regression
-template <size_t W>
-constexpr float MeanSquare(MLMat<1, W> guess, MLMat<1, W> actual) 
+template <size_t W, size_t H>
+constexpr float MeanSquare(MLMat<W, H> guess, MLMat<W, 1> actual) 
 {   
     float sum = 0.0f;
-    for (size_t i = 0; i < W; ++i)
+    for (size_t i = 0; i < H; ++i)
     {
-        sum += std::pow(guess.FastAt(i) - actual.FastAt(i), 2);
+        for (size_t j = 0; j < W; ++j)
+        {
+            sum += std::pow(guess.At(j, i) - actual.At(j, 0), 2);
+        }
     }
-    return sum /= W;  
+    return sum /= (W * H);  
 }
-template <size_t W>
-constexpr float MeanSquarePrime(MLMat<1, W> guess, MLMat<1, W> actual) 
+template <size_t W, size_t H>
+constexpr float MeanSquarePrime(MLMat<W, H> guess, MLMat<W, 1> actual) 
 {
     float sum = 0.0f;
-    for (size_t i = 0; i < W; ++i)
+    for (size_t i = 0; i < H; ++i)
     {
-        sum += guess.FastAt(i) - actual.FastAt(i);
+        for (size_t j = 0; j < W; ++j)
+        {
+            sum += guess.At(j, i) - actual.At(j, 0);
+        }
     }
-    return sum /= W;  
+    return sum /= (W * H);  
 }
 
 // Forward Prop
@@ -123,7 +131,7 @@ constexpr MLMat<W, H> WeightForward(const MLMat<S, H>& inputs, const MLMat<W, S>
         {
             for (size_t j = 0; j < W; ++j)
             {
-                res.At(j, i) + biases.At(j, 0);
+                res.At(j, i) += biases.At(j, 0);
             }
         }
     }
