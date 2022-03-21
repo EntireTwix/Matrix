@@ -7,8 +7,8 @@
 
 template <size_t W, size_t H>
 using MLMat = mat::sMat<float, W, H>;
-template <size_t W>
-using IMat = MLMat<W, 1>;
+template <size_t W, size_t B = 1>
+using IMat = MLMat<W, B>;
 template <size_t W>
 using BMat = MLMat<W, 1>;
 template <size_t W, size_t H>
