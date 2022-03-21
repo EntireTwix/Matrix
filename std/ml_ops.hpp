@@ -44,7 +44,7 @@ constexpr void SoftMaxMut(T first, T end)
 
 // TODO: faster matrix multiplications via SIMD and GPU
 template <size_t W2, size_t H, size_t S>
-constexpr MLMat<W2, H> MatMul(MLMat<S, H> a, MLMat<W2, S> b)
+constexpr MLMat<W2, H> MatMul(const MLMat<S, H>& a, const MLMat<W2, S>& b)
 {
     MLMat<W2, H> res;
     for (size_t i = 0; i < H; ++i) 
@@ -100,24 +100,24 @@ constexpr void GenInit(M& mat, T&& func)
 
 // Loss Functions
 //     Regression
-template <size_t W>
-constexpr float mean_square(MLMat<W, 1> guess, MLMat<W, 1> actual) 
+template <size_t W, size_t H>
+constexpr float mean_square(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
 {   
     float sum = 0.0f;
-    for (size_t i = 0; i < W; ++i) { sum += pow2<float>(guess.FastAt(i) - actual.FastAt(i)); }
-    return sum /= W;  
+    for (size_t i = 0; i < (W * H); ++i) { sum += pow2<float>(guess.FastAt(i) - actual.FastAt(i)); }
+    return sum /= (W * H);  
 }
-template <size_t W>
-constexpr float mean_square_prime(MLMat<W, 1> guess, MLMat<W, 1> actual) 
+template <size_t W, size_t H>
+constexpr float mean_square_prime(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
 {
     float sum = 0.0f;
-    for (size_t i = 0; i < W; ++i) { sum += guess.FastAt(i) - actual.FastAt(i); }
-    return sum /= W;  
+    for (size_t i = 0; i < (W * H); ++i) { sum += guess.FastAt(i) - actual.FastAt(i); }
+    return sum /= (W * H);  
 }
 
 // Forward Prop
 template <size_t S, size_t W, size_t H>
-constexpr MLMat<W, H> WeightForward(MLMat<S, H> inputs, MLMat<W, S> weights, MLMat<W, 1> biases)
+constexpr MLMat<W, H> WeightForward(const MLMat<S, H>& inputs, const MLMat<W, S>& weights, const MLMat<W, 1>& biases)
 {
     // TODO: optimize this to be added while matrix mult
     MLMat<W, H> res(MatMul(inputs, weights));
@@ -135,7 +135,7 @@ constexpr MLMat<W, H> WeightForward(MLMat<S, H> inputs, MLMat<W, S> weights, MLM
     return res;
 }
 template <size_t W, size_t H>
-constexpr MLMat<W, H> HiddenForward(MLMat<W, H> input, float (*activation_func)(float)) 
+constexpr MLMat<W, H> HiddenForward(const MLMat<W, H>& input, float (*activation_func)(float)) 
 {
     MLMat<W, H> res;
     for (size_t i = 0; i < (W * H); ++i)
