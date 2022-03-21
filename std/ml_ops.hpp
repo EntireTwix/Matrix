@@ -59,36 +59,19 @@ constexpr MLMat<W2, H> MatMul(const MLMat<S, H>& a, const MLMat<W2, S>& b)
     }
     return res;
 }
-
-// Wrapper
-template <MATRIX_TYPENAME M>
-class Transpose
-{ 
-private:
-    M& _ref;
-public:
-    Transpose() noexcept = delete;
-    Transpose(M& mat) noexcept : _ref(mat) {}
-
-    using value_type = typename M::value_type;
-
-    //Iterators
-    constexpr value_type *begin() noexcept { return _ref.begin(); }
-    constexpr value_type *end() noexcept { return _ref.end(); }
-    constexpr const value_type *begin() const noexcept { return _ref.begin(); }
-    constexpr const value_type *end() const noexcept { return _ref.end(); }
-
-    //Size
-    constexpr size_t Area() const noexcept { return _ref.Area(); }
-    constexpr size_t Width() const noexcept { return _ref.Height(); }
-    constexpr size_t Height() const noexcept { return _ref.Width(); }
-
-    //Indexing
-    constexpr value_type &At(size_t x, size_t y) noexcept { return _ref.At(y, x); }
-    constexpr copy_fast_t<value_type> At(size_t x, size_t y) const noexcept { return _ref.At(y, x); }
-    constexpr value_type &FastAt(size_t index) noexcept { return _ref.At(index / _ref.Height(), index % _ref.Height()); }
-    constexpr copy_fast_t<value_type> FastAt(size_t index) const noexcept { return _ref.At(index / _ref.Height(), index % _ref.Height()); }
-};
+template <size_t S, size_t S2>
+constexpr MLMat<S, S2> VecMulMat(const MLMat<S, 1>& a, const MLMat<S2, 1>& b)
+{
+    MLMat<S, S2> res;
+    for (size_t i = 0; i < S2; ++i)
+    {
+        for (size_t j = 0; j < S; ++j)
+        {
+            res.At(j, i) = a.FastAt(j) * b.FastAt(i);
+        }
+    }
+    return res;
+}
 
 // Initializations
 template <MATRIX_TYPENAME M, typename T>
@@ -146,3 +129,27 @@ constexpr MLMat<W, H> HiddenForward(const MLMat<W, H>& input, float (*activation
 }
 
 // Backward Prop
+template <size_t W>
+constexpr MLMat<W, 1> OutputBackward(const MLMat<W, 1>& output, const MLMat<W, 1>& answer, const MLMat<W, 1>& layer_input, float (*activation_func_prime)(float))
+{
+    MLMat<W, 1> res;
+    for (size_t i = 0; i < W; ++i) { res.FastAt(i) = (output.FastAt(i) - answer.FastAt(i)) * activation_func_prime(layer_input.FastAt(i)); }
+    return res;
+}
+template <size_t S, size_t S2>
+constexpr MLMat<S, S2> WeightBackward(const MLMat<S, 1>& prev_error, const MLMat<S2, 1>& layer_input) { return VecMulMat(prev_error, layer_input); }
+template <size_t S, size_t S2>
+constexpr MLMat<S2, 1> HiddenBackward(const MLMat<S, 1>& prev_error, const MLMat<S, S2>& prev_errors_weights, const MLMat<S2, 1>& layer_input, float (*activation_func_prime)(float))
+{
+    MLMat<S2, 1> res;
+    for (size_t i = 0; i < S2; ++i)
+    {
+        for(size_t j = 0; j < S; ++j)
+        {
+            // std::cout << i << ' ' << prev_errors_weights.At(i, j) << ' ' << prev_error.FastAt(j) << '\n';
+            res.FastAt(i) += prev_errors_weights.At(j, i) * prev_error.FastAt(j);
+        }
+        res.FastAt(i) *= activation_func_prime(layer_input.FastAt(i));
+    }
+    return res;
+}
