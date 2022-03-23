@@ -84,19 +84,23 @@ constexpr void GenInit(M& mat, T&& func)
 // Loss Functions
 //     Regression
 template <size_t W, size_t H>
-constexpr float mean_square(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
+constexpr float MeanSquare(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
 {   
     float sum = 0.0f;
     for (size_t i = 0; i < (W * H); ++i) { sum += pow2<float>(guess.FastAt(i) - actual.FastAt(i)); }
     return sum /= (W * H);  
 }
 template <size_t W, size_t H>
-constexpr float mean_square_prime(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
+constexpr float MeanSquarePrime(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
 {
     float sum = 0.0f;
     for (size_t i = 0; i < (W * H); ++i) { sum += guess.FastAt(i) - actual.FastAt(i); }
     return sum /= (W * H);  
 }
+
+// Learning
+template <size_t W, size_t H>
+constexpr void Learn(MLMat<W, H>& current, const MLMat<W, H>& change, float learning_rate) { for (size_t i = 0; i < (W * H); ++i) { current.FastAt(i) -= change.FastAt(i) * learning_rate; } }
 
 // Forward Prop
 template <size_t S, size_t W, size_t H>
@@ -146,7 +150,6 @@ constexpr MLMat<S2, 1> HiddenBackward(const MLMat<S, 1>& prev_error, const MLMat
     {
         for(size_t j = 0; j < S; ++j)
         {
-            // std::cout << i << ' ' << prev_errors_weights.At(i, j) << ' ' << prev_error.FastAt(j) << '\n';
             res.FastAt(i) += prev_errors_weights.At(j, i) * prev_error.FastAt(j);
         }
         res.FastAt(i) *= activation_func_prime(layer_input.FastAt(i));
