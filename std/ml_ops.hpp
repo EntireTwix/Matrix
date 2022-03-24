@@ -121,8 +121,8 @@ constexpr MLMat<W, H> WeightForward(const MLMat<S, H>& inputs, const MLMat<W, S>
     }
     return res;
 }
-template <size_t W, size_t H>
-constexpr MLMat<W, H> HiddenForward(const MLMat<W, H>& input, float (*activation_func)(float)) 
+template <size_t W, size_t H, typename T>
+constexpr MLMat<W, H> HiddenForward(const MLMat<W, H>& input, T&& activation_func) 
 {
     MLMat<W, H> res;
     for (size_t i = 0; i < (W * H); ++i)
@@ -133,8 +133,8 @@ constexpr MLMat<W, H> HiddenForward(const MLMat<W, H>& input, float (*activation
 }
 
 // Backward Prop
-template <size_t W>
-constexpr MLMat<W, 1> OutputBackward(const MLMat<W, 1>& output, const MLMat<W, 1>& answer, const MLMat<W, 1>& layer_input, float (*activation_func_prime)(float))
+template <size_t W, typename T>
+constexpr MLMat<W, 1> OutputBackward(const MLMat<W, 1>& output, const MLMat<W, 1>& answer, const MLMat<W, 1>& layer_input, T&& activation_func_prime)
 {
     MLMat<W, 1> res;
     for (size_t i = 0; i < W; ++i) { res.FastAt(i) = (output.FastAt(i) - answer.FastAt(i)) * activation_func_prime(layer_input.FastAt(i)); }
@@ -142,8 +142,8 @@ constexpr MLMat<W, 1> OutputBackward(const MLMat<W, 1>& output, const MLMat<W, 1
 }
 template <size_t S, size_t S2>
 constexpr MLMat<S, S2> WeightBackward(const MLMat<S, 1>& prev_error, const MLMat<S2, 1>& layer_input) { return VecMulMat(prev_error, layer_input); }
-template <size_t S, size_t S2>
-constexpr MLMat<S2, 1> HiddenBackward(const MLMat<S, 1>& prev_error, const MLMat<S, S2>& prev_errors_weights, const MLMat<S2, 1>& layer_input, float (*activation_func_prime)(float))
+template <size_t S, size_t S2, typename T>
+constexpr MLMat<S2, 1> HiddenBackward(const MLMat<S, 1>& prev_error, const MLMat<S, S2>& prev_errors_weights, const MLMat<S2, 1>& layer_input, T&& activation_func_prime)
 {
     MLMat<S2, 1> res;
     for (size_t i = 0; i < S2; ++i)
