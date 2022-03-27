@@ -89,13 +89,19 @@ constexpr float MeanSquare(const MLMat<W, H>& guess, const MLMat<W, H>& actual)
     return sum /= (W * H);  
 }
 //      Classification
-constexpr float BinaryCrossEntropy(const MLMat<1, 1>& guess, const MLMat<1, 1>& actual) { return -((actual.FastAt(0) * std::log(guess.FastAt(0))) + ((1 - actual.FastAt(0)) * std::log(1 - guess.FastAt(0)))); }
+template <size_t M>
+constexpr float BinaryCrossEntropy(const MLMat<M, 1>& guess, const MLMat<1, 1>& actual) 
+{ 
+    float sum = 0;
+    for (size_t i = 0; i < M; ++i) { sum += (actual.FastAt(i) * std::log(guess.FastAt(i))) + ((1 - actual.FastAt(i)) * std::log(1 - guess.FastAt(i))); } 
+    return -sum;
+}
 template <size_t M>
 constexpr float CrossEntropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
 {
     float sum = 0;
     for (size_t i = 0; i < M; ++i) { sum += actual.FastAt(i) * std::log(guess.FastAt(i)); }
-    return sum;
+    return -sum;
 }
 
 // Learning
