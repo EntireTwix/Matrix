@@ -17,29 +17,27 @@ template <size_t W>
 using OMat = MLMat<W, 1>;
 
 template <typename T>
-constexpr void SoftMaxMut(T first, T end)
+constexpr void SoftMaxMut(T ptr, size_t sz)
 {
-    std::remove_reference_t<decltype(*first)> sum{};
-    T ptr(first);
-    for (;ptr != end; ++ptr)
-    {
-        if (*ptr > 0)
-        {
-            sum += *ptr;
-        }
-    }
-    ptr = first;
-    for (;ptr != end; ++ptr)
-    {
-        if (*ptr > 0)
-        {
-            *ptr /= sum;
-        }
-        else
-        {
-            *ptr = 0;
-        }
-    }
+    std::remove_reference_t<decltype(*ptr)> m, sum, constant;
+    size_t i;
+
+	m = 0;
+	for (i = 0; i < sz; ++i) {
+		if (m < ptr[i]) {
+			m = ptr[i];
+		}
+	}
+
+	sum = 0;
+	for (i = 0; i < sz; ++i) {
+		sum += exp(ptr[i] - m);
+	}
+
+	constant = m + log(sum);
+	for (i = 0; i < sz; ++i) {
+		ptr[i] = exp(ptr[i] - constant);
+	}
 }
 
 // TODO: faster matrix multiplications via SIMD and GPU
@@ -82,20 +80,22 @@ constexpr void GenInit(M& mat, T&& func)
 }
 
 // Loss Functions
-//     Regression
+//      Regression
 template <size_t W, size_t H>
 constexpr float MeanSquare(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
-{   
-    float sum = 0.0f;
+{
+    float sum = 0;
     for (size_t i = 0; i < (W * H); ++i) { sum += pow2<float>(guess.FastAt(i) - actual.FastAt(i)); }
     return sum /= (W * H);  
 }
-template <size_t W, size_t H>
-constexpr float MeanSquarePrime(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
+//      Classification
+constexpr float BinaryCrossEntropy(const MLMat<1, 1>& guess, const MLMat<1, 1>& actual) { return -((actual.FastAt(0) * std::log(guess.FastAt(0))) + ((1 - actual.FastAt(0)) * std::log(1 - guess.FastAt(0)))); }
+template <size_t M>
+constexpr float CrossEntropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
 {
-    float sum = 0.0f;
-    for (size_t i = 0; i < (W * H); ++i) { sum += guess.FastAt(i) - actual.FastAt(i); }
-    return sum /= (W * H);  
+    float sum = 0;
+    for (size_t i = 0; i < M; ++i) { sum += actual.FastAt(i) * std::log(guess.FastAt(i)); }
+    return sum;
 }
 
 // Learning
