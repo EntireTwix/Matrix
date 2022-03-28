@@ -47,9 +47,9 @@ constexpr MLMat<W2, H> MatMul(const MLMat<S, H>& a, const MLMat<W2, S>& b)
     MLMat<W2, H> res;
     for (size_t i = 0; i < H; ++i) 
     {
-        for (size_t j = 0; j < W2; ++j) 
+        for (size_t k = 0; k < S; ++k) 
         {
-            for (size_t k = 0; k < S; ++k) 
+            for (size_t j = 0; j < W2; ++j) 
             {
                 res.At(j, i) += a.At(k, i) * b.At(j, k);
             }
