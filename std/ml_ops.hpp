@@ -71,14 +71,6 @@ constexpr MLMat<S, S2> VecMulMat(const MLMat<S, 1>& a, const MLMat<S2, 1>& b)
     return res;
 }
 
-// Initializations
-template <MATRIX_TYPENAME M, typename T>
-constexpr void GenInit(M& mat, T&& func) 
-{ 
-    EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "GenInit: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-    for (auto& f : mat) { f = func(); } 
-}
-
 // Loss Functions
 //      Regression
 template <size_t W, size_t H>
