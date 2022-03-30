@@ -106,7 +106,10 @@ constexpr MLMat<W, H> WeightForward(const MLMat<S, H>& inputs, const MLMat<W, S>
 {
     // TODO: optimize this to be added while matrix mult
     MLMat<W, H> res(MatMul(inputs, weights));
-    if constexpr (H == 1) { AddMatMut(res, biases); }
+    if constexpr (H == 1) 
+    { 
+        AddMatMut(res, biases); 
+    }
     else
     {
         for (size_t i = 0; i < H; ++i)
@@ -131,11 +134,24 @@ constexpr MLMat<W, H> HiddenForward(const MLMat<W, H>& input, T&& activation_fun
 }
 
 // Backward Prop
-template <size_t W, typename T>
-constexpr MLMat<W, 1> OutputBackward(const MLMat<W, 1>& output, const MLMat<W, 1>& answer, const MLMat<W, 1>& layer_input, T&& activation_func_prime)
+template <size_t W, size_t H, typename T>
+constexpr MLMat<W, 1> OutputBackward(const MLMat<W, H>& output, const MLMat<W, H>& answer, const MLMat<W, H>& layer_input, T&& activation_func_prime)
 {
     MLMat<W, 1> res;
-    for (size_t i = 0; i < W; ++i) { res.FastAt(i) = (output.FastAt(i) - answer.FastAt(i)) * activation_func_prime(layer_input.FastAt(i)); }
+    if constexpr (H == 1)
+    {
+        for (size_t i = 0; i < W; ++i) { res.FastAt(i) = (output.FastAt(i) - answer.FastAt(i)) * activation_func_prime(layer_input.FastAt(i)); }
+    }
+    else
+    {
+        for (size_t i = 0; i < H; ++i) 
+        { 
+            for(size_t j = 0; j < W; ++j) 
+            {
+                res.At(j, 0) += ((output.At(j, i) - answer.At(j, i)) * activation_func_prime(layer_input.At(j, i))) / H;
+            }
+        }
+    }
     return res;
 }
 template <size_t S, size_t S2>
