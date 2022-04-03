@@ -1,6 +1,5 @@
 #pragma once
 #include <cmath>
-#include <type_traits>
 #include "smat.hpp"
 #include "arithmetic_ops.hpp"
 #include "dependencies/pow.hpp"
