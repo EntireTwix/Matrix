@@ -47,7 +47,7 @@ namespace mat
         // Constructors
         constexpr sMat() noexcept = default;
         template <typename... Args>
-        constexpr sMat(Args... list) : _internal{list...} {}
+        constexpr explicit sMat(Args... list) : _internal{list...} {}
 
         //Iterators
         constexpr T *begin() noexcept { return &this->_internal[0]; }
