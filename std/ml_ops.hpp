@@ -53,7 +53,7 @@ namespace mat
     template <size_t W, size_t H>
     constexpr float MeanSquare(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
     {
-        float sum = 0;
+        float sum = 0.0f;
         for (size_t i = 0; i < (W * H); ++i) { sum += pow2<float>(guess.FastAt(i) - actual.FastAt(i)); }
         return sum /= (W * H);  
     }
@@ -61,14 +61,14 @@ namespace mat
     template <size_t M>
     constexpr float BinaryCrossEntropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
     { 
-        float sum = 0;
+        float sum = 0.0f;
         for (size_t i = 0; i < M; ++i) { sum += (actual.FastAt(i) * std::log(guess.FastAt(i))) + ((1 - actual.FastAt(i)) * std::log(1 - guess.FastAt(i))); } 
         return -sum;
     }
     template <size_t M>
     constexpr float CrossEntropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
     {
-        float sum = 0;
+        float sum = 0.0f;
         for (size_t i = 0; i < M; ++i) { sum += actual.FastAt(i) * std::log(guess.FastAt(i)); }
         return -sum;
     }
