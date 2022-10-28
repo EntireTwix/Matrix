@@ -20,33 +20,19 @@ and/or
 #include "smat.hpp"
 ```
 
-### Optional CUDA usage
-in your project's `CMakeLists.txt` file add: 
-```cmake
-add_subdirectory(Matrix)
-target_link_libraries(${PROJECT_NAME} matrix_cuda)
-```
-aswell as `-DUSE_CUDA=true` when constructing your project.
-
-**DISCLAIMER: CUDA is annoying in that its highest version is C++17**
-
 ## Implementation 
 
-#### [sMat](smat.hpp)
+#### [sMat](std/smat.hpp)
 `STACK` based Matrix, use this where you would `std::array`. This implementation has the advantage of having constexpr support so that when applicable it can be done compile time.
 
-#### [hMat](hmat.hpp)
+#### [hMat](std/hmat.hpp)
 `HEAP` based Matrix, use this where you would `std::vector`
 
-#### [Matrix Concept](include/dependencies/cmat.hpp) (C++20)
+#### [Matrix Concept](std/dependencies/cmat.hpp) (C++20)
 A concept that allows for generic operations and matrix implementations being interchangable, if the requirements for the concept are implemented it can mesh with any existing matrix operation
 
-#### [Operations](include)
+#### [Operations](std)
 A set of generic zero overhead operations that work with any type that qualifies as a Matrix via the concept (if compiling with C++20). Use these operations if they exist for your purposes, otherwise look for an [STL alg](https://en.cppreference.com/w/cpp/algorithm), lastly if that too fails resort to implementing the function.
-
-#### [CUDA Operations](cuda)
-**In Development**
-GPU accelerated Matrix operations
 
 ### Overhead
 the binaries were compared and no differences were found, meaning no overhead. This cannot be garaunteed for all operations however ideally it should hold.
