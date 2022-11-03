@@ -24,27 +24,13 @@ namespace mat
     constexpr auto* SafeFastAt(size_t index, M& mat)
     {
         EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SafeFastAt: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        if(index < mat.Area())        
-        {
-            return &mat.FastAt(index);
-        }
-        else
-        {
-            return (typename M::value_type*)nullptr;
-        }
+        return (index < mat.Area())? &mat.FastAt(index):(typename M::value_type*)nullptr;
     }
 
     template <MATRIX_TYPENAME M>
     constexpr auto* SafeAt(size_t x, size_t y, M& mat) 
     { 
         EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SafeAt: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        if(x < mat.Width() && y < mat.Height())
-        {
-            return &mat.At(x, y);
-        }
-        else
-        {
-            return (typename M::value_type*)nullptr;
-        }    
+        return (x < mat.Width() && y < mat.Height())? &mat.At(x, y):(typename M::value_type*)nullptr;
     }
 };
