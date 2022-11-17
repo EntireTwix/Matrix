@@ -47,41 +47,19 @@ namespace mat
     {
         typename T::value_type;
 
-        {
-            a.begin()
-            } -> std::same_as<typename T::value_type*>;
-        {
-            a.end()
-            } -> std::same_as<typename T::value_type*>;
-        {
-            b.begin()
-            } -> std::same_as<const typename T::value_type*>;
-        {
-            b.end()
-            } -> std::same_as<const typename T::value_type*>;
+        {a.begin()} -> std::same_as<typename T::value_type*>;
+        {a.end()} -> std::same_as<typename T::value_type*>;
+        {b.begin()} -> std::same_as<const typename T::value_type*>;
+        {b.end()} -> std::same_as<const typename T::value_type*>;
 
-        {
-            a.Area()
-            } -> std::same_as<size_t>;
-        {
-            a.Width()
-            } -> std::same_as<size_t>;
-        {
-            a.Height()
-            } -> std::same_as<size_t>;
+        {a.Area()} -> std::same_as<size_t>;
+        {a.Width()} -> std::same_as<size_t>;
+        {a.Height()} -> std::same_as<size_t>;
 
-        {
-            a.At(0, 0)
-            } -> std::convertible_to<typename T::value_type &>;
-        {
-            a.At(0, 0)
-            } -> std::convertible_to<copy_fast_t<typename T::value_type>>;
-        {
-            a.FastAt(0)
-            } -> std::convertible_to<typename T::value_type &>;
-        {
-            a.FastAt(0)
-            } -> std::convertible_to<copy_fast_t<typename T::value_type>>;
+        {a.At(0, 0)} -> std::convertible_to<typename T::value_type &>;
+        {a.At(0, 0)} -> std::convertible_to<copy_fast_t<typename T::value_type>>;
+        {a.FastAt(0)} -> std::convertible_to<typename T::value_type &>;
+        {a.FastAt(0)} -> std::convertible_to<copy_fast_t<typename T::value_type>>;
     };
 
     template <typename M>
@@ -90,32 +68,18 @@ namespace mat
         // so that regardless of type's other template arguments, a function can easily declare variables of said type in different dimensions
         typename M::base<0, 0>;
 
-        {
-            M::area
-            } -> std::convertible_to<size_t>;
-        {
-            M::width
-            } -> std::convertible_to<size_t>;
-        {
-            M::height
-            } -> std::convertible_to<size_t>;
+        {M::area} -> std::convertible_to<size_t>;
+        {M::width} -> std::convertible_to<size_t>;
+        {M::height} -> std::convertible_to<size_t>;
     };
 
     template <typename M>
     concept RuntimeMatrix = Matrix<M> && requires(M a)
     {
-        {
-            a.Flatten()
-            } -> std::same_as<void>;
-        {
-            a.Capacity()
-            } -> std::same_as<size_t>;
-        {
-            a.Resize(0, 0)
-            } -> std::same_as<void>;
-        {
-            a.Reserve(0)
-            } -> std::same_as<void>;
+        {a.Flatten()} -> std::same_as<void>;
+        {a.Capacity()} -> std::same_as<size_t>;
+        {a.Resize(0, 0)} -> std::same_as<void>;
+        {a.Reserve(0)} -> std::same_as<void>;
     };
 }
 
@@ -131,6 +95,7 @@ namespace mat
     struct has_##member<T, decltype((void)T::member, 0)> : std::true_type \
     {                                                                     \
     };
+    
 HAS_(area, size_t);
 HAS_(width, size_t);
 HAS_(height, size_t);
@@ -154,6 +119,7 @@ HAS_(height, size_t);
     public:                                                                                                                                   \
         static constexpr bool value = type::value;                                                                                            \
     };
+
 HAS_FUNC_(Flatten);
 HAS_FUNC_(Capacity);
 HAS_FUNC_(Resize);
