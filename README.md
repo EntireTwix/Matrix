@@ -1,5 +1,5 @@
 # Matrix 
-A header only zero overhead matrix library for C++20 or C++17 w/CUDA 
+A header only zero overhead matrix library for C++20 or C++17
 
 Zero overhead meaning the matrix abstraction provides programmatic utility without differing in performance from a hand written array manipulation.
 
