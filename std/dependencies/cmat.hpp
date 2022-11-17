@@ -87,6 +87,7 @@ namespace mat
     template <typename M>
     concept ConstexprMatrix = Matrix<M> && requires(M a)
     {
+        // so that regardless of type's other template arguments, a function can easily declare variables of said type in different dimensions
         typename M::base<0, 0>;
 
         {
