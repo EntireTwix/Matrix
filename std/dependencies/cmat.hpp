@@ -130,18 +130,10 @@ HAS_FUNC_(Reserve);
     };
 
 template <typename T>
-struct is_constexpr_matrix : std::integral_constant<bool, has_area<T>::value && has_width<T>::value && has_height<T>::value>
-{
-};
-template <typename T>
-constexpr bool is_constexpr_matrix_v = is_constexpr_matrix<T>::value;
+constexpr bool is_constexpr_matrix_v = has_area<T>::value && has_width<T>::value && has_height<T>::value;
 
 template <typename T>
-struct is_runtime_matrix : std::integral_constant<bool, has_Flatten<T, void()>::value && has_Capacity<T, size_t()>::value && has_Resize<T, void(size_t, size_t)>::value>
-{
-};
-template <typename T>
-constexpr bool is_runtime_matrix_v = is_constexpr_matrix<T>::value;
+constexpr bool is_runtime_matrix_v = has_Flatten<T, void()>::value && has_Capacity<T, size_t()>::value && has_Resize<T, void(size_t, size_t)>::value;
 
 #define CONSTEXPR_MATRIX(T) is_constexpr_matrix_v<T>
 #define RUNTIME_MATRIX(T) is_runtime_matrix_v<T>
