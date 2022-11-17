@@ -11,25 +11,13 @@
 
 #ifdef HAS_CONCEPTS
 #define EXEC_IF_20(expr) expr
-#else
-#define EXEC_IF_20(expr)
-#endif
-
-#ifdef HAS_CONCEPTS
 #define EXEC_IF_20_ELSE(expr, expr2) expr
-#else
-#define EXEC_IF_20_ELSE(expr, expr2) expr2
-#endif
-
-#ifdef HAS_CONCEPTS
 #define EXEC_IF_NOT_20(expr)
-#else
-#define EXEC_IF_NOT_20(expr) expr
-#endif
-
-#ifdef HAS_CONCEPTS
 #define EXEC_IF_NOT_20_ELSE(expr, expr2) expr2
 #else
+#define EXEC_IF_20(expr)
+#define EXEC_IF_20_ELSE(expr, expr2) expr2
+#define EXEC_IF_NOT_20(expr) expr
 #define EXEC_IF_NOT_20_ELSE(expr, expr2) expr
 #endif
 
