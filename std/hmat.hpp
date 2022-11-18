@@ -103,12 +103,6 @@ namespace mat
         size_t Area() const noexcept { return _size; }
         size_t Capacity() const noexcept { return _capacity; }
 
-        void Flatten()
-        {
-            _w *= _h;
-            _h = 1;
-        }
-
         void Reserve(size_t sz) noexcept
         {
             if (sz > this->_capacity)
@@ -124,8 +118,16 @@ namespace mat
             {
                 return;
             }
+            else if (this->_w == (w * h) && this->_h == 1)
+            {
+                this->_w = w * h;
+                this->_h = 1;
+                
+                return;
+            }
 
             this->_size = w * h;
+            
             if (this->_size > this->_capacity)
             {
                 //is larger

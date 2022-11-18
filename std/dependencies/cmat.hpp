@@ -64,7 +64,6 @@ namespace mat
     template <typename M>
     concept RuntimeMatrix = Matrix<M> && requires(M a)
     {
-        {a.Flatten()} -> std::same_as<void>;
         {a.Capacity()} -> std::same_as<size_t>;
         {a.Resize(0, 0)} -> std::same_as<void>;
         {a.Reserve(0)} -> std::same_as<void>;
@@ -108,7 +107,6 @@ HAS_(height, size_t);
         static constexpr bool value = type::value;                                                                                            \
     };
 
-HAS_FUNC_(Flatten);
 HAS_FUNC_(Capacity);
 HAS_FUNC_(Resize);
 HAS_FUNC_(Reserve);
