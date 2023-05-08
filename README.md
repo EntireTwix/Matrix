@@ -11,7 +11,7 @@ After adding the include directory to your build system.
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Matrix/std)
 ```
 
-As this is header only, simply include the implementation(s) of your choice
+As this is header only, simply include the implementation(s) of your choosing
 ```cpp
 #include "hmat.hpp"
 ```
