@@ -39,8 +39,8 @@ int main()
     std::fill(b.begin(), b.end(), 8);
 
     Print(std::cout, a);
-    Op_a(AddMatMut(a, b), "+= generic     ", 10000, std::fill(a.begin(), a.end(), 3); std::fill(b.begin(), b.end(), 8););
-    Op_a(for (size_t i = 0; i < 100; ++i) a.FastAt(i) += b.FastAt(i), "+= handwritten ", 10000, std::fill(a.begin(), a.end(), 3); std::fill(b.begin(), b.end(), 8););
+    Op_a(add_mat_mut(a, b), "+= generic     ", 10000, std::fill(a.begin(), a.end(), 3); std::fill(b.begin(), b.end(), 8););
+    Op_a(for (size_t i = 0; i < 100; ++i) a.fast_at(i) += b.fast_at(i), "+= handwritten ", 10000, std::fill(a.begin(), a.end(), 3); std::fill(b.begin(), b.end(), 8););
 
     return 0;
 }

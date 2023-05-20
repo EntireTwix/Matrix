@@ -5,16 +5,16 @@
 namespace mat
 {
     template <MATRIX_TYPENAME M>
-    constexpr void IsVector(const M &mat)
+    constexpr void is_verctor(const M &mat)
     {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "IsVector: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "is_verctor: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         if constexpr (CONSTEXPR_MATRIX(M))
         {
-            static_assert(mat.Width() == 1 || mat.Height() == 1);
+            static_assert(mat.width() == 1 || mat.height() == 1);
         }
         else
         {
-            assert(mat.Width() == 1 || mat.Height() == 1);
+            assert(mat.width() == 1 || mat.height() == 1);
         } 
     }
 };

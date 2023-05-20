@@ -7,29 +7,29 @@ namespace mat
     constexpr void TruncCopy(const M &src, M2 &dest)
     {
         EXEC_IF_NOT_20(static_assert( (CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M)) && (CONSTEXPR_MATRIX(M2) || RUNTIME_MATRIX(M2)), "TruncCopy: M and M2 must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        for (size_t i = 0; i < dest.Height(); ++i)
+        for (size_t i = 0; i < dest.height(); ++i)
         {
-            for (size_t j = 0; j < dest.Width(); ++j)
+            for (size_t j = 0; j < dest.width(); ++j)
             {
-                if (j < src.Width() && i < src.Height())
+                if (j < src.width() && i < src.height())
                 {
-                    dest.At(j, i) = src.At(j, i);
+                    dest.at(j, i) = src.at(j, i);
                 }
             }
         }
     }
 
     template <MATRIX_TYPENAME M>
-    constexpr auto* SafeFastAt(size_t index, M& mat)
+    constexpr auto* Safefast_at(size_t index, M& mat)
     {
         EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SafeFastAt: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        return (index < mat.Area())? &mat.FastAt(index):(typename M::value_type*)nullptr;
+        return (index < mat.area())? &mat.fast_at(index):(typename M::value_type*)nullptr;
     }
 
     template <MATRIX_TYPENAME M>
-    constexpr auto* SafeAt(size_t x, size_t y, M& mat) 
+    constexpr auto* Safeat(size_t x, size_t y, M& mat) 
     { 
         EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "SafeAt: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        return (x < mat.Width() && y < mat.Height())? &mat.At(x, y):(typename M::value_type*)nullptr;
+        return (x < mat.width() && y < mat.height())? &mat.at(x, y):(typename M::value_type*)nullptr;
     }
 };

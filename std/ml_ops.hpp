@@ -19,7 +19,7 @@ namespace mat
 
     // TODO: faster matrix multiplications via SIMD and GPU
     template <size_t W2, size_t H, size_t S>
-    constexpr MLMat<W2, H> MatMul(const MLMat<S, H>& a, const MLMat<W2, S>& b)
+    constexpr MLMat<W2, H> mat_mul(const MLMat<S, H>& a, const MLMat<W2, S>& b)
     {
         MLMat<W2, H> res;
         for (size_t i = 0; i < H; ++i) 
@@ -28,21 +28,21 @@ namespace mat
             {
                 for (size_t j = 0; j < W2; ++j) 
                 {
-                    res.At(j, i) += a.At(k, i) * b.At(j, k);
+                    res.at(j, i) += a.at(k, i) * b.at(j, k);
                 }
             }
         }
         return res;
     }
     template <size_t S, size_t S2>
-    constexpr MLMat<S, S2> VecMulMat(const MLMat<S, 1>& a, const MLMat<S2, 1>& b)
+    constexpr MLMat<S, S2> vec_mul_mat(const MLMat<S, 1>& a, const MLMat<S2, 1>& b)
     {
         MLMat<S, S2> res;
         for (size_t i = 0; i < S2; ++i)
         {
             for (size_t j = 0; j < S; ++j)
             {
-                res.At(j, i) = a.FastAt(j) * b.FastAt(i);
+                res.at(j, i) = a.fast_at(j) * b.fast_at(i);
             }
         }
         return res;
@@ -51,41 +51,41 @@ namespace mat
     // Loss Functions
     //      Regression
     template <size_t W, size_t H>
-    constexpr float MeanSquare(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
+    constexpr float mean_square(const MLMat<W, H>& guess, const MLMat<W, H>& actual) 
     {
         float sum = 0.0f;
-        for (size_t i = 0; i < (W * H); ++i) { sum += pow2<float>(guess.FastAt(i) - actual.FastAt(i)); }
+        for (size_t i = 0; i < (W * H); ++i) { sum += pow2<float>(guess.fast_at(i) - actual.fast_at(i)); }
         return sum /= (W * H);  
     }
     //      Classification
     template <size_t M>
-    constexpr float BinaryCrossEntropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
+    constexpr float binary_cross_entropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
     { 
         float sum = 0.0f;
-        for (size_t i = 0; i < M; ++i) { sum += (actual.FastAt(i) * std::log(guess.FastAt(i))) + ((1 - actual.FastAt(i)) * std::log(1 - guess.FastAt(i))); } 
+        for (size_t i = 0; i < M; ++i) { sum += (actual.fast_at(i) * std::log(guess.fast_at(i))) + ((1 - actual.fast_at(i)) * std::log(1 - guess.fast_at(i))); } 
         return -sum;
     }
     template <size_t M>
-    constexpr float CrossEntropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
+    constexpr float cross_entropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
     {
         float sum = 0.0f;
-        for (size_t i = 0; i < M; ++i) { sum += actual.FastAt(i) * std::log(guess.FastAt(i)); }
+        for (size_t i = 0; i < M; ++i) { sum += actual.fast_at(i) * std::log(guess.fast_at(i)); }
         return -sum;
     }
 
     // Learning
     template <size_t W, size_t H>
-    constexpr void Learn(MLMat<W, H>& current, const MLMat<W, H>& change, float learning_rate) { for (size_t i = 0; i < (W * H); ++i) { current.FastAt(i) -= change.FastAt(i) * learning_rate; } }
+    constexpr void learn(MLMat<W, H>& current, const MLMat<W, H>& change, float learning_rate) { for (size_t i = 0; i < (W * H); ++i) { current.fast_at(i) -= change.fast_at(i) * learning_rate; } }
 
     // Forward Prop
     template <size_t S, size_t W, size_t H>
-    constexpr MLMat<W, H> WeightForward(const MLMat<S, H>& inputs, const MLMat<W, S>& weights, const MLMat<W, 1>& biases)
+    constexpr MLMat<W, H> weight_forward(const MLMat<S, H>& inputs, const MLMat<W, S>& weights, const MLMat<W, 1>& biases)
     {
         // TODO: optimize this to be added while matrix mult
-        MLMat<W, H> res(MatMul(inputs, weights));
+        MLMat<W, H> res(mat_mul(inputs, weights));
         if constexpr (H == 1) 
         { 
-            AddMatMut(res, biases); 
+            add_mat_mut(res, biases); 
         }
         else
         {
@@ -93,31 +93,31 @@ namespace mat
             {
                 for (size_t j = 0; j < W; ++j)
                 {
-                    res.At(j, i) += biases.At(j, 0);
+                    res.at(j, i) += biases.at(j, 0);
                 }
             }
         }
         return res;
     }
     template <size_t W, size_t H, typename T>
-    constexpr MLMat<W, H> HiddenForward(const MLMat<W, H>& input, T&& activation_func) 
+    constexpr MLMat<W, H> hidden_forward(const MLMat<W, H>& input, T&& activation_func) 
     {
         MLMat<W, H> res;
         for (size_t i = 0; i < (W * H); ++i)
         {
-            res.FastAt(i) = activation_func(input.FastAt(i));
+            res.fast_at(i) = activation_func(input.fast_at(i));
         }
         return res;
     }
 
     // Backward Prop
     template <size_t W, size_t H, typename T>
-    constexpr MLMat<W, 1> OutputBackward(const MLMat<W, H>& output, const MLMat<W, H>& answer, const MLMat<W, H>& layer_input, T&& activation_func_prime)
+    constexpr MLMat<W, 1> output_backward(const MLMat<W, H>& output, const MLMat<W, H>& answer, const MLMat<W, H>& layer_input, T&& activation_func_prime)
     {
         MLMat<W, 1> res;
         if constexpr (H == 1)
         {
-            for (size_t i = 0; i < W; ++i) { res.FastAt(i) = (output.FastAt(i) - answer.FastAt(i)) * activation_func_prime(layer_input.FastAt(i)); }
+            for (size_t i = 0; i < W; ++i) { res.fast_at(i) = (output.fast_at(i) - answer.fast_at(i)) * activation_func_prime(layer_input.fast_at(i)); }
         }
         else
         {
@@ -125,25 +125,25 @@ namespace mat
             { 
                 for(size_t j = 0; j < W; ++j) 
                 {
-                    res.At(j, 0) += ((output.At(j, i) - answer.At(j, i)) * activation_func_prime(layer_input.At(j, i))) / H;
+                    res.at(j, 0) += ((output.at(j, i) - answer.at(j, i)) * activation_func_prime(layer_input.at(j, i))) / H;
                 }
             }
         }
         return res;
     }
     template <size_t S, size_t S2>
-    constexpr MLMat<S, S2> WeightBackward(const MLMat<S, 1>& prev_error, const MLMat<S2, 1>& layer_input) { return VecMulMat(prev_error, layer_input); }
+    constexpr MLMat<S, S2> weight_backward(const MLMat<S, 1>& prev_error, const MLMat<S2, 1>& layer_input) { return vec_mul_mat(prev_error, layer_input); }
     template <size_t S, size_t S2, typename T>
-    constexpr MLMat<S2, 1> HiddenBackward(const MLMat<S, 1>& prev_error, const MLMat<S, S2>& prev_errors_weights, const MLMat<S2, 1>& layer_input, T&& activation_func_prime)
+    constexpr MLMat<S2, 1> hidden_backward(const MLMat<S, 1>& prev_error, const MLMat<S, S2>& prev_errors_weights, const MLMat<S2, 1>& layer_input, T&& activation_func_prime)
     {
         MLMat<S2, 1> res;
         for (size_t i = 0; i < S2; ++i)
         {
             for(size_t j = 0; j < S; ++j)
             {
-                res.FastAt(i) += prev_errors_weights.At(j, i) * prev_error.FastAt(j);
+                res.fast_at(i) += prev_errors_weights.at(j, i) * prev_error.fast_at(j);
             }
-            res.FastAt(i) *= activation_func_prime(layer_input.FastAt(i));
+            res.fast_at(i) *= activation_func_prime(layer_input.fast_at(i));
         }
         return res;
     }

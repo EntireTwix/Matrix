@@ -56,28 +56,28 @@ namespace mat
         constexpr const T *end() const noexcept { return &this->_internal[area - 1] + 1; }
 
         //Size
-        constexpr size_t Area() const noexcept { return area; }
-        constexpr size_t Width() const noexcept { return width; }
-        constexpr size_t Height() const noexcept { return height; }
+        constexpr size_t area() const noexcept { return area; }
+        constexpr size_t width() const noexcept { return width; }
+        constexpr size_t height() const noexcept { return height; }
 
         //Indexing
-        constexpr T &At(size_t x, size_t y) noexcept 
+        constexpr T &at(size_t x, size_t y) noexcept 
         { 
             assert(x < W && y < H);
             return this->_internal[(y * W) + x]; 
         }
-        constexpr copy_fast_t<T> At(size_t x, size_t y) const noexcept 
+        constexpr copy_fast_t<T> at(size_t x, size_t y) const noexcept 
         { 
             assert(x < W && y < H);
             return this->_internal[(y * W) + x]; 
         }
 
-        constexpr T &FastAt(size_t index) noexcept
+        constexpr T &fast_at(size_t index) noexcept
         {
             assert(index < area);
             return this->_internal[index];
         }
-        constexpr copy_fast_t<T> FastAt(size_t index) const noexcept
+        constexpr copy_fast_t<T> fast_at(size_t index) const noexcept
         {
             assert(index < area);
             return this->_internal[index];

@@ -15,12 +15,12 @@ namespace mat
 #endif
     std::ostream &Print(std::ostream &os, const M &mat)
     {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "OperationMut: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        for (size_t i = 0; i < mat.Height(); ++i)
+        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "operation_mut: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        for (size_t i = 0; i < mat.height(); ++i)
         {
-            for (size_t j = 0; j < mat.Width(); ++j)
+            for (size_t j = 0; j < mat.width(); ++j)
             {
-                os << mat.At(j, i) << ' ';
+                os << mat.at(j, i) << ' ';
             }
             os << '\n';
         }

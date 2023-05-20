@@ -5,40 +5,40 @@
 namespace mat
 {
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
-    constexpr M Operation(const M &a, const M2 &b, F &&func)
+    constexpr M operation(const M &a, const M2 &b, F &&func)
     {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "Operation: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "operation: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         M res(a);
-        for (size_t i = 0; i < b.Area(); ++i)
+        for (size_t i = 0; i < b.area(); ++i)
         {
-            res.FastAt(i) = func(a.FastAt(i), b.FastAt(i));
+            res.fast_at(i) = func(a.fast_at(i), b.fast_at(i));
         }
         return res;
     }
     template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
-    constexpr void OperationMut(M &a, const M2 &b, F &&func)
+    constexpr void operation_mut(M &a, const M2 &b, F &&func)
     {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "OperationMut: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        for (size_t i = 0; i < b.Area(); ++i)
+        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "operation_mut: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        for (size_t i = 0; i < b.area(); ++i)
         {
-            func(a.FastAt(i), b.FastAt(i));
+            func(a.fast_at(i), b.fast_at(i));
         }
     }
     template <MATRIX_TYPENAME M, typename F, typename T = typename M::value_type>
-    constexpr M ScalarOperation(const M &mat, copy_fast_t<T> v, F &&func)
+    constexpr M scalar_operation(const M &mat, copy_fast_t<T> v, F &&func)
     {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "ScalarOperation: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "scalar_operation: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         M res(mat);
-        for (size_t i = 0; i < mat.Area(); ++i)
+        for (size_t i = 0; i < mat.area(); ++i)
         {
-            res.FastAt(i) = func(mat.FastAt(i), v);
+            res.fast_at(i) = func(mat.fast_at(i), v);
         }
         return res;
     }
     template <MATRIX_TYPENAME M, typename F, typename T = typename M::value_type>
-    constexpr void ScalarOperationMut(M &mat, copy_fast_t<T> v, F &&func)
+    constexpr void scalar_operation_mut(M &mat, copy_fast_t<T> v, F &&func)
     {
-        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "ScalarOperationMut: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
+        EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "scalar_operation_mut: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         for (T &e : mat)
         {
             func(e, v);

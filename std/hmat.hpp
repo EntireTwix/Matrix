@@ -50,7 +50,7 @@ namespace mat
                 this->_internal = new T[this->_size]; //allocate
                 this->_capacity = m._size;
             }
-            memcpy(this->_internal, m._internal, this->Area() * sizeof(T));
+            memcpy(this->_internal, m._internal, this->area() * sizeof(T));
         }
         hMat &operator=(const hMat &m) noexcept
         {
@@ -93,17 +93,17 @@ namespace mat
 
         //Iterators
         T *begin() noexcept { return &this->_internal[0]; }
-        T *end() noexcept { return &this->_internal[this->Area()]; }
+        T *end() noexcept { return &this->_internal[this->area()]; }
         const T *begin() const noexcept { return &this->_internal[0]; }
-        const T *end() const noexcept { return &this->_internal[this->Area()]; }
+        const T *end() const noexcept { return &this->_internal[this->area()]; }
 
         //Size
-        size_t Width() const noexcept { return _w; }
-        size_t Height() const noexcept { return _h; }
-        size_t Area() const noexcept { return _size; }
-        size_t Capacity() const noexcept { return _capacity; }
+        size_t width() const noexcept { return _w; }
+        size_t height() const noexcept { return _h; }
+        size_t area() const noexcept { return _size; }
+        size_t capacity() const noexcept { return _capacity; }
 
-        void Reserve(size_t sz) noexcept
+        void reserve(size_t sz) noexcept
         {
             if (sz > this->_capacity)
             {
@@ -112,7 +112,7 @@ namespace mat
             }
         }
 
-        void Resize(size_t w, size_t h) noexcept
+        void resize(size_t w, size_t h) noexcept
         {
             if (this->_w == w && this->_h == h)
             {
@@ -167,23 +167,23 @@ namespace mat
         }
 
         //Indexing
-        T &At(size_t x, size_t y) noexcept 
+        T &at(size_t x, size_t y) noexcept 
         { 
             assert(x < this->_w && y < this->_h);
             return this->_internal[(y * this->_w) + x]; 
         }
-        copy_fast_t<T> At(size_t x, size_t y) const noexcept 
+        copy_fast_t<T> at(size_t x, size_t y) const noexcept 
         { 
             assert(x < this->_w && y < this->_h);
             return this->_internal[(y * this->_w) + x]; 
         }
 
-        T &FastAt(size_t index) noexcept
+        T &fast_at(size_t index) noexcept
         {
             assert(index < this->_size);
             return this->_internal[index];
         }
-        copy_fast_t<T> FastAt(size_t index) const noexcept
+        copy_fast_t<T> fast_at(size_t index) const noexcept
         {
             assert(index < this->_size);
             return this->_internal[index];

@@ -50,7 +50,7 @@ int main()
 
     for (size_t i = 0; i < 10000; ++i)
     {
-        a.FastAt(i) += b.FastAt(i);
+        a.fast_at(i) += b.fast_at(i);
     }
 }
 ```
@@ -65,29 +65,29 @@ int main()
     std::fill(a.begin(), a.end(), 3);
     std::fill(b.begin(), b.end(), 8);
     
-    AddMatMut(a, b);
+    add_mat_mut(a, b);
 }
 ```
-`AddMatMut` being a call to the generic operation `OperationMut`
+`AddMatMut` being a call to the generic operation `operation_mut`
 ```cpp
 template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2>
 #ifdef HAS_CONCEPTS
 requires AddableAs<typename M::value_type, typename M2::value_type>
 #endif
-constexpr void AddMatMut(M & a, const M2 &b)
+constexpr void add_mat_mut(M & a, const M2 &b)
 {
-    OperationMut(a, b, [](typename M::value_type &a, copy_fast_t<typename M2::value_type> b) {
+    operation_mut(a, b, [](typename M::value_type &a, copy_fast_t<typename M2::value_type> b) {
         a += b;
     });
 }
 ```
 ```cpp
 template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
-constexpr void OperationMut(M & a, const M2 &b, F &&func)
+constexpr void operation_mut(M & a, const M2 &b, F &&func)
 {
-    for (size_t i = 0; i < b.Area(); ++i)
+    for (size_t i = 0; i < b.area(); ++i)
     {
-        func(a.FastAt(i), b.FastAt(i));
+        func(a.fast_at(i), b.fast_at(i));
     }
 }
 ```
