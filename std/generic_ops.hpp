@@ -9,7 +9,7 @@ namespace mat
     {
         EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "operation: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         M res(a);
-        for (size_t i = 0; i < b.area(); ++i)
+        for (size_t i = 0; i < b.get_area(); ++i)
         {
             res.fast_at(i) = func(a.fast_at(i), b.fast_at(i));
         }
@@ -19,7 +19,7 @@ namespace mat
     constexpr void operation_mut(M &a, const M2 &b, F &&func)
     {
         EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "operation_mut: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
-        for (size_t i = 0; i < b.area(); ++i)
+        for (size_t i = 0; i < b.get_area(); ++i)
         {
             func(a.fast_at(i), b.fast_at(i));
         }
@@ -29,7 +29,7 @@ namespace mat
     {
         EXEC_IF_NOT_20(static_assert(CONSTEXPR_MATRIX(M) || RUNTIME_MATRIX(M), "scalar_operation: M must be a CONSTEXPR_MATRIX or RUNTIME_MATRIX"));
         M res(mat);
-        for (size_t i = 0; i < mat.area(); ++i)
+        for (size_t i = 0; i < mat.get_area(); ++i)
         {
             res.fast_at(i) = func(mat.fast_at(i), v);
         }

@@ -85,7 +85,7 @@ constexpr void add_mat_mut(M & a, const M2 &b)
 template <MATRIX_TYPENAME M, MATRIX_TYPENAME M2, typename F>
 constexpr void operation_mut(M & a, const M2 &b, F &&func)
 {
-    for (size_t i = 0; i < b.area(); ++i)
+    for (size_t i = 0; i < b.get_area(); ++i)
     {
         func(a.fast_at(i), b.fast_at(i));
     }

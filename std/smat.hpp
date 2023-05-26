@@ -56,9 +56,9 @@ namespace mat
         constexpr const T *end() const noexcept { return &this->_internal[area - 1] + 1; }
 
         //Size
-        constexpr size_t area() const noexcept { return area; }
-        constexpr size_t width() const noexcept { return width; }
-        constexpr size_t height() const noexcept { return height; }
+        constexpr size_t get_area() const noexcept { return area; }
+        constexpr size_t get_width() const noexcept { return width; }
+        constexpr size_t get_height() const noexcept { return height; }
 
         //Indexing
         constexpr T &at(size_t x, size_t y) noexcept 

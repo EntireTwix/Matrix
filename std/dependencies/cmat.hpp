@@ -40,9 +40,9 @@ namespace mat
         {b.begin()} -> std::same_as<const typename T::value_type*>;
         {b.end()} -> std::same_as<const typename T::value_type*>;
 
-        {a.area()} -> std::same_as<size_t>;
-        {a.width()} -> std::same_as<size_t>;
-        {a.height()} -> std::same_as<size_t>;
+        {a.get_area()} -> std::same_as<size_t>;
+        {a.get_width()} -> std::same_as<size_t>;
+        {a.get_height()} -> std::same_as<size_t>;
 
         {a.at(0, 0)} -> std::convertible_to<typename T::value_type &>;
         {a.at(0, 0)} -> std::convertible_to<copy_fast_t<typename T::value_type>>;
@@ -56,9 +56,9 @@ namespace mat
         // so that regardless of type's other template arguments, a function can easily declare variables of said type in different dimensions
         typename M::base<0, 0>;
 
-        {M::area} -> std::convertible_to<size_t>;
-        {M::width} -> std::convertible_to<size_t>;
-        {M::height} -> std::convertible_to<size_t>;
+        {M::_area} -> std::convertible_to<size_t>;
+        {M::_width} -> std::convertible_to<size_t>;
+        {M::_height} -> std::convertible_to<size_t>;
     };
 
     template <typename M>

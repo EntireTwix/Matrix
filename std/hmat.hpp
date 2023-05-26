@@ -50,7 +50,7 @@ namespace mat
                 this->_internal = new T[this->_size]; //allocate
                 this->_capacity = m._size;
             }
-            memcpy(this->_internal, m._internal, this->area() * sizeof(T));
+            memcpy(this->_internal, m._internal, this->get_area() * sizeof(T));
         }
         hMat &operator=(const hMat &m) noexcept
         {
@@ -93,14 +93,14 @@ namespace mat
 
         //Iterators
         T *begin() noexcept { return &this->_internal[0]; }
-        T *end() noexcept { return &this->_internal[this->area()]; }
+        T *end() noexcept { return &this->_internal[this->get_area()]; }
         const T *begin() const noexcept { return &this->_internal[0]; }
-        const T *end() const noexcept { return &this->_internal[this->area()]; }
+        const T *end() const noexcept { return &this->_internal[this->get_area()]; }
 
         //Size
-        size_t width() const noexcept { return _w; }
-        size_t height() const noexcept { return _h; }
-        size_t area() const noexcept { return _size; }
+        size_t get_width() const noexcept { return _w; }
+        size_t get_height() const noexcept { return _h; }
+        size_t get_area() const noexcept { return _size; }
         size_t capacity() const noexcept { return _capacity; }
 
         void reserve(size_t sz) noexcept
