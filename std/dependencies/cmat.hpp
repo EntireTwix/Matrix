@@ -131,7 +131,7 @@ template <typename T>
 constexpr bool is_constexpr_matrix_v = has_area<T>::value && has_width<T>::value && has_height<T>::value;
 
 template <typename T>
-constexpr bool is_runtime_matrix_v = has_Flatten<T, void()>::value && has_capacity<T, size_t()>::value && has_resize<T, void(size_t, size_t)>::value;
+constexpr bool is_runtime_matrix_v = has_capacity<T, size_t()>::value && has_resize<T, void(size_t, size_t)>::value;
 
 #define CONSTEXPR_MATRIX(T) is_constexpr_matrix_v<T>
 #define RUNTIME_MATRIX(T) is_runtime_matrix_v<T>
