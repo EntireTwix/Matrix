@@ -26,6 +26,7 @@
 #define CONSTEXPR_MATRIX_TYPENAME EXEC_IF_20_ELSE(mat::ConstexprMatrix, typename)
 
 #ifdef HAS_CONCEPTS
+
 namespace mat
 {
 #include <concepts>
@@ -56,9 +57,9 @@ namespace mat
         // so that regardless of type's other template arguments, a function can easily declare variables of said type in different dimensions
         typename M::base<0, 0>;
 
-        {M::_area} -> std::convertible_to<size_t>;
-        {M::_width} -> std::convertible_to<size_t>;
-        {M::_height} -> std::convertible_to<size_t>;
+        {M::area} -> std::convertible_to<size_t>;
+        {M::width} -> std::convertible_to<size_t>;
+        {M::height} -> std::convertible_to<size_t>;
     };
 
     template <typename M>
@@ -72,7 +73,9 @@ namespace mat
 
 #define CONSTEXPR_MATRIX(T) mat::ConstexprMatrix<T>
 #define RUNTIME_MATRIX(T) mat::RuntimeMatrix<T>
+
 #else
+
 #define HAS_(member, member_type)                                         \
     template <typename T, typename = member_type>                         \
     struct has_##member : std::false_type                                 \
@@ -83,9 +86,9 @@ namespace mat
     {                                                                     \
     };
     
-HAS_(area, size_t);
-HAS_(width, size_t);
-HAS_(height, size_t);
+HAS_(area, int);
+HAS_(width, int);
+HAS_(height, int);
 
 #define HAS_FUNC_(func_name)                                                                                                                  \
     template <typename, typename T>                                                                                                           \
@@ -131,8 +134,9 @@ template <typename T>
 constexpr bool is_constexpr_matrix_v = has_area<T>::value && has_width<T>::value && has_height<T>::value;
 
 template <typename T>
-constexpr bool is_runtime_matrix_v = has_capacity<T, size_t()>::value && has_resize<T, void(size_t, size_t)>::value;
+constexpr bool is_runtime_matrix_v = has_capacity<T, size_t()>::value && has_resize<T, void(size_t, size_t)>::value && has_reserve<T, void(size_t, size_t)>::value;
 
 #define CONSTEXPR_MATRIX(T) is_constexpr_matrix_v<T>
 #define RUNTIME_MATRIX(T) is_runtime_matrix_v<T>
+
 #endif
