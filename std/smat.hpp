@@ -39,7 +39,7 @@ namespace mat
         template <size_t W2, size_t H2>
         using base = sMat<T, W2, H2>;
 
-        // compile time dimensions
+        // Dimensions
         static constexpr size_t width = W;
         static constexpr size_t height = H;
         static constexpr size_t area = W * H; 
@@ -49,18 +49,18 @@ namespace mat
         template <typename... Args>
         constexpr explicit sMat(Args... list) : _internal{list...} {}
 
-        //Iterators
+        // Iterators
         constexpr T *begin() noexcept { return &this->_internal[0]; }
         constexpr T *end() noexcept { return &this->_internal[area - 1] + 1; }
         constexpr const T *begin() const noexcept { return &this->_internal[0]; }
         constexpr const T *end() const noexcept { return &this->_internal[area - 1] + 1; }
 
-        //Size
+        // Size
         constexpr size_t get_area() const noexcept { return area; }
         constexpr size_t get_width() const noexcept { return width; }
         constexpr size_t get_height() const noexcept { return height; }
 
-        //Indexing
+        // Indexing
         constexpr T &at(size_t x, size_t y) noexcept 
         { 
             assert(x < W && y < H);

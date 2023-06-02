@@ -41,13 +41,13 @@ namespace mat
         hMat() noexcept = default;
         explicit hMat(size_t w, size_t h) noexcept : _w(w), _h(h), _size(w * h), _capacity(w * h)
         {
-            this->_internal = new T[this->_size]{}; //allocate and default initialize
+            this->_internal = new T[this->_size]{}; // allocate and default initialize
         }
         hMat(const hMat &m) noexcept : _w(m._w), _h(m._h), _size(m._size)
         {
             if (m._size > this->_capacity)
             {
-                this->_internal = new T[this->_size]; //allocate
+                this->_internal = new T[this->_size]; // allocate
                 this->_capacity = m._size;
             }
             memcpy(this->_internal, m._internal, this->get_area() * sizeof(T));
@@ -59,7 +59,7 @@ namespace mat
             this->_size = m._size;
             if (m._size > this->_capacity)
             {
-                this->_internal = (T *)reallocarray(this->_internal, m._size, sizeof(T)); //allocate
+                this->_internal = (T *)reallocarray(this->_internal, m._size, sizeof(T)); // allocate
                 this->_capacity = m._size;
             }
             memcpy(this->_internal, m._internal, m._size * sizeof(T));
@@ -67,9 +67,9 @@ namespace mat
         }
         hMat(hMat &&m) noexcept : _w(m._w), _h(m._h), _size(m._size), _capacity(m._capacity)
         {
-            this->_internal = m._internal; //moving
+            this->_internal = m._internal; // moving
 
-            //clean up
+            // clean up
             m._internal = nullptr;
             m._w = m._h = m._size = m._capacity = 0;
         }
@@ -83,9 +83,9 @@ namespace mat
             this->_h = m._h;
             this->_size = m._size;
             this->_capacity = m._capacity;
-            this->_internal = m._internal; //moving
+            this->_internal = m._internal; // moving
 
-            //clean up
+            // clean up
             m._internal = nullptr;
             m._w = m._h = m._size = m._capacity = 0;
             return *this;
@@ -107,7 +107,7 @@ namespace mat
         {
             if (sz > this->_capacity)
             {
-                this->_internal = (T *)reallocarray(this->_internal, sz, sizeof(T)); //allocate
+                this->_internal = (T *)reallocarray(this->_internal, sz, sizeof(T)); // allocate
                 this->_capacity = sz;
             }
         }
@@ -130,8 +130,8 @@ namespace mat
             
             if (this->_size > this->_capacity)
             {
-                //is larger
-                this->_internal = (T *)reallocarray(this->_internal, this->_size, sizeof(T)); //allocate
+                // is larger
+                this->_internal = (T *)reallocarray(this->_internal, this->_size, sizeof(T)); // allocate
                 this->_capacity = this->_size;
                 for (size_t i = h; i > 0; --i)
                 {
@@ -139,18 +139,18 @@ namespace mat
                     {
                         if (j - 1 < this->_w && i - 1 < this->_h)
                         {
-                            this->_internal[((i - 1) * w) + (j - 1)] = this->_internal[((i - 1) * this->_w) + (j - 1)]; //copy
+                            this->_internal[((i - 1) * w) + (j - 1)] = this->_internal[((i - 1) * this->_w) + (j - 1)]; // copy
                         }
                         else
                         {
-                            this->_internal[((i - 1) * w) + (j - 1)] = T(); //init
+                            this->_internal[((i - 1) * w) + (j - 1)] = T(); // init
                         }
                     }
                 }
             }
             else
             {
-                //is smaller
+                // is smaller
                 for (size_t i = 0; i < h; ++i)
                 {
                     for (size_t j = 0; j < w; ++j)
