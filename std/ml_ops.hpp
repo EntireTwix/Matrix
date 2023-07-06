@@ -17,7 +17,7 @@ namespace mat
     template <size_t W>
     using OMat = MLMat<W, 1>;
 
-    // TODO: faster matrix multiplications via SIMD and GPU
+    // TODO: faster matrix multiplications via SIMD and GPU or CUDA support
     template <size_t W2, size_t H, size_t S>
     constexpr MLMat<W2, H> mat_mul(const MLMat<S, H>& a, const MLMat<W2, S>& b)
     {
@@ -57,7 +57,9 @@ namespace mat
         for (size_t i = 0; i < (W * H); ++i) { sum += pow2<float>(guess.fast_at(i) - actual.fast_at(i)); }
         return sum /= (W * H);  
     }
+
     //      Classification
+    //          Binary Classification or Multi-label classification
     template <size_t M>
     constexpr float binary_cross_entropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
     { 
@@ -65,6 +67,7 @@ namespace mat
         for (size_t i = 0; i < M; ++i) { sum += (actual.fast_at(i) * std::log(guess.fast_at(i))) + ((1 - actual.fast_at(i)) * std::log(1 - guess.fast_at(i))); } 
         return -sum;
     }
+    //          Multi-class classification
     template <size_t M>
     constexpr float cross_entropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
     {
