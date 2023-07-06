@@ -58,8 +58,9 @@ namespace mat
         return sum /= (W * H);  
     }
 
+    // TODO: Softmax Loss
     //      Classification
-    //          Binary Classification or Multi-label classification
+    //          Binary Classification or Multi-class Multi-label classification
     template <size_t M>
     constexpr float binary_cross_entropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
     { 
@@ -67,7 +68,6 @@ namespace mat
         for (size_t i = 0; i < M; ++i) { sum += (actual.fast_at(i) * std::log(guess.fast_at(i))) + ((1 - actual.fast_at(i)) * std::log(1 - guess.fast_at(i))); } 
         return -sum;
     }
-    //          Multi-class classification
     template <size_t M>
     constexpr float cross_entropy(const MLMat<M, 1>& guess, const MLMat<M, 1>& actual) 
     {
